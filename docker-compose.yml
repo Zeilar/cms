@@ -1,0 +1,48 @@
+version: "3.7"
+
+services:
+    api:
+        container_name: api
+        build:
+            context: ./apps/api
+            dockerfile: ./Dockerfile
+        restart: always
+        ports:
+            - 3434
+        volumes:
+            - ./:/api
+        # depends_on:
+        #     - db
+    db:
+        container_name: db
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+        ports:
+            - ${DB_PORT}:${DB_PORT}
+        volumes:
+            - db:/var/lib/mysql
+        restart: always
+    cache:
+        container_name: cache
+        image: redis
+        restart: always
+        command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+        ports:
+            - ${REDIS_PORT}:${REDIS_PORT}
+        volumes:
+            - redis:/var/lib/redis
+    proxy:
+        container_name: proxy
+        image: richarvey/nginx-php-fpm
+        restart: always
+        ports:
+            - 3434:80
+        volumes:
+            - ./libs/proxy/sites-enabled:/etc/nginx/sites-enabled
+            - ./apps/api:/apps/api
+
+volumes:
+    db:
+    redis:
