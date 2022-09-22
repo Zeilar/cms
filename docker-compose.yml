@@ -8,11 +8,11 @@ services:
             dockerfile: ./Dockerfile
         restart: always
         ports:
-            - 3434
+            - ${APP_PORT}
         volumes:
-            - ./:/api
-        # depends_on:
-        #     - db
+            - api:/api
+        depends_on:
+            - db
     db:
         container_name: db
         image: mysql
@@ -38,11 +38,17 @@ services:
         image: richarvey/nginx-php-fpm
         restart: always
         ports:
-            - 3434:80
+            - ${APP_PORT}:80
         volumes:
             - ./libs/proxy/sites-enabled:/etc/nginx/sites-enabled
-            - ./apps/api:/apps/api
+            - api:/apps/api
 
 volumes:
+    api:
+        driver: local
+        driver_opts:
+            type: none
+            o: bind
+            device: ./apps/api
     db:
     redis:
