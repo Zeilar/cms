@@ -3,6 +3,8 @@ version: "3.7"
 services:
     db:
         container_name: db
+        networks:
+            - db
         image: mysql
         environment:
             MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
@@ -28,13 +30,28 @@ services:
         depends_on:
             - db
         ports:
-            - ${APP_PORT}:80
+            - 3333:80
         volumes:
-            - ./libs/proxy/sites-enabled:/etc/nginx/sites-enabled
             - type: bind
               source: ./apps/api
               target: /apps/api
+            - type: bind
+              source: ./libs/proxy/sites-enabled
+              target: /etc/nginx/sites-enabled
+    adminer:
+        container_name: adminer
+        networks:
+            - db
+        image: adminer
+        restart: always
+        ports:
+            - 4444:8080
 
 volumes:
     db:
+        name: db
     redis:
+        name: cache
+networks:
+    db:
+        name: db
