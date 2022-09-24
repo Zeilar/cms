@@ -14,7 +14,10 @@ const ENV: Env = {
 
 @Injectable()
 export class ConfigService {
-	public get<T>(key: keyof Env): T {
-		return ENV[key] as unknown as T;
+	public get<U extends keyof Env>(key: U) {
+		if (!(key in ENV)) {
+			throw new Error(`Key ${key} does not exist in env`);
+		}
+		return ENV[key];
 	}
 }
