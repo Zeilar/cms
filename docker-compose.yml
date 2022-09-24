@@ -1,53 +1,78 @@
 version: "3.7"
 
 services:
+    api:
+        container_name: api
+        build:
+            context: ./apps/api
+            dockerfile: ./Dockerfile
+        networks:
+            - cms
+        restart: always
+        ports:
+            - 4444
+        volumes:
+            - type: bind
+              source: ./apps/api
+              target: /usr/src/app
+    frontend:
+        container_name: frontend
+        build:
+            context: ./apps/frontend
+            dockerfile: ./Dockerfile
+        networks:
+            - cms
+        restart: always
+        ports:
+            - 3333
+        volumes:
+            - type: bind
+              source: ./apps/frontend
+              target: /usr/src/app
     db:
         container_name: db
+        image: postgres
         networks:
-            - db
-        image: mysql
-        environment:
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_DATABASE: ${DB_DATABASE}
+            - cms
         ports:
-            - ${DB_PORT}:${DB_PORT}
+            - ${DB_PORT}
         volumes:
-            - db:/var/lib/mysql
-        restart: always
+            - db:/var/lib/postgres
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
     cache:
         container_name: cache
         image: redis
         networks:
-            - db
+            - cms
         restart: always
         command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
         ports:
-            - ${REDIS_PORT}:${REDIS_PORT}
+            - ${REDIS_PORT}
         volumes:
             - redis:/var/lib/redis
     proxy:
         container_name: proxy
-        image: richarvey/nginx-php-fpm
+        image: nginx
         restart: always
-        depends_on:
-            - db
+        networks:
+            - cms
         ports:
-            - 3333:80
+            - 80:80
+            - 443:443
         volumes:
-            - type: bind
-              source: ./apps/api
-              target: /apps/api
             - type: bind
               source: ./libs/proxy/sites-enabled
               target: /etc/nginx/sites-enabled
     adminer:
         container_name: adminer
         networks:
-            - db
+            - cms
         image: adminer
         restart: always
         ports:
-            - 4444:8080
+            - ${ADMINER_PORT}
 
 volumes:
     db:
@@ -55,5 +80,5 @@ volumes:
     redis:
         name: cache
 networks:
-    db:
-        name: db
+    cms:
+        name: cms

@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+    db:
+        container_name: db
+        image: postgres
+        networks:
+            - cms
+        ports:
+            - ${DB_PORT}:${DB_PORT}
+        volumes:
+            - db:/var/lib/postgres
+        environment:
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+    cache:
+        container_name: cache
+        image: redis
+        networks:
+            - cms
+        restart: always
+        command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
+        ports:
+            - ${REDIS_PORT}:${REDIS_PORT}
+        volumes:
+            - redis:/var/lib/redis
+    adminer:
+        container_name: adminer
+        networks:
+            - cms
+        image: adminer
+        restart: always
+        ports:
+            - ${ADMINER_PORT}:${ADMINER_PORT}
+
+volumes:
+    db:
+        name: db
+    redis:
+        name: cache
+networks:
+    cms:
+        name: cms
