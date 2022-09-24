@@ -10,7 +10,8 @@ import { ConfigService } from "../config/config.service";
 			imports: [ConfigModule],
 			inject: [ConfigService],
 			// @ts-expect-error type bug
-			useFactory: async (configService: ConfigService) => ({
+			useFactory: (configService: ConfigService) => ({
+				name: "default",
 				type: configService.get("DB_TYPE"),
 				host: configService.get("DB_HOST"),
 				port: configService.get("DB_PORT"),
