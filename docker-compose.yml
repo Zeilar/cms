@@ -17,6 +17,8 @@ services:
     cache:
         container_name: cache
         image: redis
+        networks:
+            - db
         restart: always
         command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
         ports:
