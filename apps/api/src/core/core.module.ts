@@ -3,17 +3,6 @@ import { ConfigModule } from "../config/config.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigService } from "../config/config.service";
 
-/* 
-    DB_TYPE=postgres
-DB_HOST=db
-DB_PORT=5432
-DB_USERNAME=root
-DB_PASSWORD=eI0l._qW1z
-DB_NAME=whackakey
-DB_SYNCHRONIZE=false
-DB_LOGGING=false
-*/
-
 @Module({
 	imports: [
 		ConfigModule,
