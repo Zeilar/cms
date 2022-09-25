@@ -16,6 +16,8 @@ interface Env {
 	DB_LOGGING: LoggerOptions;
 }
 
+const loggingOptions: LoggerArrayOption[] = ["query", "schema", "error", "warn", "info", "log", "migration"];
+
 function dbLoggingErrorMessage(data: string) {
 	return `Invalid JSON at DB_LOGGING: ${JSON.stringify(data)}`;
 }
@@ -29,11 +31,7 @@ function parseDbLogging(data: string): LoggerOptions {
 		if (typeof parsed === "boolean") {
 			return parsed;
 		}
-		if (!Array.isArray(parsed)) {
-			throw new Error(dbLoggingErrorMessage(data));
-		}
-		const options: LoggerArrayOption[] = ["query", "schema", "error", "warn", "info", "log", "migration"];
-		if (!parsed.every(value => options.includes(value))) {
+		if (!Array.isArray(parsed) || !parsed.every(value => loggingOptions.includes(value))) {
 			throw new Error(dbLoggingErrorMessage(data));
 		}
 		return parsed;
