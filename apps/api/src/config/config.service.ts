@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { LoggerOptions } from "typeorm";
 
-type LOGGING_OPTION = "query" | "error" | "schema" | "warn" | "info" | "log" | "all";
-type DB_LOGGING = boolean | LOGGING_OPTION | LOGGING_OPTION[];
+type LoggerArrayOption = "query" | "schema" | "error" | "warn" | "info" | "log" | "migration";
 
 interface Env {
 	PORT: number;
@@ -13,18 +13,33 @@ interface Env {
 	DB_PASSWORD: string;
 	DB_NAME: string;
 	DB_SYNCHRONIZE: boolean;
-	DB_LOGGING: DB_LOGGING;
+	DB_LOGGING: LoggerOptions;
 }
 
-function parseDbLogging(data: string): DB_LOGGING {
-	if (data === "true" || data === "false") {
-		return JSON.parse(data);
+function dbLoggingErrorMessage(data: string) {
+	return `Invalid JSON at DB_LOGGING: ${JSON.stringify(data)}`;
+}
+
+function parseDbLogging(data: string): LoggerOptions {
+	try {
+		const parsed = JSON.parse(data);
+		if (data === "true" || data === "false") {
+			return JSON.parse(data);
+		}
+		if (!Array.isArray(parsed)) {
+			throw new Error(dbLoggingErrorMessage(data));
+		}
+		const options: LoggerArrayOption[] = ["query", "schema", "error", "warn", "info", "log", "migration"];
+		if (!parsed.every(value => options.includes(value))) {
+			throw new Error(dbLoggingErrorMessage(data));
+		}
+		return parsed;
+	} catch (error) {
+		if (data !== "all") {
+			throw new Error(dbLoggingErrorMessage(data));
+		}
+		return data;
 	}
-	const options: LOGGING_OPTION[] = ["query", "error", "schema", "warn", "info", "log", "all"];
-	if (options.includes(data as LOGGING_OPTION)) {
-		return data as LOGGING_OPTION;
-	}
-	return JSON.parse(data);
 }
 
 const { PORT, CORS_ORIGIN, DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_SYNCHRONIZE, DB_LOGGING } =
