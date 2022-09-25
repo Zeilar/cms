@@ -14,6 +14,7 @@ export class ContentTypeService {
 		if (!space) {
 			throw new NotFoundException("Space not found");
 		}
-		ContentType.insert(dto);
+		const { identifiers } = await ContentType.insert({ ...dto, space });
+		return identifiers[0];
 	}
 }

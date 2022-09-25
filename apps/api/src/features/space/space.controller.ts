@@ -7,6 +7,6 @@ export class SpaceController {
 
 	@Post("/")
 	public create(@Body() dto: SpaceDto) {
-		this.spaceService.create(dto);
+		return this.spaceService.create(dto);
 	}
 }

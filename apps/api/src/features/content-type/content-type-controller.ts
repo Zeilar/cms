@@ -7,6 +7,6 @@ export class ContentTypeController {
 
 	@Post("/")
 	public create(@Body() dto: ContentTypeDto) {
-		this.contentTypeService.create(dto);
+		return this.contentTypeService.create(dto);
 	}
 }

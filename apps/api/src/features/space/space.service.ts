@@ -7,7 +7,8 @@ export interface SpaceDto {
 
 @Injectable()
 export class SpaceService {
-	public create(dto: SpaceDto) {
-		Space.insert(dto);
+	public async create(dto: SpaceDto) {
+		const { identifiers } = await Space.insert(dto);
+		return identifiers[0];
 	}
 }
