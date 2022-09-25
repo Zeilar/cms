@@ -1,13 +1,13 @@
 import { extendTheme } from "@chakra-ui/react";
 // import * as components from "./components";
 import { config } from "./config";
-// import { fonts } from "./fonts";
+import { fonts } from "./fonts";
 // import { styles } from "./styles";
 // import { textStyles } from "./textStyles";
 
 const theme = extendTheme({
 	config,
-	// fonts,
+	fonts,
 	// components: {
 	// 	...components, // This needs to be spread into a new object or Chakra's will override ours, I have no idea why
 	// },
