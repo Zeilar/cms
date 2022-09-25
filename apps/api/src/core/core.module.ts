@@ -4,6 +4,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigService } from "../config/config.service";
 import { Space } from "../features/space/space.entity";
 import { ContentType } from "../features/content-type/content-type.entity";
+import { SpaceModule } from "../features/space/space.module";
+import { ContentTypeModule } from "../features/content-type/content-type.module";
 
 @Module({
 	imports: [
@@ -24,6 +26,8 @@ import { ContentType } from "../features/content-type/content-type.entity";
 				entities: [Space, ContentType],
 			}),
 		}),
+		SpaceModule,
+		ContentTypeModule,
 	],
 })
 export class CoreModule {}
