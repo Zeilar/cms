@@ -6,7 +6,7 @@ export class SpaceController {
 	public constructor(public readonly spaceService: SpaceService) {}
 
 	@Post("/")
-	public create(@Body() body: SpaceDto) {
-		this.spaceService.create(body);
+	public create(@Body() dto: SpaceDto) {
+		this.spaceService.create(dto);
 	}
 }

@@ -7,7 +7,7 @@ export interface SpaceDto {
 
 @Injectable()
 export class SpaceService {
-	public create(space: SpaceDto) {
-		Space.insert(space);
+	public create(dto: SpaceDto) {
+		Space.insert(dto);
 	}
 }

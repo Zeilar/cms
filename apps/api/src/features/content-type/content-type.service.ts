@@ -1,4 +1,19 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { Space } from "../space/space.entity";
+import { ContentType } from "./content-type.entity";
+
+export interface ContentTypeDto {
+	spaceId: string;
+	name: string;
+}
 
 @Injectable()
-export class ContentTypeService {}
+export class ContentTypeService {
+	public async create({ spaceId, ...dto }: ContentTypeDto) {
+		const space = await Space.findOneBy({ id: spaceId });
+		if (!space) {
+			throw new NotFoundException("Space not found");
+		}
+		ContentType.insert(dto);
+	}
+}
