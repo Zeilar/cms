@@ -21,6 +21,9 @@ function dbLoggingErrorMessage(data: string) {
 }
 
 function parseDbLogging(data: string): LoggerOptions {
+	if (data === "all") {
+		return data;
+	}
 	try {
 		const parsed: unknown = JSON.parse(data);
 		if (typeof parsed === "boolean") {
@@ -34,11 +37,8 @@ function parseDbLogging(data: string): LoggerOptions {
 			throw new Error(dbLoggingErrorMessage(data));
 		}
 		return parsed;
-	} catch (error) {
-		if (data !== "all") {
-			throw new Error(dbLoggingErrorMessage(data));
-		}
-		return data;
+	} catch (_error) {
+		throw new Error(dbLoggingErrorMessage(data));
 	}
 }
 
