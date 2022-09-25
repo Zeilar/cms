@@ -1,8 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { LoggerOptions } from "typeorm";
 
-type LoggerArrayOption = "query" | "schema" | "error" | "warn" | "info" | "log" | "migration";
-
 interface Env {
 	PORT: number;
 	CORS_ORIGIN: string;
@@ -16,7 +14,7 @@ interface Env {
 	DB_LOGGING: LoggerOptions;
 }
 
-const loggingOptions: LoggerArrayOption[] = ["query", "schema", "error", "warn", "info", "log", "migration"];
+const loggingOptions = ["query", "schema", "error", "warn", "info", "log", "migration"] as const;
 
 function dbLoggingErrorMessage(data: string) {
 	return `Invalid JSON at DB_LOGGING: ${JSON.stringify(data)}`;
