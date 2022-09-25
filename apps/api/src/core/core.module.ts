@@ -7,6 +7,7 @@ import { ContentType } from "../features/content-type/content-type.entity";
 import { SpaceModule } from "../features/space/space.module";
 import { ContentTypeModule } from "../features/content-type/content-type.module";
 import { Field } from "../features/field/field.entity";
+import { FieldModule } from "@api/features/field/field.module";
 
 @Module({
 	imports: [
@@ -28,6 +29,7 @@ import { Field } from "../features/field/field.entity";
 		}),
 		SpaceModule,
 		ContentTypeModule,
+		FieldModule,
 	],
 })
 export class CoreModule {}
