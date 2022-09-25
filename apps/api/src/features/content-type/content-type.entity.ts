@@ -1,6 +1,6 @@
 import { ManyToOne, BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { ContentTypeModel } from "../../types/contentType";
 import { Space } from "../space/space.entity";
+import { ContentTypeModel } from "@shared";
 
 @Entity()
 export class ContentType extends BaseEntity {
