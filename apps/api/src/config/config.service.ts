@@ -22,9 +22,9 @@ function dbLoggingErrorMessage(data: string) {
 
 function parseDbLogging(data: string): LoggerOptions {
 	try {
-		const parsed = JSON.parse(data);
-		if (data === "true" || data === "false") {
-			return JSON.parse(data);
+		const parsed: unknown = JSON.parse(data);
+		if (parsed === true || parsed === false) {
+			return parsed;
 		}
 		if (!Array.isArray(parsed)) {
 			throw new Error(dbLoggingErrorMessage(data));
