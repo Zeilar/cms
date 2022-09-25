@@ -13,7 +13,6 @@ import { ContentType } from "../features/content-type/content-type.entity";
 			inject: [ConfigService],
 			// @ts-expect-error type bug
 			useFactory: (configService: ConfigService) => ({
-				name: "default",
 				type: configService.get("DB_TYPE"),
 				host: configService.get("DB_HOST"),
 				port: configService.get("DB_PORT"),
