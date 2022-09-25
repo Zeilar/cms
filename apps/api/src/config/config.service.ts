@@ -1,5 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
 
+type LOGGING_OPTION = "query" | "error" | "schema" | "warn" | "info" | "log" | "all";
+type DB_LOGGING = boolean | LOGGING_OPTION | LOGGING_OPTION[];
+
 interface Env {
 	PORT: number;
 	CORS_ORIGIN: string;
@@ -10,7 +13,18 @@ interface Env {
 	DB_PASSWORD: string;
 	DB_NAME: string;
 	DB_SYNCHRONIZE: boolean;
-	DB_LOGGING: boolean;
+	DB_LOGGING: DB_LOGGING;
+}
+
+function parseDbLogging(data: string): DB_LOGGING {
+	if (data === "true" || data === "false") {
+		return JSON.parse(data);
+	}
+	const options: LOGGING_OPTION[] = ["query", "error", "schema", "warn", "info", "log", "all"];
+	if (options.includes(data as LOGGING_OPTION)) {
+		return data as LOGGING_OPTION;
+	}
+	return JSON.parse(data);
 }
 
 const { PORT, CORS_ORIGIN, DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_SYNCHRONIZE, DB_LOGGING } =
@@ -25,8 +39,8 @@ const ENV: Env = {
 	DB_USERNAME,
 	DB_PASSWORD,
 	DB_NAME,
-	DB_SYNCHRONIZE: DB_SYNCHRONIZE === "true",
-	DB_LOGGING: DB_LOGGING === "true",
+	DB_SYNCHRONIZE: JSON.parse(DB_SYNCHRONIZE),
+	DB_LOGGING: parseDbLogging(DB_LOGGING),
 };
 
 @Injectable()
