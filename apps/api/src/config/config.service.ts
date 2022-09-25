@@ -23,7 +23,7 @@ function dbLoggingErrorMessage(data: string) {
 function parseDbLogging(data: string): LoggerOptions {
 	try {
 		const parsed: unknown = JSON.parse(data);
-		if (parsed === true || parsed === false) {
+		if (typeof parsed === "boolean") {
 			return parsed;
 		}
 		if (!Array.isArray(parsed)) {
