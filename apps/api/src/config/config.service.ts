@@ -59,6 +59,9 @@ const ENV: Env = {
 @Injectable()
 export class ConfigService {
 	public constructor() {
+		if (process.env.NODE_ENV === "production") {
+			return;
+		}
 		Logger.debug(`Registered environment variables:\n${JSON.stringify(ENV, null, 4)}`, "ConfigService");
 	}
 
