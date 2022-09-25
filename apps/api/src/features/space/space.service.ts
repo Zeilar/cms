@@ -3,9 +3,6 @@ import { Space } from "./space.entity";
 
 export interface SpaceDto {
 	name: string;
-	contentType: {
-		name: string;
-	};
 }
 
 @Injectable()
