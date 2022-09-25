@@ -15,9 +15,10 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@shared": ["libs/shared/src/index.ts"],
 			"@api/*": ["apps/api/src/*"],
-			"@frontend/*": ["apps/frontend/*"]
+			"@frontend/*": ["apps/frontend/*"],
+			"@shared": ["libs/shared/src/index.ts"],
+			"@theme": ["libs/theme/src/index.ts"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

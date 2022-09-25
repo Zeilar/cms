@@ -1,0 +1,29 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "libs/theme/src",
+	"projectType": "library",
+	"targets": {
+		"types": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "chakra-cli tokens libs/theme/src/lib/index.ts"
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["libs/theme/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/theme"],
+			"options": {
+				"jestConfig": "libs/theme/jest.config.ts",
+				"passWithNoTests": true
+			}
+		}
+	},
+	"tags": []
+}
