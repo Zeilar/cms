@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 
 interface Env {
 	PORT: number;
@@ -31,6 +31,10 @@ const ENV: Env = {
 
 @Injectable()
 export class ConfigService {
+	public constructor() {
+		Logger.debug(`Registered environment variables:\n${JSON.stringify(ENV, null, 4)}`, "ConfigService");
+	}
+
 	public get<U extends keyof Env>(key: U) {
 		if (!(key in ENV)) {
 			throw new Error(`Key ${key} does not exist in env`);
