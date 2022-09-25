@@ -15,7 +15,9 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@shared": ["libs/shared/src/index.ts"]
+			"@shared": ["libs/shared/src/index.ts"],
+			"@api/*": ["apps/api/src/*"],
+			"@frontend/*": ["apps/frontend/*"]
 		}
 	},
 	"exclude": ["node_modules", "tmp"]

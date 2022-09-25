@@ -1,15 +1,11 @@
+import { CreateContentTypeDto } from "@api/common/validators/CreateContentTypeDto";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Space } from "../space/space.entity";
 import { ContentType } from "./content-type.entity";
 
-export interface ContentTypeDto {
-	spaceId: string;
-	name: string;
-}
-
 @Injectable()
 export class ContentTypeService {
-	public async create({ spaceId, ...dto }: ContentTypeDto) {
+	public async create({ spaceId, ...dto }: CreateContentTypeDto) {
 		const space = await Space.findOneBy({ id: spaceId });
 		if (!space) {
 			throw new NotFoundException("Space not found");

@@ -6,6 +6,7 @@ import { Space } from "../features/space/space.entity";
 import { ContentType } from "../features/content-type/content-type.entity";
 import { SpaceModule } from "../features/space/space.module";
 import { ContentTypeModule } from "../features/content-type/content-type.module";
+import { Field } from "../features/field/field.entity";
 
 @Module({
 	imports: [
@@ -13,9 +14,8 @@ import { ContentTypeModule } from "../features/content-type/content-type.module"
 		TypeOrmModule.forRootAsync({
 			imports: [ConfigModule],
 			inject: [ConfigService],
-			// @ts-expect-error type bug
 			useFactory: (configService: ConfigService) => ({
-				type: configService.get("DB_TYPE"),
+				type: configService.get("DB_TYPE") as "postgres", // Temorary fix due to type bugs in TypeOrmModuleOptions
 				host: configService.get("DB_HOST"),
 				port: configService.get("DB_PORT"),
 				username: configService.get("DB_USERNAME"),
@@ -23,7 +23,7 @@ import { ContentTypeModule } from "../features/content-type/content-type.module"
 				database: configService.get("DB_NAME"),
 				synchronize: configService.get("DB_SYNCHRONIZE"),
 				logging: configService.get("DB_LOGGING"),
-				entities: [Space, ContentType],
+				entities: [Space, ContentType, Field],
 			}),
 		}),
 		SpaceModule,

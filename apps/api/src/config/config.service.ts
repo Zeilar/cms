@@ -22,7 +22,7 @@ function dbLoggingErrorMessage(data: string) {
 	return `Invalid JSON at DB_LOGGING: ${JSON.stringify(data)}`;
 }
 
-function parseDbLogging(data: string): LoggerOptions {
+function parseDbLogging(data: string) {
 	if (data === "all") {
 		return data;
 	}
@@ -34,7 +34,7 @@ function parseDbLogging(data: string): LoggerOptions {
 		if (!Array.isArray(parsed) || !parsed.every(value => loggingOptions.includes(value))) {
 			throw new Error(dbLoggingErrorMessage(data));
 		}
-		return parsed;
+		return parsed as LoggerOptions;
 	} catch (_error) {
 		throw new Error(dbLoggingErrorMessage(data));
 	}

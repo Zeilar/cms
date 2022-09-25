@@ -1,13 +1,10 @@
+import { CreateSpaceDto } from "@api/common/validators/CreateSpaceDto";
 import { Injectable } from "@nestjs/common";
 import { Space } from "./space.entity";
 
-export interface SpaceDto {
-	name: string;
-}
-
 @Injectable()
 export class SpaceService {
-	public async create(dto: SpaceDto) {
+	public async create(dto: CreateSpaceDto) {
 		const { identifiers } = await Space.insert(dto);
 		return identifiers[0];
 	}

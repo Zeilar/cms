@@ -1,6 +1,6 @@
-import { ManyToOne, BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { ManyToOne, OneToMany, BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Space } from "../space/space.entity";
-import { ContentTypeModel } from "@shared";
+import { Field } from "../field/field.entity";
 
 @Entity()
 export class ContentType extends BaseEntity {
@@ -10,8 +10,8 @@ export class ContentType extends BaseEntity {
 	@Column({ type: "text", nullable: false })
 	public name: string;
 
-	@Column({ type: "enum", enum: ContentTypeModel, nullable: false })
-	public model: ContentTypeModel;
+	@OneToMany(() => Field, field => field.type)
+	public fields: Field[];
 
 	@ManyToOne(() => Space, space => space.contentTypes, { nullable: false })
 	public space: Space;

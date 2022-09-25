@@ -1,12 +1,13 @@
+import { CreateSpaceDto } from "@api/common/validators/CreateSpaceDto";
 import { Body, Controller, Post } from "@nestjs/common";
-import { SpaceDto, SpaceService } from "./space.service";
+import { SpaceService } from "./space.service";
 
 @Controller("/space")
 export class SpaceController {
 	public constructor(public readonly spaceService: SpaceService) {}
 
 	@Post("/")
-	public create(@Body() dto: SpaceDto) {
+	public create(@Body() dto: CreateSpaceDto) {
 		return this.spaceService.create(dto);
 	}
 }

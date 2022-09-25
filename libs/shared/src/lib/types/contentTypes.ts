@@ -1,4 +1,4 @@
-export enum ContentTypeModel {
+export enum FieldType {
 	INTEGER = "integer",
 	DECIMAL = "decimal",
 	DATE = "date",
@@ -7,3 +7,6 @@ export enum ContentTypeModel {
 	TEXT_LONG = "text-long",
 	LOCATION = "location",
 }
+
+export const FieldTypeKeys = Object.keys(FieldType);
+export const FieldTypeValues = Object.values(FieldType);
