@@ -2,6 +2,8 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "../config/config.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigService } from "../config/config.service";
+import { Space } from "../features/space/space.entity";
+import { ContentType } from "../features/content-type/content-type.entity";
 
 @Module({
 	imports: [
@@ -20,6 +22,7 @@ import { ConfigService } from "../config/config.service";
 				database: configService.get("DB_NAME"),
 				synchronize: configService.get("DB_SYNCHRONIZE"),
 				logging: configService.get("DB_LOGGING"),
+				entities: [Space, ContentType],
 			}),
 		}),
 	],
