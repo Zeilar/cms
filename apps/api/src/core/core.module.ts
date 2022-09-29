@@ -7,11 +7,13 @@ import { ContentType } from "../features/content-type/content-type.entity";
 import { SpaceModule } from "../features/space/space.module";
 import { ContentTypeModule } from "../features/content-type/content-type.module";
 import { Field } from "../features/field/field.entity";
-import { FieldModule } from "@api/features/field/field.module";
+import { FieldModule } from "../features/field/field.module";
+import { CacheModule } from "../features/cache/cache.module";
 
 @Module({
 	imports: [
 		ConfigModule,
+		CacheModule,
 		TypeOrmModule.forRootAsync({
 			imports: [ConfigModule],
 			inject: [ConfigService],

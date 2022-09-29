@@ -1,4 +1,4 @@
-import { CreateContentTypeDto } from "@api/common/validators/CreateContentTypeDto";
+import { CreateContentTypeDto } from "../../common/validators/CreateContentTypeDto";
 import { Body, Controller, Post } from "@nestjs/common";
 import { ContentTypeService } from "./content-type.service";
 

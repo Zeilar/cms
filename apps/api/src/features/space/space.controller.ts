@@ -1,4 +1,4 @@
-import { CreateSpaceDto } from "@api/common/validators/CreateSpaceDto";
+import { CreateSpaceDto } from "../../common/validators/CreateSpaceDto";
 import { Body, Controller, Post } from "@nestjs/common";
 import { SpaceService } from "./space.service";
 

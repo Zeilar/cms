@@ -1,4 +1,4 @@
-import { CreateContentTypeDto } from "@api/common/validators/CreateContentTypeDto";
+import { CreateContentTypeDto } from "../../common/validators/CreateContentTypeDto";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Space } from "../space/space.entity";
 import { ContentType } from "./content-type.entity";

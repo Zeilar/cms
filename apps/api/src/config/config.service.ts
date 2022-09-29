@@ -12,6 +12,9 @@ interface Env {
 	DB_NAME: string;
 	DB_SYNCHRONIZE: boolean;
 	DB_LOGGING: LoggerOptions;
+	REDIS_HOST: string;
+	REDIS_PORT: number;
+	REDIS_PASSWORD: string;
 }
 
 const loggingOptions = ["query", "schema", "error", "warn", "info", "log", "migration"] as const;
@@ -38,8 +41,21 @@ function parseDbLogging(data: string) {
 	}
 }
 
-const { PORT, CORS_ORIGIN, DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME, DB_SYNCHRONIZE, DB_LOGGING } =
-	process.env;
+const {
+	PORT,
+	CORS_ORIGIN,
+	DB_TYPE,
+	DB_HOST,
+	DB_PORT,
+	DB_USERNAME,
+	DB_PASSWORD,
+	DB_NAME,
+	DB_SYNCHRONIZE,
+	DB_LOGGING,
+	REDIS_HOST,
+	REDIS_PORT,
+	REDIS_PASSWORD,
+} = process.env;
 
 const ENV: Env = {
 	PORT: parseInt(PORT),
@@ -52,6 +68,9 @@ const ENV: Env = {
 	DB_NAME,
 	DB_SYNCHRONIZE: JSON.parse(DB_SYNCHRONIZE),
 	DB_LOGGING: parseDbLogging(DB_LOGGING),
+	REDIS_HOST,
+	REDIS_PORT: parseInt(REDIS_PORT),
+	REDIS_PASSWORD,
 };
 
 @Injectable()
@@ -60,7 +79,10 @@ export class ConfigService {
 		if (process.env.NODE_ENV === "production") {
 			return;
 		}
-		Logger.debug(`Registered environment variables:\n${JSON.stringify(ENV, null, 4)}`, "ConfigService");
+		Logger.debug(
+			`Registered environment variables:\n${JSON.stringify(ENV, null, 4)}`,
+			"ConfigService"
+		);
 	}
 
 	public get<U extends keyof Env>(key: U) {

@@ -1,4 +1,4 @@
-import { CreateFieldDto } from "@api/common/validators/CreateFieldDto";
+import { CreateFieldDto } from "../../common/validators/CreateFieldDto";
 import { Body, Controller, Post } from "@nestjs/common";
 import { FieldService } from "./field.service";
 

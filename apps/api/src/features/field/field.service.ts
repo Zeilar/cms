@@ -1,4 +1,4 @@
-import { CreateFieldDto } from "@api/common/validators/CreateFieldDto";
+import { CreateFieldDto } from "../../common/validators/CreateFieldDto";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { ContentType } from "../content-type/content-type.entity";
 import { Field } from "./field.entity";
