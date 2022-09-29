@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ClientRedis } from "@nestjs/microservices";
 import Redis from "ioredis";
 
@@ -12,6 +12,8 @@ export class CacheService {
 
 	public async createClient() {
 		this.client = this.cache.createClient();
-		this.client.connect();
+		this.client.connect(() => {
+			Logger.log("Connected to cache service", "CacheService");
+		});
 	}
 }
