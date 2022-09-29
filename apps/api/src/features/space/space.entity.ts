@@ -6,7 +6,7 @@ export class Space extends BaseEntity {
 	@PrimaryGeneratedColumn("uuid")
 	public id: string;
 
-	@Column({ type: "text", nullable: false })
+	@Column({ type: "text", nullable: false, unique: true })
 	public name: string;
 
 	@OneToMany(() => ContentType, contentType => contentType.space)

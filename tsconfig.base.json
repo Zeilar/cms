@@ -5,6 +5,7 @@
 		"sourceMap": true,
 		"declaration": false,
 		"moduleResolution": "node",
+		"strictPropertyInitialization": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"importHelpers": true,
@@ -15,8 +16,6 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
-			"@api/*": ["apps/api/src/*"],
-			"@frontend/*": ["apps/frontend/*"],
 			"@shared": ["libs/shared/src/index.ts"],
 			"@theme": ["libs/theme/src/index.ts"]
 		}

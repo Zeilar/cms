@@ -7,7 +7,7 @@ export class Field extends BaseEntity {
 	@PrimaryGeneratedColumn("uuid")
 	public id: string;
 
-	@Column({ type: "text", nullable: false })
+	@Column({ type: "text", nullable: false, unique: true })
 	public name: string;
 
 	@Column({ type: "enum", enum: FieldType, nullable: false })

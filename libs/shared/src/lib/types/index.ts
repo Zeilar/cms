@@ -1,1 +1,1 @@
-export * from "./contentTypes";
+export * from "./field";
