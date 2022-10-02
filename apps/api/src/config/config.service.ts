@@ -1,7 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { LoggerOptions } from "typeorm";
 
-interface Env {
+interface ParsedEnv {
 	PORT: number;
 	CORS_ORIGIN: string;
 	DB_TYPE: string;
@@ -10,35 +9,9 @@ interface Env {
 	DB_USERNAME: string;
 	DB_PASSWORD: string;
 	DB_NAME: string;
-	DB_SYNCHRONIZE: boolean;
-	DB_LOGGING: LoggerOptions;
 	REDIS_HOST: string;
 	REDIS_PORT: number;
 	REDIS_PASSWORD: string;
-}
-
-const loggingOptions = ["query", "schema", "error", "warn", "info", "log", "migration"] as const;
-
-function dbLoggingErrorMessage(data: string) {
-	return `Invalid JSON at DB_LOGGING: ${JSON.stringify(data)}`;
-}
-
-function parseDbLogging(data: string) {
-	if (data === "all") {
-		return data;
-	}
-	try {
-		const parsed: unknown = JSON.parse(data);
-		if (typeof parsed === "boolean") {
-			return parsed;
-		}
-		if (!Array.isArray(parsed) || !parsed.every(value => loggingOptions.includes(value))) {
-			throw new Error(dbLoggingErrorMessage(data));
-		}
-		return parsed as LoggerOptions;
-	} catch (_error) {
-		throw new Error(dbLoggingErrorMessage(data));
-	}
 }
 
 const {
@@ -50,14 +23,12 @@ const {
 	DB_USERNAME,
 	DB_PASSWORD,
 	DB_NAME,
-	DB_SYNCHRONIZE,
-	DB_LOGGING,
 	REDIS_HOST,
 	REDIS_PORT,
 	REDIS_PASSWORD,
 } = process.env;
 
-const ENV: Env = {
+const ENV: ParsedEnv = {
 	PORT: parseInt(PORT),
 	CORS_ORIGIN,
 	DB_TYPE,
@@ -66,8 +37,6 @@ const ENV: Env = {
 	DB_USERNAME,
 	DB_PASSWORD,
 	DB_NAME,
-	DB_SYNCHRONIZE: JSON.parse(DB_SYNCHRONIZE),
-	DB_LOGGING: parseDbLogging(DB_LOGGING),
 	REDIS_HOST,
 	REDIS_PORT: parseInt(REDIS_PORT),
 	REDIS_PASSWORD,
@@ -85,9 +54,9 @@ export class ConfigService {
 		);
 	}
 
-	public get<U extends keyof Env>(key: U) {
+	public get<U extends keyof ParsedEnv>(key: U) {
 		if (!(key in ENV)) {
-			throw new Error(`Key ${key} does not exist in env`);
+			throw new Error(`Environment variable ${key} does not exist`);
 		}
 		return ENV[key];
 	}

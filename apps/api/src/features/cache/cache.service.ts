@@ -1,19 +1,31 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ClientRedis } from "@nestjs/microservices";
-import Redis from "ioredis";
+import Redis, { RedisKey } from "ioredis";
 
 @Injectable()
 export class CacheService {
-	private client: Redis;
+	private readonly client: Redis;
 
 	public constructor(@Inject("cache") private readonly cache: ClientRedis) {
-		this.createClient();
-	}
-
-	public async createClient() {
 		this.client = this.cache.createClient();
 		this.client.connect(() => {
 			Logger.log("Connected to cache service", "CacheService");
 		});
+	}
+
+	public async get<T>(key: RedisKey): Promise<T | null> {
+		const data = await this.client.get(key);
+		if (data == null) {
+			return data;
+		}
+		return JSON.parse(data) as T;
+	}
+
+	public set(key: RedisKey, value: unknown) {
+		return this.client.set(key, JSON.stringify(value));
+	}
+
+	public delete(...keys: RedisKey[]) {
+		return this.client.del(...keys);
 	}
 }

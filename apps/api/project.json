@@ -3,6 +3,18 @@
 	"sourceRoot": "apps/api/src",
 	"projectType": "application",
 	"targets": {
+		// "knex-migrate-up": {
+		// 	"executor": "nx:run-commands",
+		// 	"options": {
+		// 		"command": "knex --knexfile ./apps/api/knexfile.ts migrate:make TEST -x ts"
+		// 	}
+		// },
+		"knex-migrate-up": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "knex --knexfile ./apps/api/knexfile.ts migrate:latest"
+			}
+		},
 		"build": {
 			"executor": "@nrwl/webpack:webpack",
 			"outputs": ["{options.outputPath}"],
@@ -11,7 +23,7 @@
 				"compiler": "tsc",
 				"outputPath": "dist/apps/api",
 				"main": "apps/api/src/main.ts",
-				"tsConfig": "apps/api/tsconfig.app.json"
+				"tsConfig": "apps/api/tsconfig.json"
 			},
 			"configurations": {
 				"production": {
