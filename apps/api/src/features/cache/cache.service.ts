@@ -21,11 +21,15 @@ export class CacheService {
 		return JSON.parse(data) as T;
 	}
 
-	public set(key: RedisKey, value: unknown) {
+	public set(key: RedisKey, value: unknown): Promise<"OK"> {
 		return this.client.set(key, JSON.stringify(value));
 	}
 
-	public delete(...keys: RedisKey[]) {
+	public delete(...keys: RedisKey[]): Promise<number> {
 		return this.client.del(...keys);
+	}
+
+	public has(key: RedisKey): boolean {
+		return this.client.get(key) == null;
 	}
 }

@@ -1,5 +1,14 @@
 import { CreateSpaceDto } from "../../common/validators/CreateSpaceDto";
-import { Body, Controller, Get, NotFoundException, Param, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	InternalServerErrorException,
+	NotFoundException,
+	Param,
+	Post,
+} from "@nestjs/common";
 import { SpaceService } from "./space.service";
 import type { ID } from "../../types/repository";
 import { Space } from "./space.model";
@@ -20,5 +29,16 @@ export class SpaceController {
 			throw new NotFoundException("Space not found");
 		}
 		return space;
+	}
+
+	@Delete("/:id")
+	public async destroy(@Param("id") id: ID): Promise<void> {
+		if (!(await this.spaceService.exists(id))) {
+			throw new NotFoundException("Space not found");
+		}
+		const success = await this.spaceService.destroy(id);
+		if (!success) {
+			throw new InternalServerErrorException("Failed deleting space");
+		}
 	}
 }
