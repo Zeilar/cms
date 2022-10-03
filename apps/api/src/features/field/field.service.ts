@@ -1,4 +1,4 @@
-import { CreateFieldDto } from "../../common/validators/CreateFieldDto";
+import { CreateFieldDto } from "../../common/validators/field/CreateFieldDto";
 import { Injectable } from "@nestjs/common";
 import { CacheService } from "../cache/cache.service";
 import { Field } from "./field.model";

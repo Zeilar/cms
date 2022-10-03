@@ -1,7 +1,8 @@
-import { CreateSpaceDto } from "../../common/validators/CreateSpaceDto";
+import { CreateSpaceDto } from "../../common/validators/space/CreateSpaceDto";
 import { Injectable } from "@nestjs/common";
 import { Space } from "./space.model";
 import type { CountResult, ID } from "../../types/repository";
+import { UpdateSpaceDto } from "../../common/validators/space/UpdateSpaceDto";
 
 @Injectable()
 export class SpaceRepository {
@@ -20,5 +21,9 @@ export class SpaceRepository {
 
 	public destroy(id: ID): Promise<number> {
 		return Space.query().deleteById(id).execute();
+	}
+
+	public edit(id: ID, dto: UpdateSpaceDto): Promise<Space> {
+		return Space.query().updateAndFetchById(id, dto).execute();
 	}
 }

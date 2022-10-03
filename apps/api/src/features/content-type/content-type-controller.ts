@@ -1,4 +1,4 @@
-import { CreateContentTypeDto } from "../../common/validators/CreateContentTypeDto";
+import { CreateContentTypeDto } from "../../common/validators/content-type/CreateContentTypeDto";
 import { Body, Controller, Get, NotFoundException, Param, Post } from "@nestjs/common";
 import { ContentTypeService } from "./content-type.service";
 import type { ID } from "../../types/repository";
