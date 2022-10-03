@@ -6,7 +6,7 @@ import type { CountResult, ID } from "../../types/repository";
 @Injectable()
 export class SpaceRepository {
 	public async count(): Promise<number> {
-		const [result] = (await Space.query().count("id")) as unknown as CountResult;
+		const result = (await Space.query().count("id").first()) as unknown as CountResult;
 		return parseInt(result.count);
 	}
 

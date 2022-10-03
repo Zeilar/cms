@@ -1,3 +1,5 @@
 export type ID = string | number;
 
-export type CountResult = { count: string }[];
+export interface CountResult {
+	count: string;
+}
