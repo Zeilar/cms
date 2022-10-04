@@ -14,17 +14,6 @@ services:
         environment:
             POSTGRES_USER: root
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-    cache:
-        container_name: cache
-        image: redis
-        networks:
-            - cms
-        restart: always
-        command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
-        ports:
-            - ${REDIS_PORT}:${REDIS_PORT}
-        volumes:
-            - redis:/var/lib/redis
     adminer:
         container_name: adminer
         networks:
@@ -36,6 +25,5 @@ services:
 
 volumes:
     db:
-    redis:
 networks:
     cms:

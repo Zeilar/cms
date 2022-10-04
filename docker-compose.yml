@@ -41,17 +41,6 @@ services:
         environment:
             POSTGRES_USER: root
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-    cache:
-        container_name: cache
-        image: redis
-        networks:
-            - cms
-        restart: always
-        command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PASSWORD}
-        ports:
-            - ${REDIS_PORT}
-        volumes:
-            - redis:/var/lib/redis
     proxy:
         container_name: proxy
         image: nginx
@@ -76,6 +65,5 @@ services:
 
 volumes:
     db:
-    redis:
 networks:
     cms:

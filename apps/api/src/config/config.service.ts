@@ -9,24 +9,10 @@ interface ParsedEnv {
 	DB_USERNAME: string;
 	DB_PASSWORD: string;
 	DB_NAME: string;
-	REDIS_HOST: string;
-	REDIS_PORT: number;
-	REDIS_PASSWORD: string;
 }
 
-const {
-	PORT,
-	CORS_ORIGIN,
-	DB_TYPE,
-	DB_HOST,
-	DB_PORT,
-	DB_USERNAME,
-	DB_PASSWORD,
-	DB_NAME,
-	REDIS_HOST,
-	REDIS_PORT,
-	REDIS_PASSWORD,
-} = process.env;
+const { PORT, CORS_ORIGIN, DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } =
+	process.env;
 
 const ENV: ParsedEnv = {
 	PORT: parseInt(PORT),
@@ -37,9 +23,6 @@ const ENV: ParsedEnv = {
 	DB_USERNAME,
 	DB_PASSWORD,
 	DB_NAME,
-	REDIS_HOST,
-	REDIS_PORT: parseInt(REDIS_PORT),
-	REDIS_PASSWORD,
 };
 
 @Injectable()
