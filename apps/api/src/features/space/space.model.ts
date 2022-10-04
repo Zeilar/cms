@@ -4,7 +4,7 @@ import { ContentType } from "../content-type/content-type.model";
 export class Space extends Model {
 	public readonly id: string;
 	public readonly name: string;
-	public readonly contentType?: ContentType;
+	public contentTypes?: ContentType[];
 
 	public static get tableName() {
 		return "spaces";

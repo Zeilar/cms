@@ -11,8 +11,8 @@ export class SpaceRepository {
 		return parseInt(result.count);
 	}
 
-	public findById(id: ID): Promise<Space | undefined> {
-		return Space.query().findById(id).execute();
+	public async findById(id: ID): Promise<Space | undefined> {
+		return Space.query().findById(id);
 	}
 
 	public create(space: CreateSpaceDto): Promise<Space> {

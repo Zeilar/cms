@@ -12,4 +12,8 @@ export class ContentTypeRepository {
 	public create(contentType: CreateContentTypeDto): Promise<ContentType> {
 		return ContentType.query().insertAndFetch(contentType).execute();
 	}
+
+	public getAllInSpace(spaceId: ID): Promise<ContentType[]> {
+		return ContentType.query().where({ spaceId }).execute();
+	}
 }

@@ -9,6 +9,7 @@ import {
 	Param,
 	Patch,
 	Post,
+	Query,
 } from "@nestjs/common";
 import { SpaceService } from "./space.service";
 import type { ID } from "../../types/repository";
@@ -19,11 +20,16 @@ import { UpdateSpaceDto } from "../../common/validators/space/UpdateSpaceDto";
 export class SpaceController {
 	public constructor(public readonly spaceService: SpaceService) {}
 
-	private async assertSpaceFound(id: ID) {
-		if (await this.spaceService.exists(id)) {
+	private assertSpaceFound(space: unknown): asserts space is Space {
+		if (space instanceof Space) {
 			return;
 		}
 		throw new NotFoundException("Space not found");
+	}
+
+	@Get("/")
+	public index(): Promise<Space[]> {
+		//
 	}
 
 	@Post("/")
@@ -31,19 +37,21 @@ export class SpaceController {
 		return this.spaceService.create(dto);
 	}
 
+	/**
+	 * WCT stands for "with content types"
+	 */
 	@Get("/:id")
-	public async findById(@Param("id") id: ID): Promise<Space> {
-		await this.assertSpaceFound(id);
-		const space = await this.spaceService.findById(id);
-		if (!space) {
-			throw new NotFoundException("Space not found");
-		}
+	public async findById(
+		@Param("id") id: ID,
+		@Query("wct") wct: "true" | undefined
+	): Promise<Space> {
+		const space = await this.spaceService.findById(id, wct === "true");
+		this.assertSpaceFound(space);
 		return space;
 	}
 
 	@Delete("/:id")
 	public async destroy(@Param("id") id: ID): Promise<void> {
-		await this.assertSpaceFound(id);
 		const success = await this.spaceService.destroy(id);
 		if (!success) {
 			throw new InternalServerErrorException("Failed deleting space");
@@ -52,7 +60,6 @@ export class SpaceController {
 
 	@Patch("/:id")
 	public async edit(@Param("id") id: ID, @Body() body: UpdateSpaceDto): Promise<Space> {
-		await this.assertSpaceFound(id);
 		const result = await this.spaceService.edit(id, body);
 		if (!result) {
 			throw new InternalServerErrorException("Failed updating space");

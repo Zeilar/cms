@@ -1,28 +1,22 @@
 import { CreateContentTypeDto } from "../../common/validators/content-type/CreateContentTypeDto";
 import { Injectable } from "@nestjs/common";
-import { CacheService } from "../cache/cache.service";
 import { ContentType } from "./content-type.model";
 import { ContentTypeRepository } from "./content-type.repository";
 import type { ID } from "../../types/repository";
 
 @Injectable()
 export class ContentTypeService {
-	public constructor(
-		private readonly cacheService: CacheService,
-		private readonly contentTypeRepository: ContentTypeRepository
-	) {}
+	public constructor(private readonly contentTypeRepository: ContentTypeRepository) {}
 
-	public async create(dto: CreateContentTypeDto): Promise<ContentType> {
-		const contentType = await this.contentTypeRepository.create(dto);
-		await this.cacheService.set(`contentType-${contentType.id}`, contentType);
-		return contentType;
+	public create(dto: CreateContentTypeDto): Promise<ContentType> {
+		return this.contentTypeRepository.create(dto);
 	}
 
-	public async findById(id: ID): Promise<ContentType | undefined> {
-		const cached = await this.cacheService.get<ContentType>(`contentType-${id}`);
-		if (cached != null) {
-			return cached;
-		}
+	public findById(id: ID): Promise<ContentType | undefined> {
 		return this.contentTypeRepository.findById(id);
+	}
+
+	public getAllInSpace(spaceId: ID): Promise<ContentType[]> {
+		return this.contentTypeRepository.getAllInSpace(spaceId);
 	}
 }
