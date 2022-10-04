@@ -13,6 +13,10 @@ export class SpaceService {
 		private readonly contentTypeService: ContentTypeService
 	) {}
 
+	public all(): Promise<Space[]> {
+		return this.spaceRepository.all();
+	}
+
 	public create(dto: CreateSpaceDto): Promise<Space> {
 		return this.spaceRepository.create(dto);
 	}

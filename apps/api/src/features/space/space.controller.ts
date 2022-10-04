@@ -29,7 +29,7 @@ export class SpaceController {
 
 	@Get("/")
 	public index(): Promise<Space[]> {
-		//
+		return this.spaceService.all();
 	}
 
 	@Post("/")
