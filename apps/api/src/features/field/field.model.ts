@@ -1,6 +1,5 @@
 import { Model } from "objection";
 import { ContentType } from "../content-type/content-type.model";
-import { Space } from "../space/space.model";
 
 export class Field extends Model {
 	public readonly id: string;
@@ -15,7 +14,7 @@ export class Field extends Model {
 		return {
 			contentType: {
 				relation: Model.BelongsToOneRelation,
-				modelClass: Space,
+				modelClass: ContentType,
 				join: {
 					from: "fields.contentTypeId",
 					to: "content_types.id",
