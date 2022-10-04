@@ -4,7 +4,7 @@
 	"license": "MIT",
 	"scripts": {
 		"start": "docker-compose --env-file .env.local -f docker-compose.dev.yml up",
-		"stop": "docker-compose down",
+		"stop": "docker-compose --env-file .env.local -f docker-compose.dev.yml down",
 		"build": "nx build",
 		"test": "nx test"
 	},

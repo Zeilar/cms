@@ -19,5 +19,5 @@ export interface FieldDto {
 	entries?: EntryDto[];
 }
 
-export const FieldTypeKeys = Object.keys(FieldType);
+export const FieldTypeKeys = Object.keys(FieldType) as (keyof typeof FieldType)[];
 export const FieldTypeValues = Object.values(FieldType);

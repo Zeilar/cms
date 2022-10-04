@@ -10,6 +10,7 @@ services:
             - ${DB_PORT}:${DB_PORT}
         volumes:
             - db:/var/lib/postgres
+            - ./libs/db/init.sql:/docker-entrypoint-initdb.d/init.sql
         environment:
             POSTGRES_USER: root
             POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -35,9 +36,6 @@ services:
 
 volumes:
     db:
-        name: db
     redis:
-        name: cache
 networks:
     cms:
-        name: cms

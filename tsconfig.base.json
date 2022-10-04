@@ -22,5 +22,6 @@
 			"@theme": ["libs/theme/src/index.ts"]
 		}
 	},
+	"include": ["./apps/api/knexfile.ts"],
 	"exclude": ["node_modules", "tmp"]
 }

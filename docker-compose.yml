@@ -76,9 +76,6 @@ services:
 
 volumes:
     db:
-        name: db
     redis:
-        name: cache
 networks:
     cms:
-        name: cms
