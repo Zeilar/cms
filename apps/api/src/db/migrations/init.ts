@@ -8,13 +8,13 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 	return knex.schema
 		.createTable("spaces", table => {
 			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
-			table.string("name").unique().notNullable();
+			table.string("name").notNullable();
 			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
 			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
 		})
 		.createTable("content_types", table => {
 			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
-			table.string("name").unique().notNullable();
+			table.string("name").notNullable();
 			table.uuid("spaceId").unsigned().index("spaceId").notNullable();
 			table.foreign("spaceId", "spaceId").references("spaces.id").onDelete("CASCADE");
 			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
@@ -22,7 +22,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 		})
 		.createTable("fields", table => {
 			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
-			table.string("name").unique().notNullable();
+			table.string("name").notNullable();
 			table.enum("type", FieldTypeValues).notNullable();
 			table.uuid("contentTypeId").unsigned().index("contentTypeId").notNullable();
 			table
