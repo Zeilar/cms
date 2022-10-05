@@ -15,4 +15,8 @@ export class FieldService {
 	public findById(id: ID): Promise<Field | undefined> {
 		return this.fieldRepository.findById(id);
 	}
+
+	public getAllInContentType(contentTypeId: ID): Promise<Field[]> {
+		return Field.query().where({ contentTypeId }).execute();
+	}
 }
