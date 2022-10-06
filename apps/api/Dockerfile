@@ -17,8 +17,4 @@ COPY --from=build /usr/src/app /usr/src/app
 
 WORKDIR /usr/src/app
 
-# RUN npm i -g knex
-
-# RUN knex migrate:latest
-
-# CMD ["node", "main.js"]
+CMD ["sh", "init.sh"]

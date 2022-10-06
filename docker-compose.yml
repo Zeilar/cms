@@ -45,7 +45,6 @@ services:
         networks:
             - cms
         restart: always
-        command: sh /usr/src/app/init.sh
         ports:
             - 4444:4444
     frontend:
