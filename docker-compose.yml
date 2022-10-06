@@ -3,7 +3,7 @@ version: "3.7"
 services:
     db:
         container_name: db
-        image: postgres
+        image: postgres:15rc1
         networks:
             - cms
         ports:
@@ -16,7 +16,7 @@ services:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
     proxy:
         container_name: proxy
-        image: nginx
+        image: nginx:1.23.1-alpine
         restart: always
         networks:
             - cms
@@ -31,7 +31,7 @@ services:
         container_name: adminer
         networks:
             - cms
-        image: adminer
+        image: adminer:4.8.1-standalone
         restart: always
         ports:
             - ${ADMINER_PORT}:${ADMINER_PORT}
