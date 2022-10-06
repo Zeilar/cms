@@ -1,10 +1,12 @@
 import "dotenv/config";
 import { join } from "path";
-import { NODE_ENV } from "./src/types/env";
+
+type NODE_ENV = "development" | "production" | "testing";
 
 const defaults = {
 	client: process.env.DB_TYPE,
 	connection: {
+		port: parseInt(process.env.DB_PORT as string),
 		host: process.env.DB_HOST,
 		user: process.env.DB_USERNAME,
 		password: process.env.DB_PASSWORD,

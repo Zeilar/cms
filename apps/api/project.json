@@ -32,8 +32,8 @@
 					"inspect": false,
 					"fileReplacements": [
 						{
-							"replace": "apps/api/src/environments/.env.local",
-							"with": "apps/api/src/environments/.env"
+							"replace": "apps/api/.env.local",
+							"with": "apps/api/.env"
 						}
 					]
 				}

@@ -1,5 +1,3 @@
-// import { FieldTypeValues } from "@shared";
-import { FieldTypeValues } from "../../../../../libs/shared/src";
 import { Knex } from "knex";
 
 export function up(knex: Knex): Knex.SchemaBuilder {
@@ -23,7 +21,17 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 		.createTable("fields", table => {
 			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
 			table.string("name").notNullable();
-			table.enum("type", FieldTypeValues).notNullable();
+			table
+				.enum("type", [
+					"integer",
+					"decimal",
+					"date",
+					"rich-text",
+					"text-short",
+					"text-long",
+					"location",
+				])
+				.notNullable();
 			table.uuid("contentTypeId").unsigned().index("contentTypeId").notNullable();
 			table
 				.foreign("contentTypeId", "contentTypeId")

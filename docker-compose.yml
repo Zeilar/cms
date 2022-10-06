@@ -1,34 +1,6 @@
 version: "3.7"
 
 services:
-    api:
-        container_name: api
-        build:
-            context: ./apps/api
-            dockerfile: ./Dockerfile
-        networks:
-            - cms
-        restart: always
-        ports:
-            - 4444
-        volumes:
-            - type: bind
-              source: ./apps/api
-              target: /usr/src/app
-    frontend:
-        container_name: frontend
-        build:
-            context: ./apps/frontend
-            dockerfile: ./Dockerfile
-        networks:
-            - cms
-        restart: always
-        ports:
-            - 3333
-        volumes:
-            - type: bind
-              source: ./apps/frontend
-              target: /usr/src/app
     db:
         container_name: db
         image: postgres
@@ -38,22 +10,23 @@ services:
             - ${DB_PORT}
         volumes:
             - db:/var/lib/postgres
+            - ./libs/db/init.sql:/docker-entrypoint-initdb.d/init.sql
         environment:
             POSTGRES_USER: root
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-    proxy:
-        container_name: proxy
-        image: nginx
-        restart: always
-        networks:
-            - cms
-        ports:
-            - 80:80
-            - 443:443
-        volumes:
-            - type: bind
-              source: ./libs/proxy/sites-enabled
-              target: /etc/nginx/sites-enabled
+    # proxy:
+    #     container_name: proxy
+    #     image: nginx
+    #     restart: always
+    #     networks:
+    #         - cms
+    #     ports:
+    #         - 80:80
+    #         - 443:443
+    #     volumes:
+    #         - type: bind
+    #           source: ./libs/proxy/sites-enabled
+    #           target: /etc/nginx/sites-enabled
     adminer:
         container_name: adminer
         networks:
@@ -61,7 +34,30 @@ services:
         image: adminer
         restart: always
         ports:
-            - ${ADMINER_PORT}
+            - ${ADMINER_PORT}:${ADMINER_PORT}
+    api:
+        container_name: api
+        env_file:
+            - apps/api/.env
+        build:
+            context: .
+            dockerfile: apps/api/Dockerfile
+        networks:
+            - cms
+        restart: always
+        command: sh /usr/src/app/init.sh
+        ports:
+            - 4444:4444
+    frontend:
+        container_name: frontend
+        build:
+            context: .
+            dockerfile: apps/frontend/Dockerfile
+        networks:
+            - cms
+        restart: always
+        ports:
+            - 3333:4444
 
 volumes:
     db:
