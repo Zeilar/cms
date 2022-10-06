@@ -14,19 +14,19 @@ services:
         environment:
             POSTGRES_USER: root
             POSTGRES_PASSWORD: ${DB_PASSWORD}
-    # proxy:
-    #     container_name: proxy
-    #     image: nginx
-    #     restart: always
-    #     networks:
-    #         - cms
-    #     ports:
-    #         - 80:80
-    #         - 443:443
-    #     volumes:
-    #         - type: bind
-    #           source: ./libs/proxy/sites-enabled
-    #           target: /etc/nginx/sites-enabled
+    proxy:
+        container_name: proxy
+        image: nginx
+        restart: always
+        networks:
+            - cms
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - type: bind
+              source: ./libs/proxy/sites-enabled
+              target: /etc/nginx/sites-enabled
     adminer:
         container_name: adminer
         networks:
