@@ -10,6 +10,8 @@ COPY apps/core/.env .
 
 RUN npm i
 
+RUN npm i pg
+
 FROM node:16-alpine as main
 
 COPY --from=build /usr/src/app /usr/src/app
