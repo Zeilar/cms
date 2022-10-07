@@ -1,4 +1,4 @@
-import { CreateFieldDto } from "../../common/validators/field/CreateFieldDto";
+import { CreateFieldDto } from "../../core/common/validators/field/CreateFieldDto";
 import { Injectable } from "@nestjs/common";
 import { Field } from "./field.model";
 import type { ID } from "../../types/repository";

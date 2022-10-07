@@ -2,8 +2,8 @@ import { Logger, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import knex from "knex";
 import { Model } from "objection";
-import { ConfigService } from "./config/config.service";
-import { AppModule } from "./app/app.module";
+import { ConfigService } from "./core/config/config.service";
+import { AppModule } from "./core/app/app.module";
 import connection from "../knexfile";
 
 async function bootstrap() {

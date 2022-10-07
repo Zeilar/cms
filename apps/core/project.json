@@ -4,6 +4,18 @@
 	"sourceRoot": "apps/core/src",
 	"projectType": "application",
 	"targets": {
+		"migrate-make": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "knex --knexfile ./apps/core/knexfile.ts migrate:make db"
+			}
+		},
+		"migrate-up": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "knex --knexfile ./apps/core/knexfile.ts migrate:latest"
+			}
+		},
 		"build": {
 			"executor": "@nrwl/webpack:webpack",
 			"outputs": ["{options.outputPath}"],

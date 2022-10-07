@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY dist/apps/core .
 COPY apps/core/init.sh .
-COPY apps/core/src/db/migrations src/db/migrations
+COPY apps/core/src/core/db/migrations src/core/db/migrations
 COPY apps/core/knexfile.ts .
 COPY apps/core/.env .
 

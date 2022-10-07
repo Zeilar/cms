@@ -13,11 +13,11 @@ const defaults = {
 		database: process.env.DB_NAME,
 	},
 	migrations: {
-		directory: join(__dirname, "src/db/migrations"),
+		directory: join(__dirname, "src/core/db/migrations"),
 		tableName: "knex_migrations",
 	},
 	seeds: {
-		directory: join(__dirname, "src/db/seeds"),
+		directory: join(__dirname, "src/core/db/seeds"),
 	},
 };
 
