@@ -35,13 +35,13 @@ services:
         restart: always
         ports:
             - ${ADMINER_PORT}:${ADMINER_PORT}
-    api:
-        container_name: api
+    core:
+        container_name: core
         env_file:
-            - apps/api/.env
+            - apps/core/.env
         build:
             context: .
-            dockerfile: apps/api/Dockerfile
+            dockerfile: apps/core/Dockerfile
         networks:
             - cms
         restart: always
