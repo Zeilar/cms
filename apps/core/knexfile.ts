@@ -1,7 +1,8 @@
-import "dotenv/config";
-import { join } from "path";
+/* eslint-disable */
 
-type NODE_ENV = "development" | "production" | "testing";
+require("ts-node/register");
+require("dotenv").config();
+const join = require("path").join;
 
 const defaults = {
 	client: process.env.DB_TYPE,
@@ -21,7 +22,7 @@ const defaults = {
 	},
 };
 
-const connections: Record<NODE_ENV, object> = {
+const connections: Record<string, object> = {
 	development: {
 		...defaults,
 		debug: true,
@@ -36,4 +37,4 @@ const connections: Record<NODE_ENV, object> = {
 	},
 };
 
-export default connections[process.env.NODE_ENV as NODE_ENV];
+module.exports = connections[process.env.NODE_ENV as unknown as string];

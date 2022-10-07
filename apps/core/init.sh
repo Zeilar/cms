@@ -1,7 +1,7 @@
-cd /usr/src/app
-
 npm i -g knex
 
-knex migrate:latest
+cd /usr/src/app
+
+knex --knexfile knexfile.ts migrate:latest
 
 node main.js

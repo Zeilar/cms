@@ -10,7 +10,7 @@ COPY apps/core/.env .
 
 RUN npm i
 
-RUN npm i pg
+RUN npm i pg ts-node
 
 FROM node:16-alpine as main
 
