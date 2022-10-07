@@ -2,8 +2,8 @@ FROM node:16-alpine as build
 
 WORKDIR /usr/src/app
 
-COPY apps/api/init.sh .
 COPY dist/apps/api .
+COPY apps/api/init.sh .
 COPY apps/api/src/db/migrations src/db/migrations
 COPY apps/api/knexfile.ts .
 COPY apps/api/.env .

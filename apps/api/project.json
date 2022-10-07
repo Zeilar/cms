@@ -23,19 +23,13 @@
 				"compiler": "tsc",
 				"outputPath": "dist/apps/api",
 				"main": "apps/api/src/main.ts",
-				"tsConfig": "apps/api/tsconfig.json"
+				"tsConfig": "apps/api/tsconfig.app.json",
+				"generatePackageJson": true
 			},
 			"configurations": {
 				"production": {
 					"optimization": true,
-					"extractLicenses": true,
-					"inspect": false,
-					"fileReplacements": [
-						{
-							"replace": "apps/api/.env.local",
-							"with": "apps/api/.env"
-						}
-					]
+					"inspect": false
 				}
 			}
 		},
