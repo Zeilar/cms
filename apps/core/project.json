@@ -1,34 +1,24 @@
 {
+	"name": "core",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/api/src",
+	"sourceRoot": "apps/core/src",
 	"projectType": "application",
 	"targets": {
-		"migrate-make": {
-			"executor": "nx:run-commands",
-			"options": {
-				"command": "knex --knexfile ./apps/api/knexfile.ts migrate:make db"
-			}
-		},
-		"migrate-up": {
-			"executor": "nx:run-commands",
-			"options": {
-				"command": "knex --knexfile ./apps/api/knexfile.ts migrate:latest"
-			}
-		},
 		"build": {
 			"executor": "@nrwl/webpack:webpack",
 			"outputs": ["{options.outputPath}"],
 			"options": {
+				"generatePackageJson": true,
 				"target": "node",
 				"compiler": "tsc",
-				"outputPath": "dist/apps/api",
-				"main": "apps/api/src/main.ts",
-				"tsConfig": "apps/api/tsconfig.app.json",
-				"generatePackageJson": true
+				"outputPath": "dist/apps/core",
+				"main": "apps/core/src/main.ts",
+				"tsConfig": "apps/core/tsconfig.app.json"
 			},
 			"configurations": {
 				"production": {
 					"optimization": true,
+					"extractLicenses": true,
 					"inspect": false
 				}
 			}
@@ -36,11 +26,11 @@
 		"serve": {
 			"executor": "@nrwl/js:node",
 			"options": {
-				"buildTarget": "api:build"
+				"buildTarget": "core:build"
 			},
 			"configurations": {
 				"production": {
-					"buildTarget": "api:build:production"
+					"buildTarget": "core:build:production"
 				}
 			}
 		},
@@ -48,14 +38,14 @@
 			"executor": "@nrwl/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["apps/api/**/*.ts"]
+				"lintFilePatterns": ["apps/core/**/*.ts"]
 			}
 		},
 		"test": {
 			"executor": "@nrwl/jest:jest",
-			"outputs": ["coverage/apps/api"],
+			"outputs": ["coverage/apps/core"],
 			"options": {
-				"jestConfig": "apps/api/jest.config.ts",
+				"jestConfig": "apps/core/jest.config.ts",
 				"passWithNoTests": true
 			}
 		}

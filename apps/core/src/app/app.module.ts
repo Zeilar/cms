@@ -7,4 +7,4 @@ import { FieldModule } from "../features/field/field.module";
 @Module({
 	imports: [ConfigModule, FieldModule, ContentTypeModule, SpaceModule],
 })
-export class CoreModule {}
+export class AppModule {}

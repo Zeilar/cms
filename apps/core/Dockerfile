@@ -2,12 +2,11 @@ FROM node:16-alpine as build
 
 WORKDIR /usr/src/app
 
-COPY dist/apps/api .
-COPY apps/api/init.sh .
-COPY apps/api/src/db/migrations src/db/migrations
-COPY apps/api/knexfile.ts .
-COPY apps/api/.env .
-COPY package.json .
+COPY dist/apps/core .
+COPY apps/core/init.sh .
+COPY apps/core/src/db/migrations src/db/migrations
+COPY apps/core/knexfile.ts .
+COPY apps/core/.env .
 
 RUN npm i
 
