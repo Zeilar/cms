@@ -24,7 +24,7 @@ services:
             - 80:80
             - 443:443
         volumes:
-            - ./libs/proxy/conf.d:/etc/nginx/conf.d
+            - ./libs/proxy/dev/conf.d:/etc/nginx/conf.d
     adminer:
         container_name: adminer
         networks:
