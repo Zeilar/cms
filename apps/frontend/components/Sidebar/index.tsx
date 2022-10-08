@@ -1,10 +1,6 @@
-import { Flex, Heading, List, ListItem } from "@chakra-ui/react";
+import { Box, Flex, Icon, List, ListItem } from "@chakra-ui/react";
 import Link from "../Link";
-import { ReactComponent as BlackHole } from "../../assets/svgs/black-hole.svg";
 import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
-import { brandName } from "@shared";
-
-interface SidebarProps {}
 
 interface ItemProps {
 	children: React.ReactNode;
@@ -48,23 +44,14 @@ function Item({ children, href }: ItemProps) {
 
 export default function Sidebar() {
 	return (
-		<Flex w={275} as="nav" h="100vh" justifyContent="center" alignItems="center" p={4}>
-			<Flex flexDir="column" bgColor="gray.800" w="full" h="full" rounded="lg">
-				<Heading
-					py={8}
-					textAlign="center"
-					color="accent"
-					zIndex={5}
-					size="lg"
-					filter="drop-shadow(0 2px 2px black)"
-				>
-					{brandName}
-				</Heading>
-				<List>
-					<Item href="#">Home</Item>
-					<Item href="/">Hello</Item>
-				</List>
-			</Flex>
+		<Flex flexDir="column" bgColor="gray.800" w={275} as="nav" h="100vh">
+			<Box p={4} bgColor="gray.900">
+				<Icon w={200} h="fit-content" as={Logo} />
+			</Box>
+			<List>
+				<Item href="#">Home</Item>
+				<Item href="/">Hello</Item>
+			</List>
 		</Flex>
 	);
 }
