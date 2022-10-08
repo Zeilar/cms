@@ -6,9 +6,7 @@ export class Space extends Model {
 	public readonly name: string;
 	public contentTypes?: ContentType[];
 
-	public static get tableName() {
-		return "spaces";
-	}
+	public static tableName = "spaces";
 
 	public static get relationMappings() {
 		return {

@@ -6,9 +6,7 @@ export class Field extends Model {
 	public readonly name: string;
 	public readonly contentType?: ContentType;
 
-	public static get tableName() {
-		return "fields";
-	}
+	public static tableName = "fields";
 
 	public static get relationMappings() {
 		return {

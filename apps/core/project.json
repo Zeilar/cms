@@ -7,13 +7,31 @@
 		"migrate-make": {
 			"executor": "nx:run-commands",
 			"options": {
-				"command": "knex --knexfile ./apps/core/knexfile.ts migrate:make db"
+				"command": "knex --knexfile ./apps/core/knexfile.ts migrate:make {args.name}"
+			}
+		},
+		"migrate-latest": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "knex --knexfile ./apps/core/knexfile.ts migrate:latest"
 			}
 		},
 		"migrate-up": {
 			"executor": "nx:run-commands",
 			"options": {
-				"command": "knex --knexfile ./apps/core/knexfile.ts migrate:latest"
+				"command": "knex --knexfile ./apps/core/knexfile.ts migrate:up"
+			}
+		},
+		"seed-run": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "knex --knexfile ./apps/core/knexfile.ts seed:run"
+			}
+		},
+		"seed-make": {
+			"executor": "nx:run-commands",
+			"options": {
+				"command": "knex --knexfile ./apps/core/knexfile.ts seed:make {args.name}"
 			}
 		},
 		"build": {

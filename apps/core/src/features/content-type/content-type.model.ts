@@ -8,9 +8,7 @@ export class ContentType extends Model {
 	public space?: Space;
 	public fields?: Field[];
 
-	public static get tableName() {
-		return "content_types";
-	}
+	public static tableName = "content_types";
 
 	public static jsonSchema: JSONSchema = {};
 
