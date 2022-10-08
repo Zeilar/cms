@@ -24,15 +24,7 @@ services:
             - 80:80
             - 443:443
         volumes:
-            - ./libs/proxy/dev/conf.d:/etc/nginx/conf.d
-    adminer:
-        container_name: adminer
-        networks:
-            - cms
-        image: adminer:4.8.1-standalone
-        restart: always
-        ports:
-            - 5000
+            - ./libs/proxy/conf.d:/etc/nginx/conf.d
     core:
         container_name: core
         env_file:
