@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import type { NODE_ENV } from "./env";
 import express = require("express");
 import { User } from "../features/user/user.model";
