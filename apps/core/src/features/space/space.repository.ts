@@ -1,8 +1,8 @@
-import { CreateSpaceDto } from "../../core/common/validators/space/CreateSpaceDto";
+import { CreateSpaceDto } from "../../common/validators/space/CreateSpaceDto";
 import { Injectable } from "@nestjs/common";
 import { Space } from "./space.model";
 import type { CountResult, ID } from "../../types/repository";
-import { UpdateSpaceDto } from "../../core/common/validators/space/UpdateSpaceDto";
+import { UpdateSpaceDto } from "../../common/validators/space/UpdateSpaceDto";
 
 @Injectable()
 export class SpaceRepository {

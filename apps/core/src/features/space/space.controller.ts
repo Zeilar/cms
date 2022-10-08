@@ -1,4 +1,4 @@
-import { CreateSpaceDto } from "../../core/common/validators/space/CreateSpaceDto";
+import { CreateSpaceDto } from "../../common/validators/space/CreateSpaceDto";
 import {
 	Body,
 	Controller,
@@ -14,7 +14,7 @@ import {
 import { SpaceService } from "./space.service";
 import type { ID } from "../../types/repository";
 import { Space } from "./space.model";
-import { UpdateSpaceDto } from "../../core/common/validators/space/UpdateSpaceDto";
+import { UpdateSpaceDto } from "../../common/validators/space/UpdateSpaceDto";
 
 @Controller("/space")
 export class SpaceController {

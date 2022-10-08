@@ -7,7 +7,8 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 		.createTable("users", table => {
 			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
 			table.string("email").notNullable().unique();
-			table.string("name").notNullable().unique();
+			table.string("name").notNullable();
+			table.text("password").notNullable();
 			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
 			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
 		})

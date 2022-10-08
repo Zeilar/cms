@@ -1,4 +1,4 @@
-import { CreateContentTypeDto } from "../../core/common/validators/content-type/CreateContentTypeDto";
+import { CreateContentTypeDto } from "../../common/validators/content-type/CreateContentTypeDto";
 import { Injectable } from "@nestjs/common";
 import { ContentType } from "./content-type.model";
 import { ContentTypeRepository } from "./content-type.repository";

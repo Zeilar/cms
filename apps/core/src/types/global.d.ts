@@ -1,4 +1,6 @@
 import type { NODE_ENV } from "./env";
+import express = require("express");
+import { User } from "../features/user/user.model";
 
 declare global {
 	namespace NodeJS {
@@ -15,6 +17,11 @@ declare global {
 			REDIS_HOST: string;
 			REDIS_PORT: string;
 			REDIS_PASSWORD: string;
+		}
+	}
+	namespace Express {
+		interface Request {
+			user: User;
 		}
 	}
 }

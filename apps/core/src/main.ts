@@ -2,7 +2,7 @@ import { Logger, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import knex from "knex";
 import { Model } from "objection";
-import { ConfigService } from "./core/config/config.service";
+import { ConfigService } from "./config/config.service";
 import { AppModule } from "./core/app/app.module";
 
 async function bootstrap() {

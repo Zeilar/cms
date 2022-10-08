@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 
-interface ParsedEnv {
+interface ParsedConfig {
 	PORT: number;
 	CORS_ORIGIN: string;
 	DB_TYPE: string;
@@ -9,12 +9,13 @@ interface ParsedEnv {
 	DB_USERNAME: string;
 	DB_PASSWORD: string;
 	DB_NAME: string;
+	HAS_ROUNDS: number;
 }
 
 const { PORT, CORS_ORIGIN, DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } =
 	process.env;
 
-const ENV: ParsedEnv = {
+const CONFIG: ParsedConfig = {
 	PORT: parseInt(PORT),
 	CORS_ORIGIN,
 	DB_TYPE,
@@ -23,6 +24,7 @@ const ENV: ParsedEnv = {
 	DB_USERNAME,
 	DB_PASSWORD,
 	DB_NAME,
+	HAS_ROUNDS: 10,
 };
 
 @Injectable()
@@ -32,15 +34,15 @@ export class ConfigService {
 			return;
 		}
 		Logger.debug(
-			`Registered environment variables:\n${JSON.stringify(ENV, null, 4)}`,
+			`Registered environment variables:\n${JSON.stringify(CONFIG, null, 4)}`,
 			"ConfigService"
 		);
 	}
 
-	public get<U extends keyof ParsedEnv>(key: U) {
-		if (!(key in ENV)) {
-			throw new Error(`Environment variable ${key} does not exist`);
+	public get<K extends keyof ParsedConfig>(key: K) {
+		if (!(key in CONFIG)) {
+			throw new Error(`${key} does not exist in config`);
 		}
-		return ENV[key];
+		return CONFIG[key];
 	}
 }

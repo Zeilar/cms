@@ -5,6 +5,7 @@ export class User extends Model {
 	public readonly id: string;
 	public readonly email: string;
 	public readonly name: string;
+	public password?: string;
 
 	public static get tableName() {
 		return "users";
