@@ -17,7 +17,7 @@ export class UserService {
 		if (await this.userRepository.findByEmail(dto.email)) {
 			throw new ConflictException("Email is taken");
 		}
-		const encrypedPassword = await hash(password, this.configService.get("HAS_ROUNDS"));
+		const encrypedPassword = await hash(password, this.configService.get("HASH_ROUNDS"));
 		const user = await this.userRepository.create({ password: encrypedPassword, ...dto });
 		delete user.password;
 		return user;

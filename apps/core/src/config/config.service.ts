@@ -9,7 +9,7 @@ interface ParsedConfig {
 	DB_USERNAME: string;
 	DB_PASSWORD: string;
 	DB_NAME: string;
-	HAS_ROUNDS: number;
+	HASH_ROUNDS: number;
 }
 
 const { PORT, CORS_ORIGIN, DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } =
@@ -24,7 +24,7 @@ const CONFIG: ParsedConfig = {
 	DB_USERNAME,
 	DB_PASSWORD,
 	DB_NAME,
-	HAS_ROUNDS: 10,
+	HASH_ROUNDS: 10,
 };
 
 @Injectable()
