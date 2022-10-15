@@ -1,6 +1,7 @@
-import { Box, Flex, Icon, List, ListItem } from "@chakra-ui/react";
+import { Divider, Flex, Heading, Icon, List, ListItem } from "@chakra-ui/react";
 import Link from "../Link";
 import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
+import HiddenLink from "../HiddenLink";
 
 interface ItemProps {
 	children: React.ReactNode;
@@ -8,7 +9,7 @@ interface ItemProps {
 }
 
 function Item({ children, href }: ItemProps) {
-	const rightLineHeight = "35%";
+	const rightLineHeight = "50%";
 	return (
 		<ListItem>
 			<Link
@@ -34,7 +35,11 @@ function Item({ children, href }: ItemProps) {
 					w: "2px",
 					bgColor: "accent",
 				}}
-				_activeLink={{ color: "red", _hover: {}, _after: { height: rightLineHeight } }}
+				_activeLink={{
+					bgColor: "gray.800",
+					_hover: {},
+					_after: { height: rightLineHeight },
+				}}
 			>
 				{children}
 			</Link>
@@ -44,10 +49,16 @@ function Item({ children, href }: ItemProps) {
 
 export default function Sidebar() {
 	return (
-		<Flex flexDir="column" bgColor="gray.800" w={275} as="nav" h="100vh">
-			<Box p={4} bgColor="gray.900">
-				<Icon w={200} h="fit-content" as={Logo} />
-			</Box>
+		<Flex flexDir="column" bgColor="gray.700" w={275} as="nav" h="100vh">
+			<HiddenLink href="/">
+				<Flex p={4}>
+					<Icon w={200} h="fit-content" as={Logo} />
+				</Flex>
+			</HiddenLink>
+			<Divider mb={4} />
+			<Heading size="xs" color="accent" p={4} textStyle="tinyHeading">
+				Spaces
+			</Heading>
 			<List>
 				<Item href="#">Home</Item>
 				<Item href="/">Hello</Item>

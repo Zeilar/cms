@@ -3,9 +3,11 @@
 	"version": "0.0.1",
 	"license": "MIT",
 	"scripts": {
-		"start": "docker-compose --env-file .env.local -f docker-compose.dev.yml up",
+		"start": "docker-compose --env-file .env.local up --build",
 		"stop": "docker-compose --env-file .env.local -f docker-compose.dev.yml down",
-		"staging:start": "docker-compose --env-file .env.local -f docker-compose.staging.yml up",
+		"dev:start": "docker-compose --env-file .env.local -f docker-compose.dev.yml up --build",
+		"dev:stop": "docker-compose --env-file .env.local -f docker-compose.dev.yml down",
+		"staging:start": "docker-compose --env-file .env.local -f docker-compose.staging.yml up --build",
 		"staging:stop": "docker-compose --env-file .env.local -f docker-compose.staging.yml down",
 		"build": "nx build",
 		"test": "nx test"
