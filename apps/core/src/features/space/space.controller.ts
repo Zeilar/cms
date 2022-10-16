@@ -1,5 +1,6 @@
 import { CreateSpaceDto } from "../../common/validators/space/CreateSpaceDto";
 import {
+	BadRequestException,
 	Body,
 	Controller,
 	Delete,
@@ -15,6 +16,7 @@ import { SpaceService } from "./space.service";
 import type { ID } from "../../types/repository";
 import { Space } from "./space.model";
 import { UpdateSpaceDto } from "../../common/validators/space/UpdateSpaceDto";
+import { validate } from "uuid";
 
 @Controller("/space")
 export class SpaceController {
@@ -25,6 +27,14 @@ export class SpaceController {
 			return;
 		}
 		throw new NotFoundException("Space not found");
+	}
+
+	// MAKE THESE PIPE MIDDLEWARES
+	private assertIdIsUuid(data: unknown) {
+		if (typeof data == "string" && validate(data)) {
+			return;
+		}
+		throw new BadRequestException("Space id must be a uuid");
 	}
 
 	@Get("/")

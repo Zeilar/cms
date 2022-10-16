@@ -28,7 +28,7 @@ const text = {
 
 export const colors = {
 	body: gray[900],
-	accent: theme.colors.green[400],
+	accent: theme.colors.green[300],
 	gray,
 	text,
 };

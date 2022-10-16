@@ -36,7 +36,7 @@ function Item({ children, href }: ItemProps) {
 					bgColor: "accent",
 				}}
 				_activeLink={{
-					bgColor: "gray.800",
+					bgColor: "blackAlpha.400",
 					_hover: {},
 					_after: { height: rightLineHeight },
 				}}
