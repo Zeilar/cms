@@ -54,7 +54,7 @@ export default function Spinner() {
 					cx="250"
 					fill="var(--chakra-colors-accent)"
 				/>
-				<g stroke="null" transform={`rotate(${rotations[1]} 250 250)`}>
+				<g transform={`rotate(${rotations[1]} 250 250)`}>
 					<ellipse
 						stroke="var(--chakra-colors-whiteAlpha-50)"
 						strokeWidth={4}
@@ -71,7 +71,7 @@ export default function Spinner() {
 						rx="12"
 						cy="175.82719"
 						cx="250"
-						fill="var(--chakra-colors-accent)"
+						fill="#880044"
 					/>
 				</g>
 				<g transform={`rotate(${rotations[2]} 250 250)`}>
@@ -91,7 +91,7 @@ export default function Spinner() {
 						rx="8"
 						cy="250"
 						cx="374.66006"
-						fill="var(--chakra-colors-accent)"
+						fill="#7CB518"
 					/>
 				</g>
 				<g transform={`rotate(${rotations[3]} 250 250)`}>
@@ -113,7 +113,7 @@ export default function Spinner() {
 						rx="15"
 						cy="298.74887"
 						cx="534.04363"
-						fill="var(--chakra-colors-accent)"
+						fill="#F3DE2C"
 					/>
 				</g>
 				<g transform={`rotate(${rotations[4]} 250 250)`}>
@@ -133,7 +133,7 @@ export default function Spinner() {
 						rx="10"
 						cy="250"
 						cx="25"
-						fill="var(--chakra-colors-accent)"
+						fill="#9046CF"
 					/>
 				</g>
 			</g>
