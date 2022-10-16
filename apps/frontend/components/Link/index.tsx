@@ -4,8 +4,8 @@ import { forwardRef, useMemo } from "react";
 import { useRouter } from "next/router";
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(({ href, ...rest }, ref) => {
-	const { pathname } = useRouter();
-	const isActive = useMemo(() => pathname === href, [pathname, href]);
+	const { asPath } = useRouter();
+	const isActive = useMemo(() => asPath === href, [asPath, href]);
 	return href ? (
 		<NextLink passHref href={href}>
 			<ChakraLink aria-current={isActive ? "page" : undefined} ref={ref} {...rest} />

@@ -2,6 +2,9 @@ import { Divider, Flex, Heading, Icon, List, ListItem } from "@chakra-ui/react";
 import Link from "../Link";
 import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
 import HiddenLink from "../HiddenLink";
+import useSWR from "swr";
+import { API } from "apps/frontend/util/API";
+import { SpaceDto } from "@shared";
 
 interface ItemProps {
 	children: React.ReactNode;
@@ -47,11 +50,16 @@ function Item({ children, href }: ItemProps) {
 	);
 }
 
+function fetcher() {
+	return API.fetch<SpaceDto[]>("space");
+}
+
 export default function Sidebar() {
+	const { data } = useSWR<SpaceDto[]>("spaces", fetcher);
 	return (
-		<Flex flexDir="column" bgColor="gray.700" w={275} as="nav" h="100vh">
+		<Flex flexDir="column" bgColor="gray.700" w={300} as="nav" h="100vh">
 			<HiddenLink href="/">
-				<Flex p={4}>
+				<Flex py={6} px={2}>
 					<Icon w={200} h="fit-content" as={Logo} />
 				</Flex>
 			</HiddenLink>
@@ -59,10 +67,15 @@ export default function Sidebar() {
 			<Heading size="xs" color="accent" p={4} textStyle="tinyHeading">
 				Spaces
 			</Heading>
-			<List>
-				<Item href="#">Home</Item>
-				<Item href="/">Hello</Item>
-			</List>
+			{Array.isArray(data) && data.length > 0 && (
+				<List>
+					{data.map(({ id, name }) => (
+						<Item key={id} href={`/${id}`}>
+							{name}
+						</Item>
+					))}
+				</List>
+			)}
 		</Flex>
 	);
 }
