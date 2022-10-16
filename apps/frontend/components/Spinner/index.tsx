@@ -19,10 +19,10 @@ export default function Spinner() {
 
 		function animate() {
 			setRotations(p => ({
-				1: rotate(p[1], 0.25),
-				2: rotate(p[2], 0.5),
-				3: rotate(p[3], 0.75),
-				4: rotate(p[4], 1),
+				1: rotate(p[1], 0.5),
+				2: rotate(p[2], 0.65),
+				3: rotate(p[3], 0.8),
+				4: rotate(p[4], 0.95),
 			}));
 			animationFrameId = requestAnimationFrame(animate);
 		}
@@ -37,10 +37,10 @@ export default function Spinner() {
 	return (
 		<Box
 			as="svg"
-			xmlns="http://www.w3.org/var(--chakra-colors-whiteAlpha-50)/svg"
-			viewBox="0 0 300 300"
-			width={150}
-			height={150}
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 500 500"
+			width={250}
+			height={250}
 			version="1.1"
 			xmlSpace="preserve"
 		>
@@ -48,86 +48,91 @@ export default function Spinner() {
 				<ellipse
 					stroke="var(--chakra-colors-whiteAlpha-50)"
 					strokeWidth={4}
-					ry={25}
-					rx={25}
-					cy={150}
-					cx={150}
+					ry="25"
+					rx="25"
+					cy="250"
+					cx="250"
 					fill="var(--chakra-colors-accent)"
 				/>
-				<g transform={`rotate(${rotations[1]}, 150, 150)`}>
-					<path
-						d="m150,275c-69.06077,0 -125,-55.93923 -125,-125c0,-69.06077 55.93923,-125 125,-125c69.06077,0 125,55.93923 125,125c0,69.06077 -55.93923,125 -125,125z"
-						strokeWidth={4}
+				<g stroke="null" transform={`rotate(${rotations[1]} 250 250)`}>
+					<ellipse
 						stroke="var(--chakra-colors-whiteAlpha-50)"
+						strokeWidth={4}
+						ry="75"
+						rx="75"
+						cy="250"
+						cx="250"
 						fill="none"
 					/>
 					<ellipse
 						stroke="var(--chakra-colors-whiteAlpha-50)"
-						strokeWidth={4}
-						ry="11.76754"
-						rx="11.76754"
-						cy="247.85316"
-						cx="73.2963"
+						strokeWidth={2}
+						ry="12"
+						rx="12"
+						cy="175.82719"
+						cx="250"
 						fill="var(--chakra-colors-accent)"
 					/>
 				</g>
-				<g transform={`rotate(${rotations[2]}, 150, 150)`}>
+				<g transform={`rotate(${rotations[2]} 250 250)`}>
 					<ellipse
 						stroke="var(--chakra-colors-whiteAlpha-50)"
 						strokeWidth={4}
-						ry={100}
-						rx={100}
-						cy={150}
-						cx={150}
+						ry="125"
+						rx="125"
+						cy="250"
+						cx="250"
 						fill="none"
 					/>
 					<ellipse
 						stroke="var(--chakra-colors-whiteAlpha-50)"
-						strokeWidth={4}
-						ry="11.76754"
-						rx="11.76754"
-						cy="135.72657"
-						cx="248.63809"
+						strokeWidth={2}
+						ry="8"
+						rx="8"
+						cy="250"
+						cx="374.66006"
 						fill="var(--chakra-colors-accent)"
 					/>
 				</g>
-				<g transform={`rotate(${rotations[3]}, 150, 150)`}>
+				<g transform={`rotate(${rotations[3]} 250 250)`}>
 					<ellipse
+						transform={`rotate(45 250 250) matrix(1 0 0 1 -111.976 289.076)`}
 						stroke="var(--chakra-colors-whiteAlpha-50)"
 						strokeWidth={4}
-						ry={75}
-						rx={75}
-						cy={150}
-						cx={150}
+						ry="175"
+						rx="175"
+						cy="-39.07562"
+						cx="362.43276"
 						fill="none"
 					/>
 					<ellipse
+						transform="matrix(1 0 0 1 -283.587 125.228)"
 						stroke="var(--chakra-colors-whiteAlpha-50)"
-						strokeWidth={4}
-						ry="11.76754"
-						rx="11.76754"
-						cy="206.17284"
-						cx="197.67902"
+						strokeWidth={2}
+						ry="15"
+						rx="15"
+						cy="298.74887"
+						cx="534.04363"
 						fill="var(--chakra-colors-accent)"
 					/>
 				</g>
-				<g transform={`rotate(${rotations[4]}, 150, 150)`}>
+				<g transform={`rotate(${rotations[4]} 250 250)`}>
 					<ellipse
 						stroke="var(--chakra-colors-whiteAlpha-50)"
 						strokeWidth={4}
-						ry={50}
-						rx={50}
-						cy={150}
-						cx={150}
+						ry="225"
+						rx="225"
+						cy="250"
+						cx="250"
 						fill="none"
 					/>
 					<ellipse
 						stroke="var(--chakra-colors-whiteAlpha-50)"
-						strokeWidth={4}
-						ry="11.76754"
-						rx="11.76754"
-						cy="115.7817"
-						cx="114.49317"
+						strokeWidth={2}
+						ry="10"
+						rx="10"
+						cy="250"
+						cx="25"
 						fill="var(--chakra-colors-accent)"
 					/>
 				</g>
