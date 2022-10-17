@@ -5,7 +5,8 @@ export const styles = {
 		body: {
 			bgColor: colors.body,
 			color: colors.text[50],
-			minH: "100vh",
+			h: "100vh",
+			overflow: "hidden",
 		},
 	},
 };

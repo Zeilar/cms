@@ -1,7 +1,7 @@
 import { Divider, Flex, Heading, Icon, List, ListItem } from "@chakra-ui/react";
 import Link from "../Link";
 import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
-import HiddenLink from "../HiddenLink";
+import UnstyledLink from "../HiddenLink";
 import useSWR from "swr";
 import { API } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
@@ -17,6 +17,7 @@ function Item({ children, href }: ItemProps) {
 		<ListItem>
 			<Link
 				fontSize="xl"
+				fontWeight={500}
 				href={href}
 				display="flex"
 				px={4}
@@ -39,7 +40,7 @@ function Item({ children, href }: ItemProps) {
 					bgColor: "accent",
 				}}
 				_activeLink={{
-					bgColor: "blackAlpha.400",
+					bgColor: "whiteAlpha.50",
 					_hover: {},
 					_after: { height: rightLineHeight },
 				}}
@@ -57,12 +58,12 @@ function fetcher() {
 export default function Sidebar() {
 	const { data } = useSWR<SpaceDto[]>("spaces", fetcher);
 	return (
-		<Flex flexDir="column" bgColor="gray.700" w={300} as="nav" h="100vh">
-			<HiddenLink href="/">
+		<Flex flexDir="column" bgColor="gray.900" w={300} as="nav" h="100vh" boxShadow="md">
+			<UnstyledLink href="/">
 				<Flex py={6} px={2}>
 					<Icon w={200} h="fit-content" as={Logo} />
 				</Flex>
-			</HiddenLink>
+			</UnstyledLink>
 			<Divider mb={4} />
 			<Heading size="xs" color="accent" p={4} textStyle="tinyHeading">
 				Spaces
@@ -76,6 +77,8 @@ export default function Sidebar() {
 					))}
 				</List>
 			)}
+			<Divider mt="auto" />
+			<Flex>User stuff</Flex>
 		</Flex>
 	);
 }

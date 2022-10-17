@@ -16,7 +16,6 @@ export default function Spinner() {
 
 	useEffect(() => {
 		let animationFrameId: number;
-
 		function animate() {
 			setRotations(p => ({
 				1: rotate(p[1], 0.5),
@@ -26,9 +25,7 @@ export default function Spinner() {
 			}));
 			animationFrameId = requestAnimationFrame(animate);
 		}
-
 		animationFrameId = requestAnimationFrame(animate);
-
 		return () => {
 			cancelAnimationFrame(animationFrameId);
 		};
@@ -39,8 +36,8 @@ export default function Spinner() {
 			as="svg"
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 500 500"
-			width={250}
-			height={250}
+			width={150}
+			height={150}
 			version="1.1"
 			xmlSpace="preserve"
 		>

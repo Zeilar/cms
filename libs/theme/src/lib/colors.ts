@@ -1,16 +1,16 @@
 import { theme } from "@chakra-ui/theme";
 
 const gray = {
-	900: "#08080c",
-	800: "#0a0a0f",
-	700: "#14141f",
-	600: "#1f1f2e",
-	500: "#29293d",
-	400: "#33334d",
-	300: "#3d3d5c",
-	200: "#47476b",
-	100: "#52527a",
-	50: "#5c5c8a",
+	900: "#0a0a0f",
+	800: "#15151e",
+	700: "#1f1f2d",
+	600: "#2a2a3c",
+	500: "#34344b",
+	400: "#3f3f5a",
+	300: "#494969",
+	200: "#545478",
+	100: "#5e5e87",
+	50: "#696996",
 };
 
 const text = {
@@ -27,7 +27,7 @@ const text = {
 };
 
 export const colors = {
-	body: gray[900],
+	body: "black",
 	accent: theme.colors.green[300],
 	gray,
 	text,
