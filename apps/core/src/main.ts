@@ -2,8 +2,10 @@ import { Logger, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import knex from "knex";
 import { Model } from "objection";
+import passport from "passport";
 import { ConfigService } from "./config/config.service";
 import { AppModule } from "./core/app/app.module";
+import session from "express-session";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -11,21 +13,35 @@ async function bootstrap() {
 
 	Model.knex(
 		knex({
-			client: process.env.DB_TYPE,
+			client: configService.get("DB_TYPE"),
 			connection: {
-				port: parseInt(process.env.DB_PORT),
-				host: process.env.DB_HOST,
-				user: process.env.DB_USERNAME,
-				password: process.env.DB_PASSWORD,
-				database: process.env.DB_NAME,
+				port: configService.get("DB_PORT"),
+				host: configService.get("DB_HOST"),
+				user: configService.get("DB_USERNAME"),
+				password: configService.get("DB_PASSWORD"),
+				database: configService.get("DB_NAME"),
 			},
 		})
 	);
 
-	app.useGlobalPipes(new ValidationPipe({ transform: true })).enableCors({
-		origin: configService.get("CORS_ORIGIN"),
-		credentials: true,
-	});
+	app.use(
+		session({
+			secret: configService.get("SESSION_SECRET"),
+			resave: false,
+			saveUninitialized: false,
+			cookie: {
+				httpOnly: true,
+				secure: configService.get("NODE_ENV") === "production",
+			},
+		}),
+		passport.initialize(),
+		passport.session()
+	)
+		.useGlobalPipes(new ValidationPipe({ transform: true }))
+		.enableCors({
+			origin: configService.get("CORS_ORIGIN"),
+			credentials: true,
+		});
 
 	await app.listen(configService.get("PORT"));
 

@@ -1,27 +1,39 @@
 import "../static/fonts"; // This cannot be imported in the theme sadly, as it crashes when installing Chakra types with their CLI
-import { AppProps } from "next/app";
+import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import { ChakraProvider, Flex } from "@chakra-ui/react";
 import theme from "@theme";
 import Sidebar from "../components/Sidebar";
 import { SWRConfig } from "swr";
+import { AuthContextProvider } from "../contexts/AuthContext";
+import { Maybe, UserDto } from "@shared";
 
-function CustomApp({ Component, pageProps }: AppProps) {
+interface CustomAppProps extends AppProps {
+	initialUser: Maybe<UserDto>;
+}
+
+export default function CustomApp({ Component, pageProps, initialUser }: CustomAppProps) {
 	return (
 		<>
 			<Head>
 				<title>CMSpacey</title>
 			</Head>
 			<ChakraProvider theme={theme}>
-				<SWRConfig value={{ revalidateOnFocus: false }}>
-					<Flex as="main">
-						<Sidebar />
-						<Component {...pageProps} />
-					</Flex>
-				</SWRConfig>
+				<AuthContextProvider initialUser={initialUser}>
+					<SWRConfig value={{ revalidateOnFocus: false }}>
+						<Flex as="main">
+							<Sidebar />
+							<Component {...pageProps} />
+						</Flex>
+					</SWRConfig>
+				</AuthContextProvider>
 			</ChakraProvider>
 		</>
 	);
 }
 
-export default CustomApp;
+CustomApp.getInitialProps = async (appContext: AppContext): Promise<Partial<CustomAppProps>> => {
+	const appProps = await App.getInitialProps(appContext);
+	console.log(appContext.ctx.req?.cookies);
+	return { ...appProps, initialUser: null };
+};

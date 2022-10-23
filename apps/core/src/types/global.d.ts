@@ -10,6 +10,7 @@ declare global {
 			NODE_ENV: NODE_ENV;
 			PORT: string;
 			CORS_ORIGIN: string;
+			SESSION_SECRET: string;
 			DB_TYPE: string;
 			DB_HOST: string;
 			DB_PORT: string;

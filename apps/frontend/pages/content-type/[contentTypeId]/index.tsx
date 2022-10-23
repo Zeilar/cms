@@ -14,7 +14,7 @@ interface Props {
 }
 
 function fetcher(contentTypeId: string) {
-	return () => API.fetch<SpaceDto>(`content-type/${contentTypeId}?we=true`);
+	return async () => (await API.fetch<SpaceDto>(`content-type/${contentTypeId}?we=true`)).data;
 }
 
 interface NavItemProps {

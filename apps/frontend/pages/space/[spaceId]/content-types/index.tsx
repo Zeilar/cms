@@ -13,7 +13,7 @@ interface Props {
 }
 
 function fetcher(spaceId: string) {
-	return () => API.fetch<SpaceDto>(`space/${spaceId}?wct=true`);
+	return async () => (await API.fetch<SpaceDto>(`space/${spaceId}?wct=true`)).data;
 }
 
 export default function Page({ initialData, spaceId }: Props) {

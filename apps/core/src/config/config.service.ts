@@ -1,8 +1,11 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { NODE_ENV } from "../types/env";
 
 interface ParsedConfig {
+	NODE_ENV: NODE_ENV;
 	PORT: number;
 	CORS_ORIGIN: string;
+	SESSION_SECRET: string;
 	DB_TYPE: string;
 	DB_HOST: string;
 	DB_PORT: number;
@@ -12,12 +15,24 @@ interface ParsedConfig {
 	HASH_ROUNDS: number;
 }
 
-const { PORT, CORS_ORIGIN, DB_TYPE, DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME } =
-	process.env;
+const {
+	NODE_ENV,
+	PORT,
+	CORS_ORIGIN,
+	SESSION_SECRET,
+	DB_TYPE,
+	DB_HOST,
+	DB_PORT,
+	DB_USERNAME,
+	DB_PASSWORD,
+	DB_NAME,
+} = process.env;
 
 const CONFIG: ParsedConfig = {
+	NODE_ENV,
 	PORT: parseInt(PORT),
 	CORS_ORIGIN,
+	SESSION_SECRET,
 	DB_TYPE,
 	DB_HOST,
 	DB_PORT: parseInt(DB_PORT),

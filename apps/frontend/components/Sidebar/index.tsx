@@ -5,6 +5,7 @@ import UnstyledLink from "../HiddenLink";
 import useSWR from "swr";
 import { API } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
+import useAuthContext from "apps/frontend/hooks/useAuthContext";
 
 interface ItemProps {
 	children: React.ReactNode;
@@ -51,11 +52,12 @@ function Item({ children, href }: ItemProps) {
 	);
 }
 
-function fetcher() {
-	return API.fetch<SpaceDto[]>("space");
+async function fetcher() {
+	return (await API.fetch<SpaceDto[]>("space")).data;
 }
 
 export default function Sidebar() {
+	const { login } = useAuthContext();
 	const { data } = useSWR<SpaceDto[]>("spaces", fetcher);
 	return (
 		<Flex
@@ -67,6 +69,16 @@ export default function Sidebar() {
 			borderRightWidth={1}
 			borderRightColor="border"
 		>
+			<button
+				onClick={() =>
+					login({
+						email: "philip@angelin.dev",
+						password: "123",
+					})
+				}
+			>
+				login
+			</button>
 			<UnstyledLink href="/">
 				<Flex py={4} px={2}>
 					<Icon w={200} h="fit-content" as={Logo} />
