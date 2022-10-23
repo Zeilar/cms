@@ -7,6 +7,7 @@ import Sidebar from "../components/Sidebar";
 import { SWRConfig } from "swr";
 import { AuthContextProvider } from "../contexts/AuthContext";
 import { Maybe, UserDto } from "@shared";
+import { API } from "../util/API";
 
 interface CustomAppProps extends AppProps {
 	initialUser: Maybe<UserDto>;
@@ -33,7 +34,24 @@ export default function CustomApp({ Component, pageProps, initialUser }: CustomA
 }
 
 CustomApp.getInitialProps = async (appContext: AppContext): Promise<Partial<CustomAppProps>> => {
+	const cookie = appContext.ctx.req?.headers["cookie"];
+	let initialUser: Maybe<UserDto> = null;
 	const appProps = await App.getInitialProps(appContext);
-	console.log(appContext.ctx.req?.cookies);
-	return { ...appProps, initialUser: null };
+
+	if (cookie === undefined) {
+		return {
+			...appProps,
+			initialUser,
+		};
+	}
+
+	const { data, status } = await API.fetch<UserDto>("auth", {
+		cookie,
+	});
+
+	if (status === 200) {
+		initialUser = data;
+	}
+
+	return { ...appProps, initialUser };
 };

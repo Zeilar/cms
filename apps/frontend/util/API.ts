@@ -2,7 +2,8 @@ type HttpVerb = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface FetchOptions {
 	data?: unknown;
-	method: HttpVerb;
+	method?: HttpVerb;
+	cookie?: string;
 }
 
 const DEFAULT_FETCH_OPTIONS: FetchOptions = {
@@ -16,11 +17,13 @@ export class API {
 
 	public static async fetch<T>(
 		url: string,
-		{ method, data }: FetchOptions = DEFAULT_FETCH_OPTIONS
+		{ method, data, cookie }: FetchOptions = DEFAULT_FETCH_OPTIONS
 	) {
 		const response = await fetch(`${this.baseUrl}/${url}`, {
+			// @ts-expect-error cookie is a valid header
 			headers: {
 				"Content-Type": "application/json",
+				cookie,
 			},
 			credentials: "include",
 			body: JSON.stringify(data),

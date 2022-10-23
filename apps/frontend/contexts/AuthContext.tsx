@@ -8,6 +8,7 @@ interface Credentials {
 }
 
 interface IAuthContext {
+	isAuthenticated: boolean;
 	user: Maybe<UserDto>;
 	login(credentials: Credentials): Promise<void>;
 	logout(): Promise<void>;
@@ -43,6 +44,7 @@ export function AuthContextProvider({ children }: AuthProps) {
 	}
 
 	const values: IAuthContext = {
+		isAuthenticated: user !== null,
 		login,
 		logout,
 		user,
