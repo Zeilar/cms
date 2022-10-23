@@ -21,8 +21,8 @@ interface AuthProps {
 
 export const AuthContext = createContext<Maybe<IAuthContext>>(null);
 
-export function AuthContextProvider({ children }: AuthProps) {
-	const [user, setUser] = useState<IAuthContext["user"]>(null);
+export function AuthContextProvider({ children, initialUser }: AuthProps) {
+	const [user, setUser] = useState<IAuthContext["user"]>(initialUser);
 
 	async function login(credentials: Credentials): Promise<void> {
 		const { data, status } = await API.fetch<UserDto>("auth/login", {

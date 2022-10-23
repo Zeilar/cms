@@ -57,7 +57,7 @@ async function fetcher() {
 }
 
 export default function Sidebar() {
-	const { login } = useAuthContext();
+	const { login, user, isAuthenticated } = useAuthContext();
 	const { data } = useSWR<SpaceDto[]>("spaces", fetcher);
 	return (
 		<Flex
@@ -98,7 +98,7 @@ export default function Sidebar() {
 				</List>
 			)}
 			<Divider mt="auto" />
-			<Flex>User stuff</Flex>
+			<Flex>{isAuthenticated && <p>Hello {user?.name}</p>}</Flex>
 		</Flex>
 	);
 }
