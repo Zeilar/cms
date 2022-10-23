@@ -12,17 +12,17 @@ interface ItemProps {
 }
 
 function Item({ children, href }: ItemProps) {
-	const rightLineHeight = "50%";
+	const rightLineHeight = "100%";
 	return (
 		<ListItem>
 			<Link
-				fontSize="xl"
 				fontWeight={500}
 				href={href}
 				display="flex"
 				px={4}
 				py={2}
 				pos="relative"
+				color="text.inactive"
 				_hover={{
 					textDecor: "none",
 					_after: { height: rightLineHeight, transitionDuration: "0.25s" },
@@ -40,8 +40,8 @@ function Item({ children, href }: ItemProps) {
 					bgColor: "accent",
 				}}
 				_activeLink={{
-					bgColor: "whiteAlpha.50",
-					_hover: {},
+					color: "text.main",
+					bgColor: "blackAlpha.500",
 					_after: { height: rightLineHeight },
 				}}
 			>
@@ -58,14 +58,22 @@ function fetcher() {
 export default function Sidebar() {
 	const { data } = useSWR<SpaceDto[]>("spaces", fetcher);
 	return (
-		<Flex flexDir="column" bgColor="gray.900" w={300} as="nav" h="100vh" boxShadow="md">
+		<Flex
+			flexDir="column"
+			bgColor="gray.800"
+			w={300}
+			as="nav"
+			h="100vh"
+			borderRightWidth={1}
+			borderRightColor="border"
+		>
 			<UnstyledLink href="/">
-				<Flex py={6} px={2}>
+				<Flex py={4} px={2}>
 					<Icon w={200} h="fit-content" as={Logo} />
 				</Flex>
 			</UnstyledLink>
 			<Divider mb={4} />
-			<Heading size="xs" color="accent" p={4} textStyle="tinyHeading">
+			<Heading size="xs" color="accent" px={4} py={2} textStyle="tinyHeading">
 				Spaces
 			</Heading>
 			{Array.isArray(data) && data.length > 0 && (

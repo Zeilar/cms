@@ -4,17 +4,17 @@ import { API } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import useSWR from "swr";
-import { SpacePageParams } from "apps/frontend/types/params";
+import { ContentTypePageParams } from "apps/frontend/types/params";
 import Col from "apps/frontend/components/layout/Col";
 import UnstyledLink from "apps/frontend/components/HiddenLink";
 
 interface Props {
 	initialData: SpaceDto;
-	spaceId: string;
+	contentTypeId: string;
 }
 
-function fetcher(spaceId: string) {
-	return () => API.fetch<SpaceDto>(`space/${spaceId}?wct=true`);
+function fetcher(contentTypeId: string) {
+	return () => API.fetch<SpaceDto>(`content-type/${contentTypeId}?we=true`);
 }
 
 interface NavItemProps {
@@ -27,10 +27,13 @@ function NavItem({ href, label }: NavItemProps) {
 		<UnstyledLink
 			href={href}
 			fontWeight={500}
-			p={6}
+			py={4}
+			px={6}
+			color="text.inactive"
 			_activeLink={{
+				color: "text.main",
 				pos: "relative",
-				bgColor: "whiteAlpha.50",
+				bgColor: "blackAlpha.500",
 				_after: {
 					content: `""`,
 					pos: "absolute",
@@ -48,34 +51,25 @@ function NavItem({ href, label }: NavItemProps) {
 	);
 }
 
-export default function Page({ initialData, spaceId }: Props) {
-	const { data, isValidating } = useSWR(`space-${spaceId}`, fetcher(spaceId), {
+export default function Page({ initialData, contentTypeId }: Props) {
+	const { data, isValidating } = useSWR(`contentType-${contentTypeId}`, fetcher(contentTypeId), {
 		fallbackData: initialData,
 	});
-	return (
-		<Col grow={1} boxShadow="md">
-			<Flex bgColor="gray.900">
-				<NavItem href="/37ac4fda-2242-422f-a42b-5e9a8851549e" label="Overview" />
-			</Flex>
-			<p>{data?.name}</p>
-			<pre>{JSON.stringify(data?.contentTypes, null, 4)}</pre>
-			{isValidating && <Spinner />}
-		</Col>
-	);
+	return <Col grow={1}>{isValidating && <Spinner />}</Col>;
 }
 
 export async function getServerSideProps({
 	params,
-}: GetServerSidePropsContext<SpacePageParams>): Promise<GetServerSidePropsResult<Props>> {
-	const spaceId = params?.spaceId;
-	if (!spaceId) {
+}: GetServerSidePropsContext<ContentTypePageParams>): Promise<GetServerSidePropsResult<Props>> {
+	const contentTypeId = params?.contentTypeId;
+	if (!contentTypeId) {
 		throw new Error("Missing space id");
 	}
-	const space = await fetcher(spaceId)();
+	const space = await fetcher(contentTypeId)();
 	return {
 		props: {
 			initialData: space,
-			spaceId,
+			contentTypeId,
 		},
 	};
 }

@@ -2,6 +2,7 @@ import { StyleConfig } from "@chakra-ui/theme-tools";
 
 export const Divider: StyleConfig = {
 	baseStyle: {
-		borderColor: "gray.200",
+		borderColor: "border",
+		opacity: 1,
 	},
 };
