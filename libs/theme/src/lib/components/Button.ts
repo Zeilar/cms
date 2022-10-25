@@ -1,6 +1,11 @@
 import { defineStyleConfig } from "@chakra-ui/react";
 
 export const Button = defineStyleConfig({
+	baseStyle: {
+		_disabled: {
+			pointerEvents: "none",
+		},
+	},
 	variants: {
 		outline: {
 			color: "accent.main",
