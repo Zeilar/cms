@@ -38,7 +38,7 @@ function Item({ children, href }: ItemProps) {
 					right: 0,
 					height: 0,
 					w: "2px",
-					bgColor: "accent",
+					bgColor: "accent.main",
 				}}
 				_activeLink={{
 					color: "text.main",
@@ -57,7 +57,7 @@ async function fetcher() {
 }
 
 export default function Sidebar() {
-	const { login, user, isAuthenticated } = useAuthContext();
+	const { user, isAuthenticated } = useAuthContext();
 	const { data } = useSWR<SpaceDto[]>("spaces", fetcher);
 	return (
 		<Flex
@@ -69,23 +69,13 @@ export default function Sidebar() {
 			borderRightWidth={1}
 			borderRightColor="border"
 		>
-			<button
-				onClick={() =>
-					login({
-						email: "philip@angelin.dev",
-						password: "123",
-					})
-				}
-			>
-				login
-			</button>
 			<UnstyledLink href="/">
 				<Flex py={4} px={2}>
 					<Icon w={200} h="fit-content" as={Logo} />
 				</Flex>
 			</UnstyledLink>
 			<Divider mb={4} />
-			<Heading size="xs" color="accent" px={4} py={2} textStyle="tinyHeading">
+			<Heading size="xs" color="accent.main" px={4} py={2} textStyle="tinyHeading">
 				Spaces
 			</Heading>
 			{Array.isArray(data) && data.length > 0 && (

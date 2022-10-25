@@ -8,6 +8,17 @@ import { SWRConfig } from "swr";
 import { AuthContextProvider } from "../contexts/AuthContext";
 import { Maybe, UserDto } from "@shared";
 import { API } from "../util/API";
+import useAuthContext from "../hooks/useAuthContext";
+import Login from "../components/Login";
+
+interface AppContainerProps {
+	children: React.ReactNode;
+}
+
+function AppContainer({ children }: AppContainerProps) {
+	const { isAuthenticated } = useAuthContext();
+	return isAuthenticated ? children : <Login />;
+}
 
 interface CustomAppProps extends AppProps {
 	initialUser: Maybe<UserDto>;
@@ -20,23 +31,25 @@ export default function CustomApp({ Component, pageProps, initialUser }: CustomA
 				<title>CMSpacey</title>
 			</Head>
 			<ChakraProvider theme={theme}>
-				<AuthContextProvider initialUser={initialUser}>
-					<SWRConfig value={{ revalidateOnFocus: false }}>
+				<SWRConfig value={{ revalidateOnFocus: false }}>
+					<AuthContextProvider initialUser={initialUser}>
 						<Flex as="main">
-							<Sidebar />
-							<Component {...pageProps} />
+							<AppContainer>
+								<Sidebar />
+								<Component {...pageProps} />
+							</AppContainer>
 						</Flex>
-					</SWRConfig>
-				</AuthContextProvider>
+					</AuthContextProvider>
+				</SWRConfig>
 			</ChakraProvider>
 		</>
 	);
 }
 
 CustomApp.getInitialProps = async (appContext: AppContext): Promise<Partial<CustomAppProps>> => {
+	const appProps = await App.getInitialProps(appContext);
 	const cookie = appContext.ctx.req?.headers["cookie"];
 	let initialUser: Maybe<UserDto> = null;
-	const appProps = await App.getInitialProps(appContext);
 
 	if (cookie === undefined) {
 		return {
