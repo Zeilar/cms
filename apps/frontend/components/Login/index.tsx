@@ -7,7 +7,10 @@ import {
 	Heading,
 	Icon,
 	Input,
+	Text,
+	Tooltip,
 } from "@chakra-ui/react";
+import { QuestionOutlineIcon } from "@chakra-ui/icons";
 import Col from "../layout/Col";
 import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
 import { useForm } from "react-hook-form";
@@ -61,8 +64,27 @@ export default function Login() {
 						)}
 					</FormControl>
 					<FormControl isInvalid={Boolean(formState.errors.password)} mb={4}>
-						<FormLabel htmlFor="password">
+						<FormLabel htmlFor="password" display="flex" alignItems="center">
 							<Heading size="sm">Password</Heading>
+							<Tooltip
+								bgColor="gray.400"
+								color="inherit"
+								mb={1}
+								hasArrow
+								placement="top"
+								label={
+									<Col>
+										<Text>&#8226; Minimum 3 characters</Text>
+										<Text>&#8226; Maximum 30 characters</Text>
+									</Col>
+								}
+							>
+								<Icon
+									as={QuestionOutlineIcon}
+									ml={2}
+									sx={{ "> g": { strokeWidth: 2 } }}
+								/>
+							</Tooltip>
 						</FormLabel>
 						<Input
 							required

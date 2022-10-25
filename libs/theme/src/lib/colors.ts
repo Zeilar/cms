@@ -48,7 +48,7 @@ export const colors = {
 	text: {
 		...text,
 		inactive: text[900],
-		main: text[100],
+		main: text[50],
 	},
 	error: theme.colors.red[400],
 };
