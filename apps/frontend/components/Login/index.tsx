@@ -1,6 +1,5 @@
 import {
 	AbsoluteCenter,
-	Button,
 	FormControl,
 	FormErrorMessage,
 	FormLabel,
@@ -12,10 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { QuestionOutlineIcon } from "@chakra-ui/icons";
 import Col from "../layout/Col";
-import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
+import { ReactComponent as Logo } from "../../assets/svgs/black-hole.svg";
 import { useForm } from "react-hook-form";
 import useAuthContext from "apps/frontend/hooks/useAuthContext";
 import GradientBox from "../layout/GradientBox";
+import ButtonWithArrow from "../layout/ButtonWthArrow";
 
 interface Fields {
 	email: string;
@@ -31,22 +31,18 @@ export default function Login() {
 		},
 	});
 	return (
-		<AbsoluteCenter as={Col} alignItems="center" gap={8} maxW="100%" p={4}>
-			<Icon w={300} h="fit-content" as={Logo} />
+		<AbsoluteCenter as={Col} alignItems="center" gap={4} maxW="100%" p={4}>
+			<Icon w={100} h="fit-content" as={Logo} />
 			<GradientBox>
 				<Col
 					as="form"
-					w={400}
-					px={8}
-					py={12}
+					w={450}
+					p={8}
 					rounded="md"
 					borderWidth={2}
 					borderColor="border"
 					onSubmit={handleSubmit(login)}
 				>
-					<Heading textAlign="center" mb={8} color="accent.main">
-						Login
-					</Heading>
 					<FormControl isInvalid={Boolean(formState.errors.email)} mb={4}>
 						<FormLabel htmlFor="email">
 							<Heading size="sm">Email</Heading>
@@ -98,9 +94,7 @@ export default function Login() {
 							<FormErrorMessage>{formState.errors.password.message}</FormErrorMessage>
 						)}
 					</FormControl>
-					<Button size="md" variant="outline" type="submit" mt={4}>
-						Submit
-					</Button>
+					<ButtonWithArrow>Sign in</ButtonWithArrow>
 				</Col>
 			</GradientBox>
 		</AbsoluteCenter>
