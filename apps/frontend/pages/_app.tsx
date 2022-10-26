@@ -10,6 +10,7 @@ import { Maybe, UserDto } from "@shared";
 import { API } from "../util/API";
 import useAuthContext from "../hooks/useAuthContext";
 import Login from "../components/Login";
+import { isValidElement } from "react";
 
 interface AppContainerProps {
 	children: React.ReactNode;
@@ -17,7 +18,7 @@ interface AppContainerProps {
 
 function AppContainer({ children }: AppContainerProps) {
 	const { isAuthenticated } = useAuthContext();
-	return isAuthenticated ? children : <Login />;
+	return isAuthenticated && isValidElement(children) ? children : <Login />;
 }
 
 interface CustomAppProps extends AppProps {
@@ -31,16 +32,16 @@ export default function CustomApp({ Component, pageProps, initialUser }: CustomA
 				<title>CMSpacey</title>
 			</Head>
 			<ChakraProvider theme={theme}>
-				<SWRConfig value={{ revalidateOnFocus: false }}>
-					<AuthContextProvider initialUser={initialUser}>
+				<AuthContextProvider initialUser={initialUser}>
+					<SWRConfig value={{ revalidateOnFocus: false }}>
 						<Flex as="main">
 							<AppContainer>
 								<Sidebar />
 								<Component {...pageProps} />
 							</AppContainer>
 						</Flex>
-					</AuthContextProvider>
-				</SWRConfig>
+					</SWRConfig>
+				</AuthContextProvider>
 			</ChakraProvider>
 		</>
 	);
