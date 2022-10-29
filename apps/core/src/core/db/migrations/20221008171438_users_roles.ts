@@ -1,4 +1,5 @@
 import { Knex } from "knex";
+import { RoleValues } from "../../../../../../libs/shared/src";
 
 export function up(knex: Knex): Knex.SchemaBuilder {
 	const PG_CURRENT_TIMESTAMP = knex.raw("CURRENT_TIMESTAMP");
@@ -21,7 +22,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 		})
 		.createTable("roles", table => {
 			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
-			table.string("name").notNullable().unique();
+			table.enum("name", RoleValues).notNullable().unique();
 			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
 			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
 		});

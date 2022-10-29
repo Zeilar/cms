@@ -8,16 +8,14 @@ export class Space extends Model {
 
 	public static tableName = "spaces";
 
-	public static get relationMappings() {
-		return {
-			contentTypes: {
-				relation: Model.HasManyRelation,
-				modelClass: ContentType,
-				join: {
-					from: "spaces.id",
-					to: "content_types.spaceId",
-				},
+	public static relationMappings = {
+		contentTypes: {
+			relation: Model.HasManyRelation,
+			modelClass: ContentType,
+			join: {
+				from: "spaces.id",
+				to: "content_types.spaceId",
 			},
-		};
-	}
+		},
+	};
 }

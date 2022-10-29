@@ -8,16 +8,14 @@ export class Field extends Model {
 
 	public static tableName = "fields";
 
-	public static get relationMappings() {
-		return {
-			contentType: {
-				relation: Model.BelongsToOneRelation,
-				modelClass: ContentType,
-				join: {
-					from: "fields.contentTypeId",
-					to: "content_types.id",
-				},
+	public static relationMappings = {
+		contentType: {
+			relation: Model.BelongsToOneRelation,
+			modelClass: ContentType,
+			join: {
+				from: "fields.contentTypeId",
+				to: "content_types.id",
 			},
-		};
-	}
+		},
+	};
 }

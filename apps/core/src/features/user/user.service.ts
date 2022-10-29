@@ -5,6 +5,7 @@ import { UserRepository } from "./user.repository";
 import type { ID } from "../../types/repository";
 import { ConfigService } from "../../config/config.service";
 import { hash } from "bcrypt";
+import { RoleValues } from "@shared";
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,10 @@ export class UserService {
 		private readonly userRepository: UserRepository,
 		private readonly configService: ConfigService
 	) {}
+
+	public createFirstUser(dto: CreateUserDto): Promise<User> {
+		return this.userRepository.create(dto, RoleValues); // Give first user every available role
+	}
 
 	public async register({ password, ...dto }: CreateUserDto): Promise<User> {
 		if (await this.userRepository.findByEmail(dto.email)) {

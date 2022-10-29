@@ -1,6 +1,7 @@
+import { RegisterDto } from "@shared";
 import { IsEmail, IsString } from "class-validator";
 
-export class CreateUserDto {
+export class CreateUserDto implements RegisterDto {
 	@IsEmail()
 	public email: string;
 

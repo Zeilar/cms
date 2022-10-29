@@ -1,5 +1,6 @@
 import { ContentTypeDto } from "./contentType";
 import { EntryDto } from "./entry";
+import { Timestamps } from "./repository";
 
 export enum FieldType {
 	INTEGER = "integer",
@@ -11,7 +12,7 @@ export enum FieldType {
 	LOCATION = "location",
 }
 
-export interface FieldDto {
+export interface FieldDto extends Timestamps {
 	id: string;
 	name: string;
 	type: FieldType;

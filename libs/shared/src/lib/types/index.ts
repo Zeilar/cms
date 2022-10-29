@@ -4,3 +4,5 @@ export * from "./entry";
 export * from "./space";
 export * from "./user";
 export * from "./util";
+export * from "./auth";
+export * from "./role";

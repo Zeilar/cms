@@ -1,16 +1,12 @@
-import { createContext, useState } from "react";
-import { UserDto, Maybe } from "@shared";
+import { createContext, useCallback, useState } from "react";
+import { UserDto, Maybe, LoginDto, RegisterDto } from "@shared";
 import { API } from "../util/API";
-
-interface Credentials {
-	email: string;
-	password: string;
-}
 
 interface IAuthContext {
 	isAuthenticated: boolean;
 	user: Maybe<UserDto>;
-	login(credentials: Credentials): Promise<void>;
+	register(credentials: RegisterDto): Promise<void>;
+	login(credentials: LoginDto): Promise<void>;
 	logout(): Promise<void>;
 }
 
@@ -24,7 +20,18 @@ export const AuthContext = createContext<Maybe<IAuthContext>>(null);
 export function AuthContextProvider({ children, initialUser }: AuthProps) {
 	const [user, setUser] = useState<IAuthContext["user"]>(initialUser);
 
-	async function login(credentials: Credentials): Promise<void> {
+	const register = useCallback(async (credentials: RegisterDto): Promise<void> => {
+		const { data, status } = await API.fetch<UserDto>("auth/register", {
+			method: "POST",
+			data: credentials,
+		});
+		if (status !== 200) {
+			return;
+		}
+		setUser(data);
+	}, []);
+
+	const login = useCallback(async (credentials: LoginDto) => {
 		const { data, status } = await API.fetch<UserDto>("auth/login", {
 			method: "POST",
 			data: credentials,
@@ -33,18 +40,19 @@ export function AuthContextProvider({ children, initialUser }: AuthProps) {
 			return;
 		}
 		setUser(data);
-	}
+	}, []);
 
-	async function logout(): Promise<void> {
+	const logout = useCallback(async (): Promise<void> => {
 		const { status } = await API.fetch("auth/logout", { method: "POST" });
 		if (status !== 200) {
 			return;
 		}
 		setUser(null);
-	}
+	}, []);
 
 	const values: IAuthContext = {
 		isAuthenticated: user !== null,
+		register,
 		login,
 		logout,
 		user,

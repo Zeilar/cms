@@ -10,5 +10,8 @@ export const styles = {
 			color: "gray.900",
 			bgColor: "accent.main",
 		},
+		"svg, img": {
+			userSelect: "none",
+		},
 	},
 };

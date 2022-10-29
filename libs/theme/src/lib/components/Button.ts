@@ -16,6 +16,14 @@ export const Button = defineStyleConfig({
 				color: "gray.900",
 			},
 		},
+		link: {
+			color: "accent.main",
+			textUnderlineOffset: 2,
+			fontSize: "md",
+			_active: {
+				color: "accent.main",
+			},
+		},
 	},
 	sizes: {
 		md: {

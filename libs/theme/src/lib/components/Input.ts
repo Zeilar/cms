@@ -1,6 +1,9 @@
 import { defineStyleConfig } from "@chakra-ui/react";
 
 export const Input = defineStyleConfig({
+	defaultProps: {
+		variant: "filled",
+	},
 	baseStyle: {
 		field: {
 			_placeholder: {
@@ -13,7 +16,7 @@ export const Input = defineStyleConfig({
 			field: {
 				borderWidth: 2,
 				borderColor: "border",
-				bgColor: "gray.600",
+				bgColor: "transparent",
 				"&:hover, &:focus-visible": {
 					bgColor: "gray.600",
 				},

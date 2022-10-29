@@ -4,6 +4,7 @@ import { User } from "../user/user.model";
 export class Role extends Model {
 	public readonly id: string;
 	public readonly name: string;
+	public readonly users?: User[];
 
 	public static tableName = "roles";
 

@@ -2,6 +2,8 @@ import { CreateUserDto } from "../../common/validators/user/CreateUserDto";
 import { Injectable } from "@nestjs/common";
 import type { ID } from "../../types/repository";
 import { User } from "./user.model";
+import { Role as EnumRole } from "@shared";
+import { Role } from "../role/role.model";
 
 @Injectable()
 export class UserRepository {
@@ -13,7 +15,12 @@ export class UserRepository {
 		return User.query().findOne({ email }).execute();
 	}
 
-	public create(user: CreateUserDto): Promise<User> {
-		return User.query().insertAndFetch(user).execute();
+	public async create(user: CreateUserDto, roles?: EnumRole[]): Promise<User> {
+		const insertedUser = await User.query().insertAndFetch(user).execute();
+		if (Array.isArray(roles)) {
+			const fetchedRoles = await Role.query().whereIn("name", roles);
+			await insertedUser.$relatedQuery("roles").relate(fetchedRoles);
+		}
+		return insertedUser;
 	}
 }
