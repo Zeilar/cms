@@ -25,11 +25,11 @@ export default function TokenForm() {
 	});
 
 	function submit({ token }: TokenFields) {
+		console.log("submit", token);
 		if (token.length < TOKEN_LENGTH) {
 			setError("token", { message: "Please fill out all the boxes", type: "minLength" });
 			return;
 		}
-		console.log("submit", token);
 	}
 
 	return (
@@ -59,11 +59,14 @@ export default function TokenForm() {
 								type="alphanumeric"
 								isDisabled={formState.isSubmitting}
 								otp
-								onComplete={() => handleSubmit(submit)}
+								onComplete={token => submit({ token })}
 							>
-								{Array.from({ length: TOKEN_LENGTH }).map((_, i) => (
-									<PinInputField key={i} />
-								))}
+								<PinInputField />
+								<PinInputField />
+								<PinInputField />
+								<PinInputField />
+								<PinInputField />
+								<PinInputField />
 							</PinInput>
 						)}
 					/>
