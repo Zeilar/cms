@@ -6,24 +6,33 @@ import type { ID } from "../../types/repository";
 import { ConfigService } from "../../config/config.service";
 import { hash } from "bcrypt";
 import { RoleValues } from "@shared";
+import { RegisterTokenService } from "../register-token/register-token.service";
 
 @Injectable()
 export class UserService {
 	public constructor(
 		private readonly userRepository: UserRepository,
-		private readonly configService: ConfigService
+		private readonly configService: ConfigService,
+		private readonly registerTokenService: RegisterTokenService
 	) {}
 
 	public createFirstUser(dto: CreateUserDto): Promise<User> {
 		return this.userRepository.create(dto, RoleValues); // Give first user every available role
 	}
 
-	public async register({ password, ...dto }: CreateUserDto): Promise<User> {
-		if (await this.userRepository.findByEmail(dto.email)) {
+	public async register({ password, email, name, token }: CreateUserDto): Promise<User> {
+		await this.registerTokenService.assertTokenIsValid(token, email);
+		if (await this.userRepository.findByEmail(email)) {
 			throw new ConflictException("Email is taken");
 		}
 		const encrypedPassword = await hash(password, this.configService.get("HASH_ROUNDS"));
-		const user = await this.userRepository.create({ password: encrypedPassword, ...dto });
+		const user = await this.userRepository.create({
+			password: encrypedPassword,
+			email,
+			name,
+			token,
+		});
+		await this.registerTokenService.removeByToken(token);
 		delete user.password;
 		return user;
 	}

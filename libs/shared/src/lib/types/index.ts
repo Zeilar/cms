@@ -6,3 +6,4 @@ export * from "./user";
 export * from "./util";
 export * from "./auth";
 export * from "./role";
+export * from "./repository";

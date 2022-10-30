@@ -1,10 +1,19 @@
-import { FormControl, FormErrorMessage, Input, Text } from "@chakra-ui/react";
+import {
+	Flex,
+	FormControl,
+	FormErrorMessage,
+	Input,
+	PinInput,
+	PinInputField,
+	Text,
+} from "@chakra-ui/react";
 import Col from "../../layout/Col";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import useAuthContext from "apps/frontend/hooks/useAuthContext";
 import ButtonWithArrow from "../../layout/ButtonWthArrow";
-import { RegisterDto, Validation } from "@shared";
+import { RegisterDto, REGISTER_TOKEN_LENGTH, Validation } from "@shared";
 import EnhancedFormLabel from "../../layout/EnhancedFormLabel";
+import { test } from "base58-random";
 
 interface Fields extends RegisterDto {
 	passwordConfirm: string;
@@ -12,12 +21,13 @@ interface Fields extends RegisterDto {
 
 export default function RegisterForm() {
 	const auth = useAuthContext();
-	const { handleSubmit, register, formState, watch } = useForm<Fields>({
+	const { handleSubmit, register, formState, watch, control } = useForm<Fields>({
 		defaultValues: {
 			name: "",
 			email: "",
 			password: "",
 			passwordConfirm: "",
+			token: "",
 		},
 	});
 
@@ -144,6 +154,52 @@ export default function RegisterForm() {
 				/>
 				{formState.errors.passwordConfirm?.message && (
 					<FormErrorMessage>{formState.errors.passwordConfirm.message}</FormErrorMessage>
+				)}
+			</FormControl>
+			<FormControl as={Col} isInvalid={Boolean(formState.errors.token)} mb={4}>
+				<EnhancedFormLabel
+					heading="Register token"
+					id="token"
+					tooltipLabel="This token was sent to a specified email address. Check your inbox."
+				/>
+				<Flex justify="space-between" mt={2} pos="relative">
+					<Controller
+						key="tts"
+						control={control}
+						name="token"
+						rules={{
+							minLength: {
+								message: `Token must contain exactly ${REGISTER_TOKEN_LENGTH} characters`,
+								value: REGISTER_TOKEN_LENGTH,
+							},
+							validate: value => {
+								return test(value)
+									? true
+									: "Token format is invalid. It may only contain alphanumeric characters.";
+							},
+						}}
+						render={({ field: { onChange } }) => (
+							<PinInput
+								placeholder=""
+								onChange={onChange}
+								id="token"
+								size="lg"
+								type="alphanumeric"
+								isDisabled={formState.isSubmitting}
+								otp
+							>
+								<PinInputField />
+								<PinInputField />
+								<PinInputField />
+								<PinInputField />
+								<PinInputField />
+								<PinInputField />
+							</PinInput>
+						)}
+					/>
+				</Flex>
+				{formState.errors.token?.message && (
+					<FormErrorMessage>{formState.errors.token.message}</FormErrorMessage>
 				)}
 			</FormControl>
 			<ButtonWithArrow>Create account</ButtonWithArrow>

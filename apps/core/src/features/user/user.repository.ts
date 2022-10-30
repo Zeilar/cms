@@ -15,8 +15,11 @@ export class UserRepository {
 		return User.query().findOne({ email }).execute();
 	}
 
-	public async create(user: CreateUserDto, roles?: EnumRole[]): Promise<User> {
-		const insertedUser = await User.query().insertAndFetch(user).execute();
+	public async create(
+		{ email, name, password }: CreateUserDto,
+		roles?: EnumRole[]
+	): Promise<User> {
+		const insertedUser = await User.query().insertAndFetch({ email, name, password }).execute();
 		if (Array.isArray(roles)) {
 			const fetchedRoles = await Role.query().whereIn("name", roles);
 			await insertedUser.$relatedQuery("roles").relate(fetchedRoles);

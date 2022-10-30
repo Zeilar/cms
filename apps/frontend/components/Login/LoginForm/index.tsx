@@ -56,7 +56,7 @@ export default function LoginForm() {
 					<FormErrorMessage>{formState.errors.password.message}</FormErrorMessage>
 				)}
 			</FormControl>
-			<Flex align="center" justify="space-between" mt={4}>
+			<Flex align="center" justify="space-between" mt={4} mb={8}>
 				<Flex gap={2}>
 					<Checkbox id="rememberMe" />
 					<FormLabel fontWeight={600} mb={0} htmlFor="rememberMe">
@@ -65,7 +65,7 @@ export default function LoginForm() {
 				</Flex>
 				<Button variant="link">Forgot password?</Button>
 			</Flex>
-			<ButtonWithArrow mt={8}>Sign in</ButtonWithArrow>
+			<ButtonWithArrow mt="auto">Sign in</ButtonWithArrow>
 		</Col>
 	);
 }
