@@ -1,9 +1,19 @@
-import { Body, Controller, Get, HttpCode, Post, Request, UseGuards } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	HttpCode,
+	Post,
+	Request,
+	UseGuards,
+	ForbiddenException,
+} from "@nestjs/common";
 import { UserService } from "../user/user.service";
 import { CreateUserDto } from "../../common/validators/user/CreateUserDto";
 import { User } from "../user/user.model";
 import { LoginGuard } from "../../common/guards/Login.guard";
 import { AuthenticatedGuard } from "../../common/guards/Authenticated.guard";
+import { FirstRegisterDto } from "@shared";
 
 @Controller("/auth")
 export class AuthController {
@@ -25,5 +35,14 @@ export class AuthController {
 	@Post("/register")
 	public register(@Body() dto: CreateUserDto): Promise<User> {
 		return this.userService.register(dto);
+	}
+
+	@Post("/first-time-register")
+	public async firstTimeRegister(@Body() dto: FirstRegisterDto): Promise<User> {
+		const userCount = await this.userService.userCount();
+		if (userCount > 0) {
+			throw new ForbiddenException("Users in the system must equal 0 to use this feature.");
+		}
+		return this.userService.createFirstUser(dto);
 	}
 }

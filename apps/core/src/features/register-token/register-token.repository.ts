@@ -15,7 +15,7 @@ export class RegisterTokenRepository {
 	public async removeExpired(): Promise<void> {
 		const expired = await RegisterToken.query().where(
 			"expires",
-			">=",
+			"<=",
 			new Date().toISOString()
 		);
 		await Promise.all(expired.map(token => token.$query().delete().execute()));

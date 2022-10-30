@@ -5,7 +5,7 @@ import { UserRepository } from "./user.repository";
 import type { ID } from "../../types/repository";
 import { ConfigService } from "../../config/config.service";
 import { hash } from "bcrypt";
-import { RoleValues } from "@shared";
+import { FirstRegisterDto, RoleValues } from "@shared";
 import { RegisterTokenService } from "../register-token/register-token.service";
 
 @Injectable()
@@ -16,8 +16,12 @@ export class UserService {
 		private readonly registerTokenService: RegisterTokenService
 	) {}
 
-	public createFirstUser(dto: CreateUserDto): Promise<User> {
-		return this.userRepository.create(dto, RoleValues); // Give first user every available role
+	public createFirstUser({ email, name, password }: FirstRegisterDto): Promise<User> {
+		return this.userRepository.create({ email, name, password }, RoleValues); // Give first user every available role
+	}
+
+	public userCount(): Promise<number> {
+		return this.userRepository.count();
 	}
 
 	public async register({ password, email, name, token }: CreateUserDto): Promise<User> {
@@ -30,7 +34,6 @@ export class UserService {
 			password: encrypedPassword,
 			email,
 			name,
-			token,
 		});
 		await this.registerTokenService.removeByToken(token);
 		delete user.password;

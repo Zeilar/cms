@@ -9,3 +9,9 @@ export interface RegisterDto {
 	password: string;
 	token: string;
 }
+
+export interface FirstRegisterDto {
+	name: string;
+	email: string;
+	password: string;
+}

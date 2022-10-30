@@ -160,11 +160,10 @@ export default function RegisterForm() {
 				<EnhancedFormLabel
 					heading="Register token"
 					id="token"
-					tooltipLabel="This token was sent to a specified email address. Check your inbox."
+					tooltipLabel="Tokens are sent out by admins via email. Contact an administrator for further assistance."
 				/>
 				<Flex justify="space-between" mt={2} pos="relative">
 					<Controller
-						key="tts"
 						control={control}
 						name="token"
 						rules={{
