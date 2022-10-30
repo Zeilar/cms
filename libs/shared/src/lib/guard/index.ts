@@ -4,12 +4,15 @@ export enum Action {
 	CREATE_RESOURCE = "createResource",
 	EDIT_RESOURCE = "editResource",
 	DELETE_RESOURCE = "deleteResource",
+	CREATE_REGISTER_TOKEN = "createRegisterToken",
 }
+
+const actions = Object.values(Action);
 
 export class Guard {
 	private static permissions: Record<Role, Action[]> = {
-		[Role.ADMIN]: [Action.CREATE_RESOURCE],
-		[Role.EDITOR]: [Action.CREATE_RESOURCE],
+		[Role.ADMIN]: actions, // Admin has access to everything
+		[Role.EDITOR]: [Action.CREATE_RESOURCE, Action.EDIT_RESOURCE, Action.DELETE_RESOURCE],
 	};
 
 	public static can(roles: Role[], action: Action) {
