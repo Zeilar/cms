@@ -49,7 +49,7 @@ export default function Spinner() {
 					rx="25"
 					cy="250"
 					cx="250"
-					fill="var(--chakra-colors-accent)"
+					fill="var(--chakra-colors-accent-main)"
 				/>
 				<g transform={`rotate(${rotations[1]} 250 250)`}>
 					<ellipse

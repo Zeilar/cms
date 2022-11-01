@@ -34,12 +34,13 @@ export default function CustomApp({ Component, pageProps, initialUser }: CustomA
 			<ChakraProvider theme={theme}>
 				<AuthContextProvider initialUser={initialUser}>
 					<SWRConfig value={{ revalidateOnFocus: false }}>
-						<Flex as="main">
-							<AppContainer>
+						<AppContainer>
+							{/* AppContainer must return a single element */}
+							<Flex as="main">
 								<Sidebar />
 								<Component {...pageProps} />
-							</AppContainer>
-						</Flex>
+							</Flex>
+						</AppContainer>
 					</SWRConfig>
 				</AuthContextProvider>
 			</ChakraProvider>

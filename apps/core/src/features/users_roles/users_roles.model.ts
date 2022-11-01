@@ -4,6 +4,8 @@ import { User } from "../user/user.model";
 
 export class UsersRoles extends Model {
 	public readonly id: string;
+	public readonly userId: string;
+	public readonly roleId: string;
 	public readonly users?: User[];
 	public readonly roles?: Role[];
 

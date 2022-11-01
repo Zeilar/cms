@@ -4,6 +4,7 @@ import { User } from "./user.model";
 import { Role as EnumRole } from "@shared";
 import { Role } from "../role/role.model";
 import Objection from "objection";
+import { UsersRoles } from "../users_roles/users_roles.model";
 
 @Injectable()
 export class UserRepository {
@@ -32,5 +33,9 @@ export class UserRepository {
 			| Record<"count", string>
 			| undefined;
 		return result !== undefined ? parseInt(result.count) : 0;
+	}
+
+	public getRoles(userId: string): Promise<UsersRoles[]> {
+		return UsersRoles.query().where("userId", userId).execute();
 	}
 }

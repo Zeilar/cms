@@ -7,6 +7,7 @@ import { ConfigService } from "../../config/config.service";
 import { hash } from "bcrypt";
 import { FirstRegisterDto, RoleValues } from "@shared";
 import { RegisterTokenService } from "../register-token/register-token.service";
+import { UsersRoles } from "../users_roles/users_roles.model";
 
 @Injectable()
 export class UserService {
@@ -16,8 +17,25 @@ export class UserService {
 		private readonly registerTokenService: RegisterTokenService
 	) {}
 
-	public createFirstUser({ email, name, password }: FirstRegisterDto): Promise<User> {
-		return this.userRepository.create({ email, name, password }, RoleValues); // Give first user every available role
+	private async assertEmailIsNotTaken(email: string) {
+		if (await this.userRepository.findByEmail(email)) {
+			throw new ConflictException("Email is taken");
+		}
+	}
+
+	public async createFirstUser({ email, name, password }: FirstRegisterDto): Promise<User> {
+		await this.assertEmailIsNotTaken(email);
+		const encrypedPassword = await hash(password, this.configService.get("HASH_ROUNDS"));
+		const user = await this.userRepository.create(
+			{
+				password: encrypedPassword,
+				email,
+				name,
+			},
+			RoleValues
+		);
+		delete user.password;
+		return user;
 	}
 
 	public userCount(): Promise<number> {
@@ -26,9 +44,7 @@ export class UserService {
 
 	public async register({ password, email, name, token }: CreateUserDto): Promise<User> {
 		await this.registerTokenService.assertTokenIsValid(token, email);
-		if (await this.userRepository.findByEmail(email)) {
-			throw new ConflictException("Email is taken");
-		}
+		await this.assertEmailIsNotTaken(email);
 		const encrypedPassword = await hash(password, this.configService.get("HASH_ROUNDS"));
 		const user = await this.userRepository.create({
 			password: encrypedPassword,
@@ -46,5 +62,14 @@ export class UserService {
 
 	public findByEmail(id: string): Promise<User | undefined> {
 		return this.userRepository.findByEmail(id);
+	}
+
+	public getRoles(userId: string): Promise<UsersRoles[]> {
+		return this.userRepository.getRoles(userId);
+	}
+
+	public async isFirstUserCreated(): Promise<boolean> {
+		const count = await this.userRepository.count();
+		return count > 0;
 	}
 }

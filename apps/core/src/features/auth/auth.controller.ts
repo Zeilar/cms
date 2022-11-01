@@ -41,7 +41,9 @@ export class AuthController {
 	public async firstTimeRegister(@Body() dto: FirstRegisterDto): Promise<User> {
 		const userCount = await this.userService.userCount();
 		if (userCount > 0) {
-			throw new ForbiddenException("Users in the system must equal 0 to use this feature.");
+			throw new ForbiddenException(
+				"There must be exactly 0 users in the system in order to use this feature."
+			);
 		}
 		return this.userService.createFirstUser(dto);
 	}

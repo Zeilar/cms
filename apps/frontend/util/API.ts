@@ -33,6 +33,7 @@ export class API {
 		return {
 			data: json,
 			status: response.status,
+			ok: response.ok,
 		};
 	}
 }
