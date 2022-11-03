@@ -14,7 +14,7 @@ export default function EnhancedFormLabel({ id, heading, tooltipLabel }: Props) 
 			<Tooltip
 				bgColor="gray.400"
 				color="inherit"
-				paddingInline={2}
+				paddingInline={2.5}
 				paddingBlock={2}
 				mb={2}
 				hasArrow

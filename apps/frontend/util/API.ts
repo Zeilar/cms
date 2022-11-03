@@ -1,9 +1,16 @@
+import { ApiResponse } from "../types/api";
+
 type HttpVerb = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 interface FetchOptions {
 	data?: unknown;
 	method?: HttpVerb;
 	cookie?: string;
+}
+
+export interface ParsedResponse<T> extends ApiResponse<T> {
+	status: number;
+	ok: boolean;
 }
 
 const DEFAULT_FETCH_OPTIONS: FetchOptions = {
@@ -18,7 +25,7 @@ export class API {
 	public static async fetch<T>(
 		url: string,
 		{ method, data, cookie }: FetchOptions = DEFAULT_FETCH_OPTIONS
-	) {
+	): Promise<ParsedResponse<T>> {
 		const response = await fetch(`${this.baseUrl}/${url}`, {
 			// @ts-expect-error cookie is a valid header
 			headers: {
@@ -29,9 +36,9 @@ export class API {
 			body: JSON.stringify(data),
 			method,
 		});
-		const json: T = await response.json();
+		const json: ApiResponse<T> = await response.json();
 		return {
-			data: json,
+			...json,
 			status: response.status,
 			ok: response.ok,
 		};

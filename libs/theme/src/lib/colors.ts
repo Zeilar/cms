@@ -44,7 +44,7 @@ export const colors = {
 	body: gray[800],
 	accent,
 	gray,
-	border: gray[500],
+	border: gray[400],
 	text: {
 		...text,
 		inactive: text[900],

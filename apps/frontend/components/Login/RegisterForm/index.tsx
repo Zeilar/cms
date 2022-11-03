@@ -10,7 +10,7 @@ import {
 import Col from "../../layout/Col";
 import { Controller, useForm } from "react-hook-form";
 import useAuthContext from "apps/frontend/hooks/useAuthContext";
-import ButtonWithArrow from "../../layout/ButtonWthArrow";
+import ButtonWithArrow from "../../layout/ButtonWithArrow";
 import { RegisterDto, REGISTER_TOKEN_LENGTH, Validation } from "@shared";
 import EnhancedFormLabel from "../../layout/EnhancedFormLabel";
 import { test } from "base58-random";

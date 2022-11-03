@@ -26,7 +26,7 @@ export function AuthContextProvider({ children, initialUser }: AuthProps) {
 			method: "POST",
 			data: credentials,
 		});
-		if (!ok) {
+		if (!ok || !data) {
 			return;
 		}
 		setUser(data);

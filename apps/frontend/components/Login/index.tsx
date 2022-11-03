@@ -1,22 +1,13 @@
-import {
-	AbsoluteCenter,
-	Box,
-	Divider,
-	Flex,
-	FlexProps,
-	Heading,
-	Icon,
-	Portal,
-} from "@chakra-ui/react";
+import { AbsoluteCenter, Divider, Flex, FlexProps, Heading, Icon } from "@chakra-ui/react";
 import { ReactComponent as Logo } from "../../assets/svgs/black-hole.svg";
 import GradientBox from "../layout/GradientBox";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 import Col from "../layout/Col";
 import useSWR from "swr";
-import { API } from "apps/frontend/util/API";
+import { API, ParsedResponse } from "apps/frontend/util/API";
 import Spinner from "../Spinner";
-import FirstTimeRegisterForm from "./FirstTimeRegister";
+import FirstTimeRegisterForm from "./FirstTimeRegisterForm";
 import { BRAND_NAME } from "@shared";
 
 interface FormBoxProps extends FlexProps {
@@ -25,7 +16,7 @@ interface FormBoxProps extends FlexProps {
 
 function FormBox({ children, ...props }: FormBoxProps) {
 	return (
-		<GradientBox w={450} p={8} {...props}>
+		<GradientBox as="fieldset" w={450} p={8} {...props}>
 			{children}
 		</GradientBox>
 	);
@@ -44,7 +35,7 @@ function CustomDivider() {
 	);
 }
 
-function isFirstUserCreatedFetcher() {
+function isFirstUserCreatedFetcher(): Promise<ParsedResponse<boolean>> {
 	return API.fetch<boolean>("users/is-first-user-created");
 }
 
@@ -61,24 +52,21 @@ export default function Login() {
 		<Flex as={AbsoluteCenter} align="center" maxW="100%" p={4}>
 			{data?.data === true ? (
 				<>
-					<Portal>
-						<Box
-							pos="fixed"
-							w="50%"
-							bgGradient="linear(to-t, gray.700, gray.600)"
-							inset={0}
-							zIndex={-1}
-						/>
-					</Portal>
-					<FormBox bgGradient="linear(to-t, gray.800, gray.700)">
+					<FormBox>
+						<Heading mx="auto" size="lg" as="legend">
+							Login
+						</Heading>
 						<LoginForm />
 					</FormBox>
-					<Col align="center" justify="center" my="auto" mx={4} gap={4}>
+					<Col align="center" justify="center" my="auto" mx={8} gap={4}>
 						<CustomDivider />
 						<Icon w={100} h="fit-content" as={Logo} />
 						<CustomDivider />
 					</Col>
 					<FormBox>
+						<Heading mx="auto" size="lg" as="legend">
+							Register
+						</Heading>
 						<RegisterForm />
 					</FormBox>
 				</>
@@ -90,7 +78,7 @@ export default function Login() {
 					<Heading textAlign="center" mb={8} size="md">
 						Create an account to start creating content
 					</Heading>
-					<FormBox as="fieldset">
+					<FormBox>
 						<GradientBox
 							as="legend"
 							justify="center"

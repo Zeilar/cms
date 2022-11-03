@@ -1,5 +1,5 @@
 import Spinner from "apps/frontend/components/Spinner";
-import { API } from "apps/frontend/util/API";
+import { API, ParsedResponse } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import useSWR from "swr";
@@ -8,12 +8,12 @@ import Col from "apps/frontend/components/layout/Col";
 import Navbar from "apps/frontend/components/Navbar";
 
 interface Props {
-	initialData: SpaceDto;
+	initialData: ParsedResponse<SpaceDto>;
 	spaceId: string;
 }
 
-function fetcher(spaceId: string) {
-	return async () => (await API.fetch<SpaceDto>(`space/${spaceId}?wct=true`)).data;
+function fetcher(spaceId: string): () => Promise<ParsedResponse<SpaceDto>> {
+	return () => API.fetch<SpaceDto>(`space/${spaceId}?wct=true`);
 }
 
 export default function Page({ initialData, spaceId }: Props) {
@@ -28,8 +28,8 @@ export default function Page({ initialData, spaceId }: Props) {
 					{ href: `/space/${spaceId}/content-types`, label: "Content types" },
 				]}
 			/>
-			<p>{data?.name}</p>
-			<pre>{JSON.stringify(data?.contentTypes, null, 4)}</pre>
+			<p>{data?.data?.name}</p>
+			<pre>{JSON.stringify(data?.data?.contentTypes, null, 4)}</pre>
 			{isValidating && <Spinner />}
 		</Col>
 	);
@@ -42,10 +42,10 @@ export async function getServerSideProps({
 	if (!spaceId) {
 		throw new Error("Missing space id");
 	}
-	const space = await fetcher(spaceId)();
+	const response = await fetcher(spaceId)();
 	return {
 		props: {
-			initialData: space,
+			initialData: response,
 			spaceId,
 		},
 	};

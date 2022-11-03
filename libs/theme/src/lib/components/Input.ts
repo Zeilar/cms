@@ -18,7 +18,7 @@ export const Input = defineStyleConfig({
 				borderColor: "border",
 				bgColor: "transparent",
 				"&:hover, &:focus-visible": {
-					bgColor: "gray.600",
+					bgColor: "gray.500",
 				},
 				_focusVisible: {
 					borderColor: "accent.main",

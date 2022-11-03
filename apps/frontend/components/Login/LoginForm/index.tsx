@@ -11,7 +11,7 @@ import {
 import Col from "../../layout/Col";
 import { useForm } from "react-hook-form";
 import useAuthContext from "apps/frontend/hooks/useAuthContext";
-import ButtonWithArrow from "../../layout/ButtonWthArrow";
+import ButtonWithArrow from "../../layout/ButtonWithArrow";
 import { LoginDto } from "@shared";
 
 export default function LoginForm() {

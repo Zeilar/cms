@@ -6,6 +6,8 @@ import passport from "passport";
 import { ConfigService } from "./config/config.service";
 import { AppModule } from "./core/app/app.module";
 import session from "express-session";
+import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
+import { DataInterceptor } from "./common/interceptors/data.interceptor";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -37,6 +39,8 @@ async function bootstrap() {
 		passport.initialize(),
 		passport.session()
 	)
+		.useGlobalInterceptors(new DataInterceptor())
+		.useGlobalFilters(new HttpExceptionFilter())
 		.useGlobalPipes(new ValidationPipe({ transform: true }))
 		.enableCors({
 			origin: configService.get("CORS_ORIGIN"),

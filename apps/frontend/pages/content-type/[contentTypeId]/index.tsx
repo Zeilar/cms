@@ -1,6 +1,5 @@
-import { Flex } from "@chakra-ui/react";
 import Spinner from "apps/frontend/components/Spinner";
-import { API } from "apps/frontend/util/API";
+import { API, ParsedResponse } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import useSWR from "swr";
@@ -9,12 +8,12 @@ import Col from "apps/frontend/components/layout/Col";
 import UnstyledLink from "apps/frontend/components/HiddenLink";
 
 interface Props {
-	initialData: SpaceDto;
+	initialData: ParsedResponse<SpaceDto>;
 	contentTypeId: string;
 }
 
-function fetcher(contentTypeId: string) {
-	return async () => (await API.fetch<SpaceDto>(`content-type/${contentTypeId}?we=true`)).data;
+function fetcher(contentTypeId: string): () => Promise<ParsedResponse<SpaceDto>> {
+	return () => API.fetch<SpaceDto>(`content-type/${contentTypeId}?we=true`);
 }
 
 interface NavItemProps {
@@ -65,10 +64,10 @@ export async function getServerSideProps({
 	if (!contentTypeId) {
 		throw new Error("Missing space id");
 	}
-	const space = await fetcher(contentTypeId)();
+	const response = await fetcher(contentTypeId)();
 	return {
 		props: {
-			initialData: space,
+			initialData: response,
 			contentTypeId,
 		},
 	};

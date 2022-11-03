@@ -3,7 +3,7 @@ import Link from "../Link";
 import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
 import UnstyledLink from "../HiddenLink";
 import useSWR from "swr";
-import { API } from "apps/frontend/util/API";
+import { API, ParsedResponse } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
 import useAuthContext from "apps/frontend/hooks/useAuthContext";
 
@@ -52,17 +52,18 @@ function Item({ children, href }: ItemProps) {
 	);
 }
 
-async function fetcher() {
-	return (await API.fetch<SpaceDto[]>("space")).data;
+function fetcher(): Promise<ParsedResponse<SpaceDto[]>> {
+	return API.fetch<SpaceDto[]>("space");
 }
 
 export default function Sidebar() {
 	const { user, isAuthenticated } = useAuthContext();
-	const { data } = useSWR<SpaceDto[]>("spaces", fetcher);
+	const { data } = useSWR("spaces", fetcher);
 	return (
 		<Flex
 			flexDir="column"
-			bgColor="gray.800"
+			bgGradient="linear(to-t, gray.700, gray.600)"
+			boxShadow="md"
 			w={300}
 			as="nav"
 			h="100vh"

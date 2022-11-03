@@ -2,6 +2,7 @@ import { defineStyleConfig } from "@chakra-ui/react";
 
 export const PinInput = defineStyleConfig({
 	baseStyle: {
+		borderWidth: 2,
 		textTransform: "uppercase",
 	},
 	variants: {

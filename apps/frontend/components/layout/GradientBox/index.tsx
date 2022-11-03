@@ -8,7 +8,7 @@ export default function GradientBox(props: FlexProps) {
 			borderWidth={2}
 			borderColor="border"
 			boxShadow="md"
-			bgGradient="linear(to-t, gray.700, gray.600)"
+			bgGradient="linear(to-t, gray.600, gray.500)"
 			{...props}
 		/>
 	);
