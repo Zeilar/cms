@@ -65,7 +65,7 @@ CustomApp.getInitialProps = async (appContext: AppContext): Promise<Partial<Cust
 	});
 
 	if (status === 200) {
-		initialUser = data;
+		initialUser = data as Maybe<UserDto>;
 	}
 
 	return { ...appProps, initialUser };

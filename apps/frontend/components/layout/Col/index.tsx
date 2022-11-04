@@ -1,5 +1,6 @@
 import { Flex, FlexProps } from "@chakra-ui/react";
+import { forwardRef } from "react";
 
-export default function Col(props: FlexProps) {
-	return <Flex {...props} flexDir="column" />;
-}
+export default forwardRef<HTMLDivElement, FlexProps>((props, ref) => {
+	return <Flex ref={ref} flexDir="column" {...props} />;
+});
