@@ -35,7 +35,7 @@ export default function Sidebar() {
 			{data && data.length > 0 && (
 				<HoverList
 					items={data.map(space => ({
-						href: `/space/${space.id}`,
+						href: `/space/${space.name}`,
 						label: space.name,
 					}))}
 				/>

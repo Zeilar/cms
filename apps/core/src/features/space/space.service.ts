@@ -21,8 +21,8 @@ export class SpaceService {
 		return this.spaceRepository.create(dto);
 	}
 
-	public async findById(id: ID, wct?: boolean): Promise<Space | undefined> {
-		const space = await this.spaceRepository.findById(id);
+	public async findByName(name: string, wct?: boolean): Promise<Space | undefined> {
+		const space = await this.spaceRepository.findByName(name);
 		if (!space || !wct) {
 			return space;
 		}

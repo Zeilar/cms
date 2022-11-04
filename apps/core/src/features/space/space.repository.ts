@@ -15,8 +15,8 @@ export class SpaceRepository {
 		return Space.query().execute();
 	}
 
-	public findById(id: ID): Promise<Space | undefined> {
-		return Space.query().findById(id).execute();
+	public findByName(name: string): Promise<Space | undefined> {
+		return Space.query().findOne("name", name).execute();
 	}
 
 	public create(space: CreateSpaceDto): Promise<Space> {

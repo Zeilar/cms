@@ -51,11 +51,11 @@ export class SpaceController {
 	 * WCT stands for "with content types"
 	 */
 	@Get("/:id")
-	public async findById(
-		@Param("id") id: ID,
+	public async findByName(
+		@Param("id") name: string,
 		@Query("wct") wct: "true" | undefined
 	): Promise<Space> {
-		const space = await this.spaceService.findById(id, wct === "true");
+		const space = await this.spaceService.findByName(name, wct === "true");
 		this.assertSpaceFound(space);
 		return space;
 	}
