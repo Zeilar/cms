@@ -1,25 +1,24 @@
 import { Knex } from "knex";
+import { primaryKey } from "../util/primaryKey";
+import { Tables } from "../tables";
+import { timestamps } from "../util/timestamps";
 
 export function up(knex: Knex): Knex.SchemaBuilder {
-	const PG_CURRENT_TIMESTAMP = knex.raw("CURRENT_TIMESTAMP");
-	const PG_UUIDV4 = knex.raw("gen_random_uuid()");
 	return knex.schema
-		.createTable("spaces", table => {
-			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
-			table.string("name").notNullable();
-			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
-			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
+		.createTable(Tables.SPACES, table => {
+			primaryKey(table, knex);
+			table.string("name").notNullable().unique();
+			timestamps(table, knex);
 		})
-		.createTable("content_types", table => {
-			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
+		.createTable(Tables.CONTENT_TYPES, table => {
+			primaryKey(table, knex);
 			table.string("name").notNullable();
 			table.uuid("spaceId").unsigned().notNullable();
-			table.foreign("spaceId").references("spaces.id").onDelete("CASCADE");
-			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
-			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
+			table.foreign("spaceId").references(`${Tables.SPACES}.id`).onDelete("CASCADE");
+			timestamps(table, knex);
 		})
-		.createTable("fields", table => {
-			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
+		.createTable(Tables.FIELDS, table => {
+			primaryKey(table, knex);
 			table.string("name").notNullable();
 			table
 				.enum("type", [
@@ -33,12 +32,17 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 				])
 				.notNullable();
 			table.uuid("contentTypeId").unsigned().notNullable();
-			table.foreign("contentTypeId").references("content_types.id").onDelete("CASCADE");
-			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
-			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
+			table
+				.foreign("contentTypeId")
+				.references(`${Tables.CONTENT_TYPES}.id`)
+				.onDelete("CASCADE");
+			timestamps(table, knex);
 		});
 }
 
 export function down(knex: Knex): Knex.SchemaBuilder {
-	return knex.schema.dropTable("fields").dropTable("content_types").dropTable("spaces");
+	return knex.schema
+		.dropTable(Tables.FIELDS)
+		.dropTable(Tables.CONTENT_TYPES)
+		.dropTable(Tables.SPACES);
 }

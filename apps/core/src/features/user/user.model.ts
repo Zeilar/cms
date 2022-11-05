@@ -1,4 +1,5 @@
 import { Model } from "objection";
+import { Tables } from "../../core/db/tables";
 import { Role } from "../role/role.model";
 
 export class User extends Model {
@@ -8,19 +9,19 @@ export class User extends Model {
 	public roles?: Role[];
 	public password?: string;
 
-	public static tableName = "users";
+	public static tableName = Tables.USERS;
 
 	public static relationMappings = {
 		roles: {
 			relation: Model.ManyToManyRelation,
 			modelClass: Role,
 			join: {
-				from: "users.id",
+				from: `${this.tableName}.id`,
 				through: {
-					from: "users_roles.userId",
-					to: "users_roles.roleId",
+					from: `${Tables.USERS_ROLES}.userId`,
+					to: `${Tables.USERS_ROLES}.roleId`,
 				},
-				to: "roles.id",
+				to: `${Tables.ROLES}.id`,
 			},
 		},
 	};

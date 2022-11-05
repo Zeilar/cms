@@ -1,36 +1,34 @@
 import { Knex } from "knex";
 import { RoleValues } from "../../../../../../libs/shared/src";
+import { primaryKey } from "../util/primaryKey";
+import { Tables } from "../tables";
+import { timestamps } from "../util/timestamps";
 
 export function up(knex: Knex): Knex.SchemaBuilder {
-	const PG_CURRENT_TIMESTAMP = knex.raw("CURRENT_TIMESTAMP");
-	const PG_UUIDV4 = knex.raw("gen_random_uuid()");
 	return knex.schema
-		.createTable("users", table => {
-			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
+		.createTable(Tables.USERS, table => {
+			primaryKey(table, knex);
 			table.string("email").notNullable().unique();
 			table.string("name").notNullable();
 			table.text("password").notNullable();
-			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
-			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
+			timestamps(table, knex);
 		})
-		.createTable("users_roles", table => {
-			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
+		.createTable(Tables.USERS_ROLES, table => {
+			primaryKey(table, knex);
 			table.uuid("userId").unsigned().notNullable();
 			table.uuid("roleId").unsigned().notNullable();
-			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
-			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
+			timestamps(table, knex);
 		})
-		.createTable("roles", table => {
-			table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
+		.createTable(Tables.ROLES, table => {
+			primaryKey(table, knex);
 			table.enum("name", RoleValues).notNullable().unique();
-			table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
-			table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
+			timestamps(table, knex);
 		});
 }
 
 export function down(knex: Knex): Knex.SchemaBuilder {
 	return knex.schema
-		.dropTableIfExists("users")
-		.dropTableIfExists("users_roles")
-		.dropTableIfExists("roles");
+		.dropTableIfExists(Tables.USERS)
+		.dropTableIfExists(Tables.USERS_ROLES)
+		.dropTableIfExists(Tables.ROLES);
 }

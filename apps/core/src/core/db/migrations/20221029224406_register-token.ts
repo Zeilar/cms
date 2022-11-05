@@ -1,15 +1,15 @@
 import { Knex } from "knex";
+import { primaryKey } from "../util/primaryKey";
+import { Tables } from "../tables";
+import { timestamps } from "../util/timestamps";
 
 export async function up(knex: Knex): Promise<Knex.SchemaBuilder> {
-	const PG_CURRENT_TIMESTAMP = knex.raw("CURRENT_TIMESTAMP");
-	const PG_UUIDV4 = knex.raw("gen_random_uuid()");
-	return knex.schema.createTable("register_tokens", table => {
-		table.uuid("id", { primaryKey: true }).defaultTo(PG_UUIDV4);
+	return knex.schema.createTable(Tables.REGISTER_TOKENS, table => {
+		primaryKey(table, knex);
 		table.string("email").notNullable().unique();
 		table.string("token").notNullable().unique();
 		table.timestamp("expires_at").notNullable();
-		table.timestamp("created_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
-		table.timestamp("updated_at").notNullable().defaultTo(PG_CURRENT_TIMESTAMP);
+		timestamps(table, knex);
 	});
 }
 
