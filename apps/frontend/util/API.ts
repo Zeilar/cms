@@ -8,9 +8,9 @@ interface FetchOptions {
 	cookie?: string;
 }
 
-export interface ParsedResponse<T> extends ApiResponse<T> {
-	status: number;
-	ok: boolean;
+export interface ParsedResponse<T, IsSuccess = false> extends ApiResponse<T, IsSuccess> {
+	status?: number;
+	ok?: boolean;
 }
 
 const DEFAULT_FETCH_OPTIONS: FetchOptions = {

@@ -3,7 +3,7 @@ export interface ApiError {
 	message: string;
 }
 
-export interface ApiResponse<T = unknown> {
-	data?: T;
-	error?: ApiError;
+export interface ApiResponse<T = unknown, IsSuccess = false> {
+	data: IsSuccess extends true ? T : undefined;
+	error: IsSuccess extends false ? ApiError : undefined;
 }

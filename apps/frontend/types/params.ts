@@ -1,7 +1,7 @@
 import { ParsedUrlQuery } from "querystring";
 
 export interface SpacePageParams extends ParsedUrlQuery {
-	spaceId: string;
+	spaceName: string;
 }
 
 export interface ContentTypePageParams extends SpacePageParams {
