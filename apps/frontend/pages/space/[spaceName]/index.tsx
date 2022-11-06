@@ -1,17 +1,14 @@
-import Spinner from "apps/frontend/components/Spinner";
 import { API, ParsedResponse } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import useSWR from "swr";
 import { SpacePageParams } from "apps/frontend/types/params";
+import { Box, Container, Heading } from "@chakra-ui/react";
+import HoverList from "apps/frontend/components/HoverList";
 import Col from "apps/frontend/components/layout/Col";
-import Navbar from "apps/frontend/components/Navbar";
-import GradientBox from "apps/frontend/components/layout/GradientBox";
-import { Container, Heading } from "@chakra-ui/react";
-import useFetch from "apps/frontend/hooks/useFetch";
+import { useMemo } from "react";
 
 interface Props {
-	result: ParsedResponse<SpaceDto, true>;
+	result: ParsedResponse<SpaceDto>;
 	spaceName: string;
 }
 
@@ -19,11 +16,23 @@ function fetcher(spaceName: string): () => Promise<ParsedResponse<SpaceDto>> {
 	return () => API.fetch<SpaceDto>(`space/${spaceName}?wct=true`);
 }
 
-export default function Page({ result, spaceName }: Props) {
+export default function Page({ result }: Props) {
+	const spaceUrl = useMemo(() => `/space/${result.data.name}`, [result.data.name]);
 	return (
-		<Container maxW="container.lg">
+		<Col grow={1}>
+			<Box w="full" borderBottomWidth={1} bgColor="gray.600" p={2}>
+				<Container w="full" maxW="container.lg">
+					<HoverList
+						direction="row"
+						items={[
+							{ href: spaceUrl, label: "Overview" },
+							{ href: `${spaceUrl}/content-types`, label: "Content Types" },
+						]}
+					/>
+				</Container>
+			</Box>
 			<Heading>{result.data.name}</Heading>
-		</Container>
+		</Col>
 	);
 }
 

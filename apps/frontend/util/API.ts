@@ -8,7 +8,7 @@ interface FetchOptions {
 	cookie?: string;
 }
 
-export interface ParsedResponse<T, IsSuccess = false> extends ApiResponse<T, IsSuccess> {
+export interface ParsedResponse<T> extends ApiResponse<T> {
 	status?: number;
 	ok?: boolean;
 }

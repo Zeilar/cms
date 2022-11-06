@@ -1,36 +1,37 @@
-import Spinner from "apps/frontend/components/Spinner";
 import { API, ParsedResponse } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import useSWR from "swr";
 import { SpacePageParams } from "apps/frontend/types/params";
+import { Box, Container, Heading } from "@chakra-ui/react";
+import HoverList from "apps/frontend/components/HoverList";
 import Col from "apps/frontend/components/layout/Col";
-import Navbar from "apps/frontend/components/Navbar";
+import { useMemo } from "react";
 
 interface Props {
-	initialData: ParsedResponse<SpaceDto>;
-	spaceId: string;
+	result: ParsedResponse<SpaceDto>;
+	spaceName: string;
 }
 
-function fetcher(spaceId: string): () => Promise<ParsedResponse<SpaceDto>> {
-	return () => API.fetch<SpaceDto>(`space/${spaceId}?wct=true`);
+function fetcher(spaceName: string): () => Promise<ParsedResponse<SpaceDto>> {
+	return () => API.fetch<SpaceDto>(`space/${spaceName}?wct=true`);
 }
 
-export default function Page({ initialData, spaceId }: Props) {
-	const { data, isValidating } = useSWR(`space-${spaceId}`, fetcher(spaceId), {
-		fallbackData: initialData,
-	});
+export default function Page({ result }: Props) {
+	const spaceUrl = useMemo(() => `/space/${result.data.name}`, [result.data.name]);
 	return (
 		<Col grow={1}>
-			<Navbar
-				items={[
-					{ href: `/space/${spaceId}`, label: "Overview" },
-					{ href: `/space/${spaceId}/content-types`, label: "Content types" },
-				]}
-			/>
-			<p>{data?.data?.name}</p>
-			<pre>{JSON.stringify(data?.data?.contentTypes, null, 4)}</pre>
-			{isValidating && <Spinner />}
+			<Box w="full" borderBottomWidth={1} bgColor="gray.600" p={2}>
+				<Container w="full" maxW="container.lg">
+					<HoverList
+						direction="row"
+						items={[
+							{ href: spaceUrl, label: "Overview" },
+							{ href: `${spaceUrl}/content-types`, label: "Content Types" },
+						]}
+					/>
+				</Container>
+			</Box>
+			<Heading>{result.data.name}</Heading>
 		</Col>
 	);
 }
@@ -38,15 +39,20 @@ export default function Page({ initialData, spaceId }: Props) {
 export async function getServerSideProps({
 	params,
 }: GetServerSidePropsContext<SpacePageParams>): Promise<GetServerSidePropsResult<Props>> {
-	const spaceId = params?.spaceId;
-	if (!spaceId) {
-		throw new Error("Missing space id");
+	const spaceName = params?.spaceName;
+	if (!spaceName) {
+		throw new Error("Missing space name");
 	}
-	const response = await fetcher(spaceId)();
+	const response = await fetcher(spaceName)();
+	if (!response.ok) {
+		return {
+			notFound: true,
+		};
+	}
 	return {
 		props: {
-			initialData: response,
-			spaceId,
+			result: response,
+			spaceName,
 		},
 	};
 }

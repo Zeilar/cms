@@ -1,16 +1,16 @@
-import { List } from "@chakra-ui/react";
+import { Flex, List } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import Col from "../layout/Col";
 import HoverListBox from "./HoverListBox";
 import HoverListItem from "./HoverListItem";
 import { HoverPosition, IHoverListItem } from "./types";
 
 interface HoverListProps {
 	items: IHoverListItem[];
+	direction?: "column" | "row";
 }
 
-export default function HoverList({ items }: HoverListProps) {
+export default function HoverList({ items, direction = "column" }: HoverListProps) {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const [hoverPosition, setHoverPosition] = useState<HoverPosition | null>(null);
 
@@ -49,13 +49,13 @@ export default function HoverList({ items }: HoverListProps) {
 	}, []);
 
 	return (
-		<Col as={List} ref={ref} data-hoverlist pointerEvents="none" gap={1}>
+		<Flex flexDir={direction} as={List} ref={ref} data-hoverlist pointerEvents="none" gap={1}>
 			<AnimatePresence>
 				{hoverPosition !== null && <HoverListBox {...hoverPosition} />}
 			</AnimatePresence>
 			{items.map(item => (
 				<HoverListItem key={item.href} {...item} />
 			))}
-		</Col>
+		</Flex>
 	);
 }

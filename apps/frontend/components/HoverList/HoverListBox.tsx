@@ -19,8 +19,8 @@ export default function HoverListBox({ height, width, x, y }: HoverPosition) {
 				p={4}
 				bgColor="gray.700"
 				top={`${y}px`}
-				left={`${x + 4}px`}
-				w={`${width - 8}px`}
+				left={`${x}px`}
+				w={`${width}px`}
 				h={`${height}px`}
 			/>
 		</MotionBox>

@@ -9,6 +9,6 @@ interface Response<T> {
 @Injectable()
 export class DataInterceptor<T = unknown> implements NestInterceptor<T, Response<T>> {
 	public intercept(_context: ExecutionContext, next: CallHandler): Observable<Response<T>> {
-		return next.handle().pipe(map(data => ({ data })));
+		return next.handle().pipe(map(data => ({ data, error: {} })));
 	}
 }

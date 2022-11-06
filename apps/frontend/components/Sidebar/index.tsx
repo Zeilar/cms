@@ -1,4 +1,4 @@
-import { Divider, Flex, Heading, Icon } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading, Icon } from "@chakra-ui/react";
 import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
 import UnstyledLink from "../HiddenLink";
 import { API, ParsedResponse } from "apps/frontend/util/API";
@@ -32,14 +32,17 @@ export default function Sidebar() {
 			<Heading size="xs" color="accent.main" px={4} py={2} textStyle="tinyHeading">
 				Spaces
 			</Heading>
-			{data && data.length > 0 && (
-				<HoverList
-					items={data.map(space => ({
-						href: `/space/${space.name}`,
-						label: space.name,
-					}))}
-				/>
-			)}
+			<Box mx={2}>
+				{data && data.length > 0 && (
+					<HoverList
+						items={data.map(space => ({
+							href: `/space/${space.name}`,
+							label: space.name,
+							strict: false,
+						}))}
+					/>
+				)}
+			</Box>
 			<Divider mt="auto" />
 			<Flex>{isAuthenticated && <p>Hello {user?.name}</p>}</Flex>
 		</Flex>

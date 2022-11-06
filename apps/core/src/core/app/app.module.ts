@@ -6,11 +6,13 @@ import { FieldModule } from "../../features/field/field.module";
 import { UserModule } from "../../features/user/user.module";
 import { AuthModule } from "../../features/auth/auth.module";
 import { ScheduleModule } from "@nestjs/schedule";
+import { EntryModule } from "../../features/entry/entry.module";
 
 @Module({
 	imports: [
 		ScheduleModule.forRoot(),
 		ConfigModule,
+		EntryModule,
 		FieldModule,
 		ContentTypeModule,
 		SpaceModule,
