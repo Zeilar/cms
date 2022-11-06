@@ -25,9 +25,11 @@ export default function Sidebar() {
 			borderRightWidth={1}
 			borderRightColor="border"
 		>
-			<UnstyledLink as={Flex} py={4} px={2} href="/">
-				<Icon w={200} h="fit-content" as={Logo} />
-			</UnstyledLink>
+			<Flex py={4} px={2} h="64px">
+				<UnstyledLink href="/">
+					<Icon w="fit-content" h="100%" as={Logo} />
+				</UnstyledLink>
+			</Flex>
 			<Divider mb={4} />
 			<Heading size="xs" color="accent.main" px={4} py={2} textStyle="tinyHeading">
 				Spaces

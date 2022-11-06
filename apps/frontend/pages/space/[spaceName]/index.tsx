@@ -31,7 +31,9 @@ export default function Page({ result }: Props) {
 					/>
 				</Container>
 			</Box>
-			<Heading>{result.data.name}</Heading>
+			<Container maxW="container.lg">
+				<Heading>{result.data.name}</Heading>
+			</Container>
 		</Col>
 	);
 }
