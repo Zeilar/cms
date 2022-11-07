@@ -1,5 +1,14 @@
 import { CreateContentTypeDto } from "../../common/validators/content-type/CreateContentTypeDto";
-import { Body, Controller, Get, NotFoundException, Param, Post, Query } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	NotFoundException,
+	Param,
+	Post,
+	Query,
+	BadRequestException,
+} from "@nestjs/common";
 import { ContentTypeService } from "./content-type.service";
 import type { ID } from "../../types/repository";
 import { ContentType } from "./content-type.model";
@@ -24,12 +33,17 @@ export class ContentTypeController {
 	 * WF stands for "with fields"
 	 */
 	@Get("/:id")
-	public async findById(
-		@Param("id") id: ID,
-		@Query("wf") wf: "true" | undefined
-	): Promise<ContentType> {
+	public async findById(@Param("id") id: ID, @Query("wf") wf?: "true"): Promise<ContentType> {
 		const contentType = await this.contentTypeService.findById(id, wf === "true");
 		this.assertContentTypeFound(contentType);
 		return contentType;
+	}
+
+	@Get("/")
+	public async findBySpaceName(@Query("spaceName") spaceName?: string): Promise<ContentType[]> {
+		if (spaceName === undefined) {
+			throw new BadRequestException("Missing space name.");
+		}
+		return this.contentTypeService.findBySpaceName(spaceName);
 	}
 }

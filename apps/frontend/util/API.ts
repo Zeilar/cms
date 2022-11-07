@@ -6,6 +6,7 @@ interface FetchOptions {
 	data?: unknown;
 	method?: HttpVerb;
 	cookie?: string;
+	query?: Record<string, unknown>;
 }
 
 export interface ParsedResponse<T> extends ApiResponse<T> {
@@ -24,9 +25,11 @@ export class API {
 
 	public static async fetch<T>(
 		url: string,
-		{ method, data, cookie }: FetchOptions = DEFAULT_FETCH_OPTIONS
+		{ method, data, cookie, query }: FetchOptions = DEFAULT_FETCH_OPTIONS
 	): Promise<ParsedResponse<T>> {
-		const response = await fetch(`${this.baseUrl}/${url}`, {
+		// @ts-expect-error the constructor will stringify anything, so using unknown type is fine
+		const queryString = query ? `?${new URLSearchParams(query).toString()}` : "";
+		const response = await fetch(`${this.baseUrl}/${url}${queryString}`, {
 			// @ts-expect-error cookie is a valid header
 			headers: {
 				"Content-Type": "application/json",

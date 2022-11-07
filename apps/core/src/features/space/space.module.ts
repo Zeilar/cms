@@ -8,6 +8,6 @@ import { SpaceService } from "./space.service";
 	imports: [ContentTypeModule],
 	controllers: [SpaceController],
 	providers: [SpaceService, SpaceRepository],
-	exports: [SpaceService],
+	exports: [SpaceService, SpaceRepository],
 })
 export class SpaceModule {}
