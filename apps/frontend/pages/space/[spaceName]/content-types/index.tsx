@@ -13,12 +13,13 @@ interface Props {
 }
 
 function fetcher(spaceName: string): () => Promise<ParsedResponse<SpaceDto>> {
-	return () => API.fetch<SpaceDto>("content-type", { query: { spaceName } });
+	return () => API.fetch<SpaceDto>(`space/${spaceName}`, { query: { wct: true } });
 }
 
 export default function Page({ result }: Props) {
 	const [spaceName] = useParams("spaceName");
 	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
+	const { data } = result;
 	return (
 		<MainContent
 			navbarItems={[
@@ -26,7 +27,10 @@ export default function Page({ result }: Props) {
 				{ href: `${spaceUrl}/content-types`, label: "Content Types" },
 			]}
 		>
-			<Heading>{result.data.name}</Heading>
+			<Heading>{data.name}</Heading>
+			{data.contentTypes.map(contentType => (
+				<p key={Math.random()}>{contentType.name}</p>
+			))}
 		</MainContent>
 	);
 }
@@ -41,6 +45,8 @@ export async function getServerSideProps({
 	}
 
 	const response = await fetcher(spaceName)();
+
+	console.log({ response });
 
 	if (response.status === 404) {
 		return {

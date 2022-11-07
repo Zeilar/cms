@@ -18,7 +18,9 @@ export default function MainContent({ children, navbarItems }: Props) {
 					</Container>
 				)}
 			</Box>
-			<Container maxW="container.lg">{children}</Container>
+			<Container py={8} maxW="container.lg">
+				{children}
+			</Container>
 		</Col>
 	);
 }

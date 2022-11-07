@@ -44,6 +44,6 @@ export class ContentTypeController {
 		if (spaceName === undefined) {
 			throw new BadRequestException("Missing space name.");
 		}
-		return this.contentTypeService.findBySpaceName(spaceName);
+		return this.contentTypeService.findBySpaceId(spaceName);
 	}
 }

@@ -30,7 +30,7 @@ export class SpaceController {
 	}
 
 	// MAKE THESE PIPE MIDDLEWARES
-	private assertIdIsUuid(data: unknown) {
+	private assertIsUuid(data: unknown) {
 		if (typeof data == "string" && validate(data)) {
 			return;
 		}
@@ -50,10 +50,10 @@ export class SpaceController {
 	/**
 	 * WCT stands for "with content types"
 	 */
-	@Get("/:id")
+	@Get("/:name")
 	public async findByName(
-		@Param("id") name: string,
-		@Query("wct") wct: "true" | undefined
+		@Param("name") name: string,
+		@Query("wct") wct?: "true"
 	): Promise<Space> {
 		const space = await this.spaceService.findByName(name, wct === "true");
 		this.assertSpaceFound(space);
@@ -63,7 +63,7 @@ export class SpaceController {
 	@Delete("/:id")
 	public async destroy(@Param("id") id: ID): Promise<void> {
 		const success = await this.spaceService.destroy(id);
-		if (!success) {
+		if (success === 0) {
 			throw new InternalServerErrorException("Failed deleting space");
 		}
 	}

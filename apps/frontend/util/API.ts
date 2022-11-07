@@ -29,7 +29,8 @@ export class API {
 	): Promise<ParsedResponse<T>> {
 		// @ts-expect-error the constructor will stringify anything, so using unknown type is fine
 		const queryString = query ? `?${new URLSearchParams(query).toString()}` : "";
-		const response = await fetch(`${this.baseUrl}/${url}${queryString}`, {
+		const dirtyUrl = `${this.baseUrl}/${url}${queryString}`;
+		const response = await fetch(encodeURI(dirtyUrl), {
 			// @ts-expect-error cookie is a valid header
 			headers: {
 				"Content-Type": "application/json",

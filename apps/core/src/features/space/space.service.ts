@@ -26,7 +26,7 @@ export class SpaceService {
 		if (!space || !wct) {
 			return space;
 		}
-		space.contentTypes = await this.contentTypeService.findBySpaceName(space.id);
+		space.contentTypes = await this.contentTypeService.findBySpaceId(space.id);
 		return space;
 	}
 

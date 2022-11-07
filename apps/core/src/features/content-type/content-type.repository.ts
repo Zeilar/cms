@@ -1,8 +1,7 @@
 import { CreateContentTypeDto } from "../../common/validators/content-type/CreateContentTypeDto";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import type { ID } from "../../types/repository";
 import { ContentType } from "./content-type.model";
-import { Space } from "../space/space.model";
 
 @Injectable()
 export class ContentTypeRepository {
@@ -14,11 +13,7 @@ export class ContentTypeRepository {
 		return ContentType.query().insertAndFetch(contentType).execute();
 	}
 
-	public async findBySpaceName(spaceName: string): Promise<ContentType[]> {
-		const space = await Space.query().findOne("name", spaceName);
-		if (!space) {
-			throw new NotFoundException("Space not found.");
-		}
-		return ContentType.query().where({ spaceId: space.id }).execute();
+	public findBySpaceId(spaceId: ID): Promise<ContentType[]> {
+		return ContentType.query().where({ spaceId }).execute();
 	}
 }
