@@ -9,6 +9,7 @@ import { useParams } from "apps/frontend/hooks/useParams";
 import CreateContentTypeForm from "apps/frontend/components/CreateContentTypeForm";
 import useFetch from "apps/frontend/hooks/useFetch";
 import { useSWRConfig } from "swr";
+import Breadcrumbs from "apps/frontend/components/Breadcrumbs";
 
 interface Props {
 	result: ParsedResponse<ContentTypeDto[]>;
@@ -43,6 +44,9 @@ export default function Page({ result }: Props) {
 					onClose={createContentTypeForm.onClose}
 				/>
 			)}
+			<Breadcrumbs
+				items={[{ label: spaceName, href: spaceUrl }, { label: "Content Types" }]}
+			/>
 			<Flex justify="space-between" align="center">
 				<Heading size="lg">Content Types</Heading>
 				<Button variant="outline" onClick={createContentTypeForm.onOpen}>

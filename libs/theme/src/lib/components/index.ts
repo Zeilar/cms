@@ -6,3 +6,4 @@ export * from "./Form";
 export * from "./PinInput";
 export * from "./Spinner";
 export * from "./Modal";
+export * from "./Breadcrumb";
