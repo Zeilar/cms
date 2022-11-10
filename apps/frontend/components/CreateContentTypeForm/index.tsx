@@ -29,14 +29,14 @@ interface Fields {
 }
 
 export default function CreateContentTypeForm({ spaceName, onSubmit, isOpen, onClose }: Props) {
-	const { handleSubmit, register, formState } = useForm<Fields>({
+	const { handleSubmit, register, formState, reset } = useForm<Fields>({
 		defaultValues: {
 			name: "",
 		},
 		mode: "onSubmit",
 	});
 
-	async function submit({ name }: Fields) {
+	async function submit({ name }: Fields): Promise<void> {
 		const { ok } = await API.fetch("content-type", {
 			method: "POST",
 			data: { name, spaceName },
@@ -45,6 +45,7 @@ export default function CreateContentTypeForm({ spaceName, onSubmit, isOpen, onC
 			return;
 		}
 		onClose();
+		reset();
 		onSubmit();
 	}
 
