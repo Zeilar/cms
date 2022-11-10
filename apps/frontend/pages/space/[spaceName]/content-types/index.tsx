@@ -7,6 +7,8 @@ import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
 import { useParams } from "apps/frontend/hooks/useParams";
 import CreateContentTypeForm from "apps/frontend/components/CreateContentTypeForm";
+import useFetch from "apps/frontend/hooks/useFetch";
+import { useSWRConfig } from "swr";
 
 interface Props {
 	result: ParsedResponse<ContentTypeDto[]>;
@@ -14,17 +16,17 @@ interface Props {
 }
 
 function fetcher(spaceName: string): () => Promise<ParsedResponse<ContentTypeDto[]>> {
-	console.log("yes");
 	return () => API.fetch<ContentTypeDto[]>("content-type", { query: { spaceName } });
 }
 
 export default function Page({ result }: Props) {
-	const [spaceName] = useParams("spaceName");
+	const [spaceName] = useParams<["spaceName"]>("spaceName");
+	const { mutate } = useSWRConfig();
+	const { data } = useFetch<ContentTypeDto[]>(`${spaceName}-content-types`, fetcher(spaceName), {
+		initialData: result,
+	});
 	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
 	const createContentTypeForm = useDisclosure();
-	const { data } = result;
-
-	console.log(data);
 
 	return (
 		<MainContent
@@ -35,6 +37,10 @@ export default function Page({ result }: Props) {
 		>
 			{typeof spaceName === "string" && (
 				<CreateContentTypeForm
+					onSubmit={() => {
+						mutate(`${spaceName}-content-types`);
+						console.log("mutate", `${spaceName}-content-types`);
+					}}
 					spaceName={spaceName}
 					isOpen={createContentTypeForm.isOpen}
 					onClose={createContentTypeForm.onClose}
@@ -47,7 +53,7 @@ export default function Page({ result }: Props) {
 				</Button>
 			</Flex>
 			<Divider my={4} />
-			{data.map(contentType => (
+			{data?.map(contentType => (
 				<p key={Math.random()}>{contentType.name}</p>
 			))}
 		</MainContent>

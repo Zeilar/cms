@@ -21,21 +21,29 @@ interface Props {
 	onClose(): void;
 	isOpen: boolean;
 	spaceName: string;
+	onSubmit(): void;
 }
 
 interface Fields {
 	name: string;
 }
 
-export default function CreateContentTypeForm({ spaceName, ...props }: Props) {
+export default function CreateContentTypeForm({ spaceName, onSubmit, ...props }: Props) {
 	const { handleSubmit, register, formState } = useForm<Fields>({
 		defaultValues: {
 			name: "",
 		},
 	});
 
-	function submit({ name }: Fields) {
-		API.fetch("content-type", { method: "POST", data: { name, spaceName } });
+	async function submit({ name }: Fields) {
+		const { ok } = await API.fetch("content-type", {
+			method: "POST",
+			data: { name, spaceName },
+		});
+		if (!ok) {
+			return;
+		}
+		onSubmit();
 	}
 
 	return (
