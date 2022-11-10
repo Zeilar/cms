@@ -10,7 +10,7 @@ export const Button = defineStyleConfig({
 		outline: {
 			color: "accent.main",
 			borderColor: "accent.main",
-			borderWidth: 2,
+			borderWidth: 1,
 			"&:hover, &:active": {
 				bgColor: "accent.main",
 				color: "gray.900",
