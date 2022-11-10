@@ -28,11 +28,12 @@ interface Fields {
 	name: string;
 }
 
-export default function CreateContentTypeForm({ spaceName, onSubmit, ...props }: Props) {
+export default function CreateContentTypeForm({ spaceName, onSubmit, isOpen, onClose }: Props) {
 	const { handleSubmit, register, formState } = useForm<Fields>({
 		defaultValues: {
 			name: "",
 		},
+		mode: "onSubmit",
 	});
 
 	async function submit({ name }: Fields) {
@@ -43,11 +44,12 @@ export default function CreateContentTypeForm({ spaceName, onSubmit, ...props }:
 		if (!ok) {
 			return;
 		}
+		onClose();
 		onSubmit();
 	}
 
 	return (
-		<Modal {...props}>
+		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
 			<ModalContent>
 				<ModalHeader>Create Content Type</ModalHeader>
@@ -73,6 +75,7 @@ export default function CreateContentTypeForm({ spaceName, onSubmit, ...props }:
 						<Input
 							required
 							isRequired
+							disabled={formState.isSubmitting}
 							placeholder="Post"
 							id="name"
 							{...register("name", {
@@ -91,7 +94,7 @@ export default function CreateContentTypeForm({ spaceName, onSubmit, ...props }:
 							<FormErrorMessage>{formState.errors.name.message}</FormErrorMessage>
 						)}
 					</FormControl>
-					<ButtonWithArrow w="full" mt="auto">
+					<ButtonWithArrow w="full" mt="auto" disabled={formState.isSubmitting}>
 						Submit
 					</ButtonWithArrow>
 				</ModalBody>

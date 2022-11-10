@@ -20,6 +20,9 @@ export const Input = defineStyleConfig({
 				"&:hover, &:focus-visible": {
 					bgColor: "gray.500",
 				},
+				"&:disabled:hover": {
+					bgColor: "transparent",
+				},
 				_focusVisible: {
 					borderColor: "accent.main",
 				},

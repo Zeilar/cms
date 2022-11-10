@@ -37,10 +37,7 @@ export default function Page({ result }: Props) {
 		>
 			{typeof spaceName === "string" && (
 				<CreateContentTypeForm
-					onSubmit={() => {
-						mutate(`${spaceName}-content-types`);
-						console.log("mutate", `${spaceName}-content-types`);
-					}}
+					onSubmit={() => mutate(`${spaceName}-content-types`)}
 					spaceName={spaceName}
 					isOpen={createContentTypeForm.isOpen}
 					onClose={createContentTypeForm.onClose}
