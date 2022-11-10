@@ -13,7 +13,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 		.createTable(Tables.CONTENT_TYPES, table => {
 			primaryKey(table, knex);
 			table.string("name").notNullable();
-			table.uuid("spaceId").unsigned().notNullable();
+			table.uuid("spaceId").notNullable();
 			table.foreign("spaceId").references(`${Tables.SPACES}.id`).onDelete("CASCADE");
 			timestamps(table, knex);
 		})
@@ -31,7 +31,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 					"location",
 				])
 				.notNullable();
-			table.uuid("contentTypeId").unsigned().notNullable();
+			table.uuid("contentTypeId").notNullable();
 			table
 				.foreign("contentTypeId")
 				.references(`${Tables.CONTENT_TYPES}.id`)

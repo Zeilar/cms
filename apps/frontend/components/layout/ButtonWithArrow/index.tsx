@@ -9,8 +9,8 @@ export default function ButtonWithArrow({ children, ...props }: ButtonProps) {
 			mt={4}
 			_hover={{
 				"> svg": {
-					w: 5,
-					h: 5,
+					w: 4,
+					h: 4,
 					ml: 2,
 				},
 			}}

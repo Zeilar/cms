@@ -15,8 +15,8 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 		})
 		.createTable(Tables.USERS_ROLES, table => {
 			primaryKey(table, knex);
-			table.uuid("userId").unsigned().notNullable();
-			table.uuid("roleId").unsigned().notNullable();
+			table.uuid("userId").notNullable();
+			table.uuid("roleId").notNullable();
 			timestamps(table, knex);
 		})
 		.createTable(Tables.ROLES, table => {

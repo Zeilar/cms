@@ -1,5 +1,5 @@
 import { CreateSpaceDto } from "../../common/validators/space/CreateSpaceDto";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject, forwardRef } from "@nestjs/common";
 import { Space } from "./space.model";
 import { SpaceRepository } from "./space.repository";
 import type { ID } from "../../types/repository";
@@ -10,6 +10,7 @@ import { ContentTypeService } from "../content-type/content-type.service";
 export class SpaceService {
 	public constructor(
 		private readonly spaceRepository: SpaceRepository,
+		@Inject(forwardRef(() => ContentTypeService))
 		private readonly contentTypeService: ContentTypeService
 	) {}
 
@@ -26,7 +27,7 @@ export class SpaceService {
 		if (!space || !wct) {
 			return space;
 		}
-		space.contentTypes = await this.contentTypeService.findBySpaceId(space.id);
+		space.contentTypes = await this.contentTypeService.findBySpaceName(space.id);
 		return space;
 	}
 

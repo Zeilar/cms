@@ -3,7 +3,7 @@ import Col from "../../layout/Col";
 import { useForm } from "react-hook-form";
 import useAuthContext from "apps/frontend/hooks/useAuthContext";
 import ButtonWithArrow from "../../layout/ButtonWithArrow";
-import { FirstRegisterDto, Validation } from "@shared";
+import { FirstRegisterDto, RegisterValidation } from "@shared";
 import EnhancedFormLabel from "../../layout/EnhancedFormLabel";
 
 interface Fields extends FirstRegisterDto {
@@ -33,7 +33,7 @@ export default function FirstTimeRegisterForm() {
 				<EnhancedFormLabel
 					id="registerEmail"
 					heading="Email"
-					tooltipLabel={`Must not exceed ${Validation.EMAIL_MAX_LENGTH} characters`}
+					tooltipLabel={`Must not exceed ${RegisterValidation.EMAIL_MAX_LENGTH} characters`}
 				/>
 				<Input
 					autoComplete="off"
@@ -45,8 +45,8 @@ export default function FirstTimeRegisterForm() {
 					{...register("email", {
 						required: "Email is required",
 						maxLength: {
-							message: `Email must not exceed ${Validation.EMAIL_MAX_LENGTH} characters`,
-							value: Validation.EMAIL_MAX_LENGTH,
+							message: `Email must not exceed ${RegisterValidation.EMAIL_MAX_LENGTH} characters`,
+							value: RegisterValidation.EMAIL_MAX_LENGTH,
 						},
 					})}
 				/>
@@ -60,8 +60,12 @@ export default function FirstTimeRegisterForm() {
 					heading="Name"
 					tooltipLabel={
 						<Col>
-							<Text>Must have minimum {Validation.NAME_MIN_LENGTH} characters</Text>
-							<Text>Must not exceed {Validation.NAME_MAX_LENGTH} characters</Text>
+							<Text>
+								Must have minimum {RegisterValidation.NAME_MIN_LENGTH} characters
+							</Text>
+							<Text>
+								Must not exceed {RegisterValidation.NAME_MAX_LENGTH} characters
+							</Text>
 						</Col>
 					}
 				/>
@@ -74,12 +78,12 @@ export default function FirstTimeRegisterForm() {
 					{...register("name", {
 						required: "Name is required",
 						minLength: {
-							message: `Name must have a minimum of ${Validation.NAME_MIN_LENGTH} characters`,
-							value: Validation.NAME_MIN_LENGTH,
+							message: `Name must have a minimum of ${RegisterValidation.NAME_MIN_LENGTH} characters`,
+							value: RegisterValidation.NAME_MIN_LENGTH,
 						},
 						maxLength: {
-							message: `Name must not exceed ${Validation.NAME_MAX_LENGTH} characters`,
-							value: Validation.NAME_MAX_LENGTH,
+							message: `Name must not exceed ${RegisterValidation.NAME_MAX_LENGTH} characters`,
+							value: RegisterValidation.NAME_MAX_LENGTH,
 						},
 					})}
 				/>
@@ -94,9 +98,12 @@ export default function FirstTimeRegisterForm() {
 					tooltipLabel={
 						<Col>
 							<Text>
-								Must have minimum {Validation.PASSWORD_MIN_LENGTH} characters
+								Must have minimum {RegisterValidation.PASSWORD_MIN_LENGTH}{" "}
+								characters
 							</Text>
-							<Text>Must not exceed {Validation.PASSWORD_MAX_LENGTH} characters</Text>
+							<Text>
+								Must not exceed {RegisterValidation.PASSWORD_MAX_LENGTH} characters
+							</Text>
 						</Col>
 					}
 				/>
@@ -110,12 +117,12 @@ export default function FirstTimeRegisterForm() {
 					{...register("password", {
 						required: "Password is required",
 						minLength: {
-							message: `Password must have a minimum of ${Validation.PASSWORD_MIN_LENGTH} characters`,
-							value: Validation.PASSWORD_MIN_LENGTH,
+							message: `Password must have a minimum of ${RegisterValidation.PASSWORD_MIN_LENGTH} characters`,
+							value: RegisterValidation.PASSWORD_MIN_LENGTH,
 						},
 						maxLength: {
-							message: `Password must not exceed ${Validation.PASSWORD_MAX_LENGTH} characters`,
-							value: Validation.NAME_MAX_LENGTH,
+							message: `Password must not exceed ${RegisterValidation.PASSWORD_MAX_LENGTH} characters`,
+							value: RegisterValidation.NAME_MAX_LENGTH,
 						},
 					})}
 				/>

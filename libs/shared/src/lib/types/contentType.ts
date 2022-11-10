@@ -6,3 +6,8 @@ export interface ContentTypeDto extends Timestamps {
 	name: string;
 	fields: FieldDto[];
 }
+
+export interface CreateContentTypeDto {
+	name: string;
+	spaceName: string;
+}

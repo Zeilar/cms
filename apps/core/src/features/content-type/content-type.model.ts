@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import { Model } from "objection";
 import { Tables } from "../../core/db/tables";
 import { Field } from "../field/field.model";
@@ -6,6 +8,7 @@ import { Space } from "../space/space.model";
 export class ContentType extends Model {
 	public readonly id: string;
 	public readonly name: string;
+	public readonly spaceId?: string;
 	public space?: Space;
 	public fields?: Field[];
 
@@ -14,7 +17,7 @@ export class ContentType extends Model {
 	public static relationMappings = {
 		space: {
 			relation: Model.BelongsToOneRelation,
-			modelClass: Space,
+			modelClass: require("../space/space.model").Space,
 			join: {
 				from: `${this.tableName}.spaceId`,
 				to: `${Tables.SPACES}.id`,

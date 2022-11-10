@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import { Model } from "objection";
 import { Tables } from "../../core/db/tables";
 import { ContentType } from "../content-type/content-type.model";
@@ -12,7 +14,7 @@ export class Space extends Model {
 	public static relationMappings = {
 		contentTypes: {
 			relation: Model.HasManyRelation,
-			modelClass: ContentType,
+			modelClass: require("../content-type/content-type.model").ContentType,
 			join: {
 				from: `${this.tableName}.id`,
 				to: `${Tables.CONTENT_TYPES}.spaceId`,

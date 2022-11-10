@@ -1,25 +1,31 @@
 import { API, ParsedResponse } from "apps/frontend/util/API";
-import { SpaceDto } from "@shared";
+import { ContentTypeDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { SpacePageParams } from "apps/frontend/types/params";
-import { Heading } from "@chakra-ui/react";
+import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react";
 import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
 import { useParams } from "apps/frontend/hooks/useParams";
+import CreateContentTypeForm from "apps/frontend/components/CreateContentTypeForm";
 
 interface Props {
-	result: ParsedResponse<SpaceDto>;
+	result: ParsedResponse<ContentTypeDto[]>;
 	spaceName: string;
 }
 
-function fetcher(spaceName: string): () => Promise<ParsedResponse<SpaceDto>> {
-	return () => API.fetch<SpaceDto>(`space/${spaceName}`, { query: { wct: true } });
+function fetcher(spaceName: string): () => Promise<ParsedResponse<ContentTypeDto[]>> {
+	console.log("yes");
+	return () => API.fetch<ContentTypeDto[]>("content-type", { query: { spaceName } });
 }
 
 export default function Page({ result }: Props) {
 	const [spaceName] = useParams("spaceName");
 	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
+	const createContentTypeForm = useDisclosure();
 	const { data } = result;
+
+	console.log(data);
+
 	return (
 		<MainContent
 			navbarItems={[
@@ -27,8 +33,21 @@ export default function Page({ result }: Props) {
 				{ href: `${spaceUrl}/content-types`, label: "Content Types" },
 			]}
 		>
-			<Heading>{data.name}</Heading>
-			{data.contentTypes.map(contentType => (
+			{typeof spaceName === "string" && (
+				<CreateContentTypeForm
+					spaceName={spaceName}
+					isOpen={createContentTypeForm.isOpen}
+					onClose={createContentTypeForm.onClose}
+				/>
+			)}
+			<Flex justify="space-between" align="center">
+				<Heading size="lg">Content Types</Heading>
+				<Button variant="outline" onClick={createContentTypeForm.onOpen}>
+					Add content type
+				</Button>
+			</Flex>
+			<Divider my={4} />
+			{data.map(contentType => (
 				<p key={Math.random()}>{contentType.name}</p>
 			))}
 		</MainContent>
@@ -46,18 +65,12 @@ export async function getServerSideProps({
 
 	const response = await fetcher(spaceName)();
 
-	console.log({ response });
-
-	if (response.status === 404) {
-		return {
-			notFound: true,
-		};
-	}
-
-	return {
-		props: {
-			result: response,
-			spaceName,
-		},
-	};
+	return response.status === 404
+		? { notFound: true }
+		: {
+				props: {
+					result: response,
+					spaceName,
+				},
+		  };
 }

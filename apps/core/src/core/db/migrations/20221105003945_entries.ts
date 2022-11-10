@@ -9,9 +9,9 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 		primaryKey(table, knex);
 		table.enum("status", EntryStatusValues).defaultTo(EntryStatus.DRAFT).notNullable();
 		table.jsonb("content").notNullable(); // Schema: Record<fieldName, data >
-		table.uuid("spaceId").unsigned().notNullable();
+		table.uuid("spaceId").notNullable();
 		table.foreign("spaceId").references(`${Tables.SPACES}.id`).onDelete("CASCADE");
-		table.uuid("contentTypeId").unsigned().notNullable();
+		table.uuid("contentTypeId").notNullable();
 		table.foreign("contentTypeId").references(`${Tables.CONTENT_TYPES}.id`).onDelete("CASCADE");
 		timestamps(table, knex);
 	});
