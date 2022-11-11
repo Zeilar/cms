@@ -22,6 +22,10 @@ export default function HoverList({
 	const [hoverPosition, setHoverPosition] = useState<HoverPosition | null>(null);
 
 	useEffect(() => {
+		function mouseLeaveHandler() {
+			setHoverPosition(null);
+		}
+
 		function hoverHandler(e: MouseEvent) {
 			const target = e.target as HTMLElement;
 
@@ -50,9 +54,11 @@ export default function HoverList({
 		}
 
 		document.addEventListener("mousemove", hoverHandler);
+		document.addEventListener("mouseleave", mouseLeaveHandler);
 
 		return () => {
 			document.removeEventListener("mousemove", hoverHandler);
+			document.removeEventListener("mouseleave", mouseLeaveHandler);
 		};
 	}, [variant]);
 
