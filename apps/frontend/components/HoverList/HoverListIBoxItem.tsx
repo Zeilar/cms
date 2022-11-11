@@ -2,7 +2,7 @@ import { ListItem, VisuallyHidden } from "@chakra-ui/react";
 import Link from "../Link";
 import type { IHoverListItem } from "./types/hoverListItem";
 
-export default function HoverListItem({ label, href, strict, active }: IHoverListItem) {
+export default function HoverListBoxItem({ label, href, strict, active }: IHoverListItem) {
 	return (
 		<ListItem pointerEvents="none">
 			<Link

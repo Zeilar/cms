@@ -13,10 +13,10 @@ interface Props {
 export default function MainContent({ children, navbarItems = [], breadcrumbs = [] }: Props) {
 	return (
 		<Col grow={1}>
-			<Box borderBottomWidth={1} bgColor="gray.600" p={2}>
+			<Box borderBottomWidth={1} bgColor="gray.600" px={2}>
 				{navbarItems.length > 0 && (
 					<Container maxW="container.lg">
-						<HoverList direction="row" items={navbarItems} />
+						<HoverList variant="line" direction="row" items={navbarItems} />
 					</Container>
 				)}
 			</Box>

@@ -2,15 +2,22 @@ import { Flex, List } from "@chakra-ui/react";
 import { AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import HoverListBox from "./HoverListBox";
-import HoverListItem from "./HoverListItem";
+import HoverListBoxItem from "./HoverListIBoxItem";
+import HoverListLine from "./HoverListLine";
+import HoverListLineItem from "./HoverListLineItem";
 import { HoverPosition, IHoverListItem } from "./types";
 
 interface HoverListProps {
 	items: IHoverListItem[];
 	direction?: "column" | "row";
+	variant?: "box" | "line";
 }
 
-export default function HoverList({ items, direction = "column" }: HoverListProps) {
+export default function HoverList({
+	items,
+	direction = "column",
+	variant = "box",
+}: HoverListProps) {
 	const ref = useRef<HTMLDivElement | null>(null);
 	const [hoverPosition, setHoverPosition] = useState<HoverPosition | null>(null);
 
@@ -33,9 +40,10 @@ export default function HoverList({ items, direction = "column" }: HoverListProp
 			}
 
 			const { x, y, width, height } = target.getBoundingClientRect();
+
 			setHoverPosition({
 				x,
-				y,
+				y: variant === "line" ? y + height : y,
 				width,
 				height,
 			});
@@ -46,16 +54,23 @@ export default function HoverList({ items, direction = "column" }: HoverListProp
 		return () => {
 			document.removeEventListener("mousemove", hoverHandler);
 		};
-	}, []);
+	}, [variant]);
 
 	return (
 		<Flex flexDir={direction} as={List} ref={ref} data-hoverlist pointerEvents="none" gap={1}>
 			<AnimatePresence>
-				{hoverPosition !== null && <HoverListBox {...hoverPosition} />}
+				{hoverPosition !== null && variant === "box" && <HoverListBox {...hoverPosition} />}
+				{hoverPosition !== null && variant === "line" && (
+					<HoverListLine {...hoverPosition} />
+				)}
 			</AnimatePresence>
-			{items.map(item => (
-				<HoverListItem key={item.href} {...item} />
-			))}
+			{items.map(item =>
+				variant === "box" ? (
+					<HoverListBoxItem key={item.href} {...item} />
+				) : (
+					<HoverListLineItem key={item.href} {...item} />
+				)
+			)}
 		</Flex>
 	);
 }
