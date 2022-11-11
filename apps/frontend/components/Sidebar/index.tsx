@@ -6,6 +6,7 @@ import { SpaceDto } from "@shared";
 import useAuthContext from "apps/frontend/hooks/useAuthContext";
 import useFetch from "apps/frontend/hooks/useFetch";
 import HoverList from "../HoverList";
+import { useParams } from "apps/frontend/hooks";
 
 function fetcher(): Promise<ParsedResponse<SpaceDto[]>> {
 	return API.fetch<SpaceDto[]>("space");
@@ -13,6 +14,7 @@ function fetcher(): Promise<ParsedResponse<SpaceDto[]>> {
 
 export default function Sidebar() {
 	const { user, isAuthenticated } = useAuthContext();
+	const [spaceName] = useParams("spaceName");
 	const { data } = useFetch("spaces", fetcher);
 	return (
 		<Flex
@@ -37,10 +39,10 @@ export default function Sidebar() {
 			<Box mx={2}>
 				{data && data.length > 0 && (
 					<HoverList
-						items={data.map(space => ({
-							href: `/space/${space.name}`,
-							label: space.name,
-							strict: false,
+						items={data.map(({ name }) => ({
+							href: `/space/${name}`,
+							label: name,
+							active: typeof spaceName === "string" ? spaceName === name : undefined,
 						}))}
 					/>
 				)}

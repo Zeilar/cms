@@ -9,7 +9,6 @@ import { useParams } from "apps/frontend/hooks/useParams";
 import CreateContentTypeForm from "apps/frontend/components/CreateContentTypeForm";
 import useFetch from "apps/frontend/hooks/useFetch";
 import { useSWRConfig } from "swr";
-import Link from "apps/frontend/components/Link";
 import { AddIcon } from "@chakra-ui/icons";
 
 interface Props {
@@ -22,7 +21,10 @@ function fetcher(spaceName: string): () => Promise<ParsedResponse<ContentTypeDto
 }
 
 export default function Page({ result }: Props) {
-	const [spaceName] = useParams<["spaceName"]>("spaceName");
+	const [spaceName, contentType] = useParams<["spaceName", "contentType"]>(
+		"spaceName",
+		"contentType"
+	);
 	const { mutate } = useSWRConfig();
 	const { data } = useFetch<ContentTypeDto[]>(`${spaceName}-content-types`, fetcher(spaceName), {
 		initialData: result,
@@ -36,7 +38,11 @@ export default function Page({ result }: Props) {
 				{ href: spaceUrl, label: "Overview" },
 				{ href: `${spaceUrl}/content-types`, label: "Content Types", strict: false },
 			]}
-			breadcrumbs={[{ label: spaceName, href: spaceUrl }, { label: "Content Types" }]}
+			breadcrumbs={[
+				{ label: spaceName, href: spaceUrl },
+				{ label: "Content Types", href: `${spaceUrl}/content-types` },
+				{ label: contentType },
+			]}
 		>
 			{typeof spaceName === "string" && (
 				<CreateContentTypeForm
@@ -53,18 +59,12 @@ export default function Page({ result }: Props) {
 					onClick={createContentTypeForm.onOpen}
 					leftIcon={<AddIcon w={3} />}
 				>
-					Add Content Type
+					Add Field
 				</Button>
 			</Flex>
 			<Divider my={4} />
 			{data?.map(contentType => (
-				<Link
-					display="block"
-					key={Math.random()}
-					href={`${spaceUrl}/content-types/${contentType.name}`}
-				>
-					{contentType.name}
-				</Link>
+				<p key={Math.random()}>{contentType.name}</p>
 			))}
 		</MainContent>
 	);

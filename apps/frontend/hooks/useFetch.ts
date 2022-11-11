@@ -13,5 +13,5 @@ export default function useFetch<T>(
 	const { data, ...rest } = useSWR<ParsedResponse<T>>(key, callback, {
 		fallbackData: options?.initialData,
 	});
-	return { data: data?.data, ...rest };
+	return { data: data?.data, error: data?.error, ...rest };
 }
