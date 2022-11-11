@@ -27,7 +27,7 @@ export default function Sidebar() {
 			borderRightWidth={1}
 			borderRightColor="border"
 		>
-			<Flex py={4} px={2} h="64px">
+			<Flex py={4} px={2} h="56px">
 				<UnstyledLink href="/">
 					<Icon w="fit-content" h="100%" as={Logo} />
 				</UnstyledLink>

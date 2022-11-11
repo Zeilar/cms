@@ -38,7 +38,7 @@ export default function HoverList({
 				return;
 			}
 
-			if (target.closest("[data-hoverlist]") !== ref.current) {
+			if (!ref.current.contains(target)) {
 				setHoverPosition(null);
 				return;
 			}
