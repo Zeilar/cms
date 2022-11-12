@@ -1,22 +1,25 @@
-import { ContentTypeDto } from "./contentType";
-import { EntryDto } from "./entry";
 import { Timestamps } from "./repository";
 
 export enum FieldType {
 	INTEGER = "integer",
-	DECIMAL = "decimal",
 	DATE = "date",
 	RICH_TEXT = "rich-text",
 	TEXT = "text",
 	LOCATION = "location",
+	BOOLEAN = "boolean",
+	JSON = "json",
 }
 
 export interface FieldDto extends Timestamps {
 	id: string;
 	name: string;
 	type: FieldType;
-	contentType?: ContentTypeDto;
-	entries?: EntryDto[];
+}
+
+export interface CreateFieldDto {
+	contentTypeName: string;
+	name: string;
+	type: FieldType;
 }
 
 export const FieldTypeValues = Object.values(FieldType);

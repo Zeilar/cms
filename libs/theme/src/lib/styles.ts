@@ -14,5 +14,8 @@ export const styles = {
 		"svg, img": {
 			userSelect: "none",
 		},
+		button: {
+			cursor: "pointer",
+		},
 	},
 };

@@ -2,10 +2,11 @@ import { FieldType, FieldTypeValues } from "@shared";
 import {
 	registerDecorator,
 	isDateString,
-	isDecimal,
+	isJSON,
 	isInt,
 	isLatLong,
 	isString,
+	isBoolean,
 } from "class-validator";
 
 interface ContentData {
@@ -19,12 +20,14 @@ function isFieldType(string: FieldType): boolean {
 
 function validateType({ data, type }: ContentData): boolean {
 	switch (type) {
+		case FieldType.BOOLEAN:
+			return isBoolean(data);
 		case FieldType.DATE:
 			return isDateString(data);
-		case FieldType.DECIMAL:
-			return isDecimal(data);
 		case FieldType.INTEGER:
 			return isInt(data);
+		case FieldType.JSON:
+			return isJSON(data);
 		case FieldType.LOCATION:
 			return typeof data === "string" && isLatLong(data);
 		case FieldType.RICH_TEXT:

@@ -1,9 +1,9 @@
-import { FieldType, FieldTypeValues } from "@shared";
-import { IsString, IsUUID, Matches } from "class-validator";
+import { FieldType, FieldTypeValues, CreateFieldDto as ICreateFieldDto } from "@shared";
+import { IsString, Matches } from "class-validator";
 
-export class CreateFieldDto {
-	@IsUUID("4")
-	public contentTypeId: string;
+export class CreateFieldDto implements ICreateFieldDto {
+	@IsString()
+	public contentTypeName: string;
 
 	@IsString()
 	public name: string;

@@ -14,14 +14,14 @@ import Col from "../layout/Col";
 import { useForm } from "react-hook-form";
 import ButtonWithArrow from "../layout/ButtonWithArrow";
 import EnhancedFormLabel from "../layout/EnhancedFormLabel";
-import { ContentTypeValidation } from "@shared";
+import { Callback, ContentTypeValidation, CreateContentTypeDto } from "@shared";
 import { API } from "apps/frontend/util/API";
 
 interface Props {
-	onClose(): void;
+	onClose: Callback;
+	onSubmit: Callback;
 	isOpen: boolean;
 	spaceName: string;
-	onSubmit(): void;
 }
 
 interface Fields {
@@ -39,7 +39,7 @@ export default function CreateContentTypeForm({ spaceName, onSubmit, isOpen, onC
 	async function submit({ name }: Fields): Promise<void> {
 		const { ok } = await API.fetch("content-type", {
 			method: "POST",
-			data: { name, spaceName },
+			data: { name, spaceName } as CreateContentTypeDto,
 		});
 		if (!ok) {
 			return;

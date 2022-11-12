@@ -6,10 +6,10 @@ import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react"
 import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
 import { useParams } from "apps/frontend/hooks/useParams";
-import CreateContentTypeForm from "apps/frontend/components/CreateContentTypeForm";
 import useFetch from "apps/frontend/hooks/useFetch";
 import { useSWRConfig } from "swr";
 import { AddIcon } from "@chakra-ui/icons";
+import CreateFieldForm from "apps/frontend/components/CreateFieldForm";
 
 interface Props {
 	result: ParsedResponse<ContentTypeDto[]>;
@@ -30,7 +30,7 @@ export default function Page({ result }: Props) {
 		initialData: result,
 	});
 	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
-	const createContentTypeForm = useDisclosure();
+	const createFieldForm = useDisclosure();
 
 	return (
 		<MainContent
@@ -45,18 +45,18 @@ export default function Page({ result }: Props) {
 			]}
 		>
 			{typeof spaceName === "string" && (
-				<CreateContentTypeForm
+				<CreateFieldForm
 					onSubmit={() => mutate(`${spaceName}-content-types`)}
-					spaceName={spaceName}
-					isOpen={createContentTypeForm.isOpen}
-					onClose={createContentTypeForm.onClose}
+					contentTypeName={contentType}
+					isOpen={createFieldForm.isOpen}
+					onClose={createFieldForm.onClose}
 				/>
 			)}
 			<Flex justify="space-between" align="center">
-				<Heading size="lg">Content Types</Heading>
+				<Heading size="lg">Fields</Heading>
 				<Button
 					variant="outline"
-					onClick={createContentTypeForm.onOpen}
+					onClick={createFieldForm.onOpen}
 					leftIcon={<AddIcon w={3} />}
 				>
 					Add Field
