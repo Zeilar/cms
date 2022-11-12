@@ -64,9 +64,9 @@ export default function Page({ result, contentTypeName, spaceName }: Props) {
 				</Button>
 			</Flex>
 			<Divider my={4} />
-			{/* {data?.map(field => (
+			{data?.map(field => (
 				<p key={Math.random()}>{field.name}</p>
-			))} */}
+			))}
 		</MainContent>
 	);
 }
@@ -85,7 +85,7 @@ export async function getServerSideProps({
 	const contentTypeName = params?.contentTypeName;
 
 	if (typeof contentTypeName !== "string") {
-		throw new Error("Missing space name");
+		throw new Error("Missing Content Type name");
 	}
 
 	const response = await fetcher(spaceName, contentTypeName)();
