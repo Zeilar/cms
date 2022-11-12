@@ -15,8 +15,13 @@ export interface EntryContentDate {
 	data: string;
 }
 
-export interface EntryContentDecimal {
-	type: FieldType.DECIMAL;
+export interface EntryContentBoolean {
+	type: FieldType.BOOLEAN;
+	data: number;
+}
+
+export interface EntryContentJSON {
+	type: FieldType.JSON;
 	data: number;
 }
 
@@ -38,7 +43,8 @@ export interface EntryContentText {
 export type EntryContent =
 	| EntryContentRichText
 	| EntryContentDate
-	| EntryContentDecimal
+	| EntryContentJSON
+	| EntryContentBoolean
 	| EntryContentInteger
 	| EntryContentLocation
 	| EntryContentText;

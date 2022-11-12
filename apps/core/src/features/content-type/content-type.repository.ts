@@ -20,6 +20,10 @@ export class ContentTypeRepository {
 			.execute();
 	}
 
+	public findByName(name: string): Promise<ContentType | undefined> {
+		return ContentType.query().findOne("name", name).execute();
+	}
+
 	public async findBySpaceName(spaceName: string): Promise<ContentType[]> {
 		const space = await Space.query().findOne("name", spaceName);
 		if (!space) {

@@ -2,6 +2,7 @@ import { Knex } from "knex";
 import { primaryKey } from "../util/primaryKey";
 import { Tables } from "../tables";
 import { timestamps } from "../util/timestamps";
+import { FieldTypeValues } from "../../../../../../libs/shared/src";
 
 export function up(knex: Knex): Knex.SchemaBuilder {
 	return knex.schema
@@ -20,17 +21,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 		.createTable(Tables.FIELDS, table => {
 			primaryKey(table, knex);
 			table.string("name").notNullable();
-			table
-				.enum("type", [
-					"integer",
-					"decimal",
-					"date",
-					"rich-text",
-					"text-short",
-					"text-long",
-					"location",
-				])
-				.notNullable();
+			table.enum("type", FieldTypeValues).notNullable();
 			table.uuid("contentTypeId").notNullable();
 			table
 				.foreign("contentTypeId")

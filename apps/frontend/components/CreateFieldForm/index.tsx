@@ -16,7 +16,7 @@ import Col from "../layout/Col";
 import { Controller, useForm } from "react-hook-form";
 import ButtonWithArrow from "../layout/ButtonWithArrow";
 import EnhancedFormLabel from "../layout/EnhancedFormLabel";
-import { Callback, ContentTypeValidation, CreateFieldDto, FieldType } from "@shared";
+import { Callback, FieldValidation, CreateFieldDto, FieldType } from "@shared";
 import { API } from "apps/frontend/util/API";
 import FieldTypeBox from "./FieldTypeBox";
 import { Switch } from "@styled-icons/entypo/Switch";
@@ -48,7 +48,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 	});
 
 	async function submit({ name, type }: Fields): Promise<void> {
-		const { ok } = await API.fetch("content-type", {
+		const { ok } = await API.fetch("field", {
 			method: "POST",
 			data: { name, contentTypeName, type } as CreateFieldDto,
 		});
@@ -74,12 +74,11 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 							tooltipLabel={
 								<Col>
 									<Text>
-										Must have minimum {ContentTypeValidation.NAME_MIN_LENGTH}{" "}
+										Must have minimum {FieldValidation.NAME_MIN_LENGTH}{" "}
 										characters
 									</Text>
 									<Text>
-										Must not exceed {ContentTypeValidation.NAME_MAX_LENGTH}{" "}
-										characters
+										Must not exceed {FieldValidation.NAME_MAX_LENGTH} characters
 									</Text>
 								</Col>
 							}
@@ -93,12 +92,12 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 							{...register("name", {
 								required: "Name is required",
 								minLength: {
-									message: `Name must have a minimum of ${ContentTypeValidation.NAME_MIN_LENGTH} characters`,
-									value: ContentTypeValidation.NAME_MIN_LENGTH,
+									message: `Name must have a minimum of ${FieldValidation.NAME_MIN_LENGTH} characters`,
+									value: FieldValidation.NAME_MIN_LENGTH,
 								},
 								maxLength: {
-									message: `Name must not exceed ${ContentTypeValidation.NAME_MAX_LENGTH} characters`,
-									value: ContentTypeValidation.NAME_MAX_LENGTH,
+									message: `Name must not exceed ${FieldValidation.NAME_MAX_LENGTH} characters`,
+									value: FieldValidation.NAME_MAX_LENGTH,
 								},
 							})}
 						/>

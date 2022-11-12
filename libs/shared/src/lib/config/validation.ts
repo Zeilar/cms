@@ -10,3 +10,8 @@ export enum ContentTypeValidation {
 	NAME_MIN_LENGTH = 3,
 	NAME_MAX_LENGTH = 15,
 }
+
+export enum FieldValidation {
+	NAME_MIN_LENGTH = 3,
+	NAME_MAX_LENGTH = 15,
+}
