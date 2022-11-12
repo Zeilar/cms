@@ -6,7 +6,7 @@ import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react"
 import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
 import CreateContentTypeForm from "apps/frontend/components/CreateContentTypeForm";
-import useFetch from "apps/frontend/hooks/useFetch";
+import { useFetch, useRoutes } from "apps/frontend/hooks/";
 import { useSWRConfig } from "swr";
 import Link from "apps/frontend/components/Link";
 import { AddIcon } from "@chakra-ui/icons";
@@ -26,16 +26,16 @@ export default function Page({ result, spaceName }: Props) {
 	const { data } = useFetch<ContentTypeDto[]>(fetcherKey, fetcher(spaceName), {
 		initialData: result,
 	});
-	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
 	const createContentTypeForm = useDisclosure();
+	const routes = useRoutes(spaceName);
 
 	return (
 		<MainContent
 			navbarItems={[
-				{ href: spaceUrl, label: "Overview" },
-				{ href: `${spaceUrl}/content-types`, label: "Content Types", strict: false },
+				{ href: routes.space(), label: "Overview" },
+				{ href: routes.contentTypes(), label: "Content Types", strict: false },
 			]}
-			breadcrumbs={[{ label: spaceName, href: spaceUrl }, { label: "Content Types" }]}
+			breadcrumbs={[{ label: spaceName, href: routes.space() }, { label: "Content Types" }]}
 		>
 			{typeof spaceName === "string" && (
 				<CreateContentTypeForm
@@ -56,13 +56,9 @@ export default function Page({ result, spaceName }: Props) {
 				</Button>
 			</Flex>
 			<Divider my={4} />
-			{data?.map(contentType => (
-				<Link
-					display="block"
-					key={Math.random()}
-					href={`${spaceUrl}/content-types/${contentType.name}`}
-				>
-					{contentType.name}
+			{data?.map(({ name }) => (
+				<Link display="block" key={name} href={routes.contentType(name)}>
+					{name}
 				</Link>
 			))}
 		</MainContent>

@@ -5,7 +5,6 @@ import { SpacePageParams } from "apps/frontend/types/params";
 import { Heading } from "@chakra-ui/react";
 import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
-import { useParams } from "apps/frontend/hooks/useParams";
 
 interface Props {
 	result: ParsedResponse<SpaceDto>;
@@ -16,8 +15,7 @@ function fetcher(spaceName: string): () => Promise<ParsedResponse<SpaceDto>> {
 	return () => API.fetch<SpaceDto>(`space/${spaceName}`);
 }
 
-export default function Page({ result }: Props) {
-	const [spaceName] = useParams("spaceName");
+export default function Page({ result, spaceName }: Props) {
 	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
 	return (
 		<MainContent

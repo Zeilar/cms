@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import Col from "../../layout/Col";
 import { Controller, useForm } from "react-hook-form";
-import useAuthContext from "apps/frontend/hooks/useAuthContext";
+import { useAuthContext } from "apps/frontend/hooks";
 import ButtonWithArrow from "../../layout/ButtonWithArrow";
 import { RegisterDto, REGISTER_TOKEN_LENGTH, RegisterValidation } from "@shared";
 import EnhancedFormLabel from "../../layout/EnhancedFormLabel";

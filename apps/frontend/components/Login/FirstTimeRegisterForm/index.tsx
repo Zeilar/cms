@@ -1,7 +1,7 @@
 import { FormControl, FormErrorMessage, Input, Text } from "@chakra-ui/react";
 import Col from "../../layout/Col";
 import { useForm } from "react-hook-form";
-import useAuthContext from "apps/frontend/hooks/useAuthContext";
+import { useAuthContext } from "apps/frontend/hooks";
 import ButtonWithArrow from "../../layout/ButtonWithArrow";
 import { FirstRegisterDto, RegisterValidation } from "@shared";
 import EnhancedFormLabel from "../../layout/EnhancedFormLabel";

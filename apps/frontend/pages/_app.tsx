@@ -8,7 +8,7 @@ import { SWRConfig } from "swr";
 import { AuthContextProvider } from "../contexts/AuthContext";
 import { Maybe, UserDto } from "@shared";
 import { API } from "../util/API";
-import useAuthContext from "../hooks/useAuthContext";
+import { useAuthContext } from "../hooks";
 import Login from "../components/Login";
 import { isValidElement } from "react";
 

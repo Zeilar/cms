@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
-export default function useAuthContext() {
+export function useAuthContext() {
 	const context = useContext(AuthContext);
 	if (context === null) {
 		throw new Error("Auth context must not be null");

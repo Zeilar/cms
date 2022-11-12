@@ -3,10 +3,8 @@ import { ReactComponent as Logo } from "../../assets/svgs/logo.svg";
 import UnstyledLink from "../HiddenLink";
 import { API, ParsedResponse } from "apps/frontend/util/API";
 import { SpaceDto } from "@shared";
-import useAuthContext from "apps/frontend/hooks/useAuthContext";
-import useFetch from "apps/frontend/hooks/useFetch";
 import HoverList from "../HoverList";
-import { useParams } from "apps/frontend/hooks";
+import { useParams, useAuthContext, useFetch } from "apps/frontend/hooks";
 
 function fetcher(): Promise<ParsedResponse<SpaceDto[]>> {
 	return API.fetch<SpaceDto[]>("space");

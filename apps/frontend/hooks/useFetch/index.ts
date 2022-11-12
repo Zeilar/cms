@@ -1,11 +1,11 @@
 import useSWR, { Key } from "swr";
-import { ParsedResponse } from "../util/API";
+import { ParsedResponse } from "../../util/API";
 
 interface Options<T> {
 	initialData?: T;
 }
 
-export default function useFetch<T>(
+export function useFetch<T>(
 	key: Key,
 	callback: () => Promise<ParsedResponse<T>>,
 	options?: Options<ParsedResponse<T>>

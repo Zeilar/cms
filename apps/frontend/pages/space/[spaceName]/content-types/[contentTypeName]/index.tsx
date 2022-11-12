@@ -5,7 +5,7 @@ import { ContentTypePageParams } from "apps/frontend/types/params";
 import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react";
 import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
-import useFetch from "apps/frontend/hooks/useFetch";
+import { useFetch, useRoutes } from "apps/frontend/hooks";
 import { useSWRConfig } from "swr";
 import { AddIcon } from "@chakra-ui/icons";
 import CreateFieldForm from "apps/frontend/components/CreateFieldForm";
@@ -32,18 +32,19 @@ export default function Page({ result, contentTypeName, spaceName }: Props) {
 	const { data } = useFetch<FieldDto[]>(fetcherKey, fetcher(spaceName, contentTypeName), {
 		initialData: result,
 	});
-	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
 	const createFieldForm = useDisclosure();
+	const routes = useRoutes(spaceName, contentTypeName);
 
 	return (
 		<MainContent
 			navbarItems={[
-				{ href: spaceUrl, label: "Overview" },
-				{ href: `${spaceUrl}/content-types`, label: "Content Types", strict: false },
+				{ href: routes.space(), label: "Overview" },
+				{ href: routes.contentTypes(), label: "Content Types", strict: false },
+				{ href: routes.entries(), label: "Entries", strict: false },
 			]}
 			breadcrumbs={[
-				{ label: spaceName, href: spaceUrl },
-				{ label: "Content Types", href: `${spaceUrl}/content-types` },
+				{ label: spaceName, href: routes.space() },
+				{ label: "Content Types", href: routes.contentTypes() },
 				{ label: contentTypeName },
 			]}
 		>
@@ -77,8 +78,6 @@ export async function getServerSideProps({
 	params,
 }: GetServerSidePropsContext<ContentTypePageParams>): Promise<GetServerSidePropsResult<Props>> {
 	const spaceName = params?.spaceName;
-
-	console.log("SPACENAME TYPE", typeof spaceName, spaceName);
 
 	if (typeof spaceName !== "string") {
 		throw new Error("Missing space name");
