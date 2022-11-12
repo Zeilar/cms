@@ -5,7 +5,6 @@ import { SpacePageParams } from "apps/frontend/types/params";
 import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react";
 import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
-import { useParams } from "apps/frontend/hooks/useParams";
 import CreateContentTypeForm from "apps/frontend/components/CreateContentTypeForm";
 import useFetch from "apps/frontend/hooks/useFetch";
 import { useSWRConfig } from "swr";
@@ -21,10 +20,10 @@ function fetcher(spaceName: string): () => Promise<ParsedResponse<ContentTypeDto
 	return () => API.fetch<ContentTypeDto[]>("content-type", { query: { spaceName } });
 }
 
-export default function Page({ result }: Props) {
-	const [spaceName] = useParams<["spaceName"]>("spaceName");
+export default function Page({ result, spaceName }: Props) {
+	const fetcherKey = useMemo(() => `${spaceName}-content-types`, [spaceName]);
 	const { mutate } = useSWRConfig();
-	const { data } = useFetch<ContentTypeDto[]>(`${spaceName}-content-types`, fetcher(spaceName), {
+	const { data } = useFetch<ContentTypeDto[]>(fetcherKey, fetcher(spaceName), {
 		initialData: result,
 	});
 	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
@@ -40,7 +39,7 @@ export default function Page({ result }: Props) {
 		>
 			{typeof spaceName === "string" && (
 				<CreateContentTypeForm
-					onSubmit={() => mutate(`${spaceName}-content-types`)}
+					onSubmit={() => mutate(fetcherKey)}
 					spaceName={spaceName}
 					isOpen={createContentTypeForm.isOpen}
 					onClose={createContentTypeForm.onClose}

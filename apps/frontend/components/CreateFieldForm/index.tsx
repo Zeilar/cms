@@ -35,14 +35,14 @@ interface Props {
 
 interface Fields {
 	name: string;
-	type: FieldType;
+	type: FieldType | null;
 }
 
 export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onClose }: Props) {
 	const { handleSubmit, register, formState, reset, control } = useForm<Fields>({
 		defaultValues: {
 			name: "",
-			type: FieldType.TEXT,
+			type: null,
 		},
 		mode: "onSubmit",
 	});
@@ -108,6 +108,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 					<FormControl isInvalid={Boolean(formState.errors.type)} mb={8}>
 						<FormLabel>Type</FormLabel>
 						<Controller
+							rules={{ required: "Type is required." }}
 							control={control}
 							name="type"
 							render={({ field }) => (

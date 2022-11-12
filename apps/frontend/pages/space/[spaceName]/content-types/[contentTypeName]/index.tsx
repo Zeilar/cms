@@ -24,12 +24,14 @@ function fetcher(
 }
 
 export default function Page({ result, contentTypeName, spaceName }: Props) {
-	const { mutate } = useSWRConfig();
-	const { data } = useFetch<FieldDto[]>(
-		`${spaceName}/content-types/${contentTypeName}/fields`,
-		fetcher(spaceName, contentTypeName),
-		{ initialData: result }
+	const fetcherKey = useMemo(
+		() => `${spaceName}/content-types/${contentTypeName}/fields`,
+		[spaceName, contentTypeName]
 	);
+	const { mutate } = useSWRConfig();
+	const { data } = useFetch<FieldDto[]>(fetcherKey, fetcher(spaceName, contentTypeName), {
+		initialData: result,
+	});
 	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
 	const createFieldForm = useDisclosure();
 
@@ -47,7 +49,7 @@ export default function Page({ result, contentTypeName, spaceName }: Props) {
 		>
 			{typeof spaceName === "string" && (
 				<CreateFieldForm
-					onSubmit={() => mutate(`${spaceName}-content-types`)}
+					onSubmit={() => mutate(fetcherKey)}
 					contentTypeName={contentTypeName}
 					isOpen={createFieldForm.isOpen}
 					onClose={createFieldForm.onClose}
