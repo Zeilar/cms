@@ -1,6 +1,7 @@
 import { chakra, Icon, Text } from "@chakra-ui/react";
 import { FieldType } from "@shared";
 import { Check2Circle } from "@styled-icons/bootstrap/Check2Circle";
+import { StyledIcon } from "@styled-icons/styled-icon";
 
 interface Props {
 	fieldType: FieldType;
@@ -9,6 +10,7 @@ interface Props {
 	active: boolean;
 	label: string;
 	disabled: boolean;
+	icon: StyledIcon;
 }
 
 const Button = chakra("button");
@@ -20,6 +22,7 @@ export default function FieldTypeBox({
 	active,
 	label,
 	disabled,
+	icon,
 }: Props) {
 	return (
 		<Button
@@ -47,10 +50,11 @@ export default function FieldTypeBox({
 					color="accent.main"
 				/>
 			)}
-			<Text fontWeight="semibold" fontSize="lg" mb={2}>
+			<Icon as={icon} w={8} h={8} color="accent.main" mb={4} />
+			<Text fontWeight="semibold" fontSize="lg" mb={1}>
 				{label}
 			</Text>
-			<Text whiteSpace="pre-wrap" fontSize="sm">
+			<Text whiteSpace="pre-wrap" fontSize="sm" px={2} color="text.300">
 				{description}
 			</Text>
 		</Button>

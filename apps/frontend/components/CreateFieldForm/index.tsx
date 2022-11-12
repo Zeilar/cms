@@ -19,6 +19,12 @@ import EnhancedFormLabel from "../layout/EnhancedFormLabel";
 import { Callback, ContentTypeValidation, CreateFieldDto, FieldType } from "@shared";
 import { API } from "apps/frontend/util/API";
 import FieldTypeBox from "./FieldTypeBox";
+import { Switch } from "@styled-icons/entypo/Switch";
+import { Text as TextIcon } from "@styled-icons/evaicons-solid/Text";
+import { BodyText, Braces } from "@styled-icons/bootstrap";
+import { Calendar } from "@styled-icons/boxicons-solid/Calendar";
+import { Number } from "@styled-icons/octicons/Number";
+import { MapLocationDot } from "@styled-icons/fa-solid/MapLocationDot";
 
 interface Props {
 	onClose: Callback;
@@ -57,7 +63,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
-			<ModalContent display="flex" w={600} maxW="unset">
+			<ModalContent display="flex" w={700} maxW="unset">
 				<ModalHeader>Create Field</ModalHeader>
 				<ModalCloseButton />
 				<ModalBody as="form" onSubmit={handleSubmit(submit)}>
@@ -114,6 +120,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 										onSelect={field.onChange}
 										label="Text"
 										disabled={formState.isSubmitting}
+										icon={TextIcon}
 									/>
 									<FieldTypeBox
 										active={field.value === FieldType.RICH_TEXT}
@@ -122,6 +129,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 										onSelect={field.onChange}
 										label="Rich Text"
 										disabled={formState.isSubmitting}
+										icon={BodyText}
 									/>
 									<FieldTypeBox
 										active={field.value === FieldType.BOOLEAN}
@@ -130,6 +138,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 										onSelect={field.onChange}
 										label="Boolean"
 										disabled={formState.isSubmitting}
+										icon={Switch}
 									/>
 									<FieldTypeBox
 										active={field.value === FieldType.DATE}
@@ -138,6 +147,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 										onSelect={field.onChange}
 										label="Date"
 										disabled={formState.isSubmitting}
+										icon={Calendar}
 									/>
 									<FieldTypeBox
 										active={field.value === FieldType.INTEGER}
@@ -146,6 +156,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 										onSelect={field.onChange}
 										label="Number"
 										disabled={formState.isSubmitting}
+										icon={Number}
 									/>
 									<FieldTypeBox
 										active={field.value === FieldType.JSON}
@@ -154,6 +165,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 										onSelect={field.onChange}
 										label="JSON"
 										disabled={formState.isSubmitting}
+										icon={Braces}
 									/>
 									<FieldTypeBox
 										active={field.value === FieldType.LOCATION}
@@ -162,6 +174,7 @@ export default function CreateFieldForm({ contentTypeName, onSubmit, isOpen, onC
 										onSelect={field.onChange}
 										label="Location"
 										disabled={formState.isSubmitting}
+										icon={MapLocationDot}
 									/>
 								</Grid>
 							)}
