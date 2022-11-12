@@ -4,6 +4,7 @@
 	"affected": {
 		"defaultBase": "main"
 	},
+	"useDaemonProcess": false,
 	"tasksRunnerOptions": {
 		"default": {
 			"runner": "@nrwl/nx-cloud",

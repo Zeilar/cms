@@ -2,16 +2,13 @@ import { CreateContentTypeDto } from "../../common/validators/content-type/Creat
 import { Injectable, NotFoundException, forwardRef, Inject } from "@nestjs/common";
 import { ContentType } from "./content-type.model";
 import { ContentTypeRepository } from "./content-type.repository";
-import type { ID } from "../../types/repository";
-import { FieldService } from "../field/field.service";
 import { SpaceService } from "../space/space.service";
 
 @Injectable()
 export class ContentTypeService {
 	public constructor(
 		private readonly contentTypeRepository: ContentTypeRepository,
-		@Inject(forwardRef(() => FieldService))
-		private readonly fieldService: FieldService,
+		@Inject(forwardRef(() => SpaceService))
 		private readonly spaceService: SpaceService
 	) {}
 
@@ -25,15 +22,6 @@ export class ContentTypeService {
 
 	public findByName(name: string): Promise<ContentType | undefined> {
 		return this.contentTypeRepository.findByName(name);
-	}
-
-	public async findById(id: ID, wf?: boolean): Promise<ContentType | undefined> {
-		const contentType = await this.contentTypeRepository.findById(id);
-		if (!contentType || !wf) {
-			return contentType;
-		}
-		contentType.fields = await this.fieldService.getAllInContentType(contentType.id);
-		return contentType;
 	}
 
 	public findBySpaceName(spaceName: string): Promise<ContentType[]> {

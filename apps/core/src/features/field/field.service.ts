@@ -2,7 +2,6 @@ import { CreateFieldDto } from "../../common/validators/field/CreateFieldDto";
 import { Injectable, NotFoundException, forwardRef, Inject } from "@nestjs/common";
 import { Field } from "./field.model";
 import { FieldRepository } from "./field.repository";
-import type { ID } from "../../types/repository";
 import { ContentTypeService } from "../content-type/content-type.service";
 
 @Injectable()
@@ -21,11 +20,7 @@ export class FieldService {
 		return this.fieldRepository.create(contentType, { name, type });
 	}
 
-	public findById(id: ID): Promise<Field | undefined> {
-		return this.fieldRepository.findById(id);
-	}
-
-	public getAllInContentType(contentTypeId: ID): Promise<Field[]> {
-		return Field.query().where({ contentTypeId }).execute();
+	public findByContentTypeName(spaceName: string, contentTypeName: string): Promise<Field[]> {
+		return this.fieldRepository.findBySpaceName(spaceName, contentTypeName);
 	}
 }

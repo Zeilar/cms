@@ -1,34 +1,35 @@
 import { API, ParsedResponse } from "apps/frontend/util/API";
-import { ContentTypeDto } from "@shared";
+import { FieldDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import { SpacePageParams } from "apps/frontend/types/params";
+import { ContentTypePageParams } from "apps/frontend/types/params";
 import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react";
 import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
-import { useParams } from "apps/frontend/hooks/useParams";
 import useFetch from "apps/frontend/hooks/useFetch";
 import { useSWRConfig } from "swr";
 import { AddIcon } from "@chakra-ui/icons";
 import CreateFieldForm from "apps/frontend/components/CreateFieldForm";
 
 interface Props {
-	result: ParsedResponse<ContentTypeDto[]>;
+	result: ParsedResponse<FieldDto[]>;
 	spaceName: string;
+	contentTypeName: string;
 }
 
-function fetcher(spaceName: string): () => Promise<ParsedResponse<ContentTypeDto[]>> {
-	return () => API.fetch<ContentTypeDto[]>("content-type", { query: { spaceName } });
+function fetcher(
+	spaceName: string,
+	contentTypeName: string
+): () => Promise<ParsedResponse<FieldDto[]>> {
+	return () => API.fetch<FieldDto[]>("field", { query: { spaceName, contentTypeName } });
 }
 
-export default function Page({ result }: Props) {
-	const [spaceName, contentType] = useParams<["spaceName", "contentType"]>(
-		"spaceName",
-		"contentType"
-	);
+export default function Page({ result, contentTypeName, spaceName }: Props) {
 	const { mutate } = useSWRConfig();
-	const { data } = useFetch<ContentTypeDto[]>(`${spaceName}-content-types`, fetcher(spaceName), {
-		initialData: result,
-	});
+	const { data } = useFetch<FieldDto[]>(
+		`${spaceName}/content-types/${contentTypeName}/fields`,
+		fetcher(spaceName, contentTypeName),
+		{ initialData: result }
+	);
 	const spaceUrl = useMemo(() => `/space/${spaceName}`, [spaceName]);
 	const createFieldForm = useDisclosure();
 
@@ -41,13 +42,13 @@ export default function Page({ result }: Props) {
 			breadcrumbs={[
 				{ label: spaceName, href: spaceUrl },
 				{ label: "Content Types", href: `${spaceUrl}/content-types` },
-				{ label: contentType },
+				{ label: contentTypeName },
 			]}
 		>
 			{typeof spaceName === "string" && (
 				<CreateFieldForm
 					onSubmit={() => mutate(`${spaceName}-content-types`)}
-					contentTypeName={contentType}
+					contentTypeName={contentTypeName}
 					isOpen={createFieldForm.isOpen}
 					onClose={createFieldForm.onClose}
 				/>
@@ -63,23 +64,31 @@ export default function Page({ result }: Props) {
 				</Button>
 			</Flex>
 			<Divider my={4} />
-			{data?.map(contentType => (
-				<p key={Math.random()}>{contentType.name}</p>
-			))}
+			{/* {data?.map(field => (
+				<p key={Math.random()}>{field.name}</p>
+			))} */}
 		</MainContent>
 	);
 }
 
 export async function getServerSideProps({
 	params,
-}: GetServerSidePropsContext<SpacePageParams>): Promise<GetServerSidePropsResult<Props>> {
+}: GetServerSidePropsContext<ContentTypePageParams>): Promise<GetServerSidePropsResult<Props>> {
 	const spaceName = params?.spaceName;
 
-	if (!spaceName) {
+	console.log("SPACENAME TYPE", typeof spaceName, spaceName);
+
+	if (typeof spaceName !== "string") {
 		throw new Error("Missing space name");
 	}
 
-	const response = await fetcher(spaceName)();
+	const contentTypeName = params?.contentTypeName;
+
+	if (typeof contentTypeName !== "string") {
+		throw new Error("Missing space name");
+	}
+
+	const response = await fetcher(spaceName, contentTypeName)();
 
 	return response.status === 404
 		? { notFound: true }
@@ -87,6 +96,7 @@ export async function getServerSideProps({
 				props: {
 					result: response,
 					spaceName,
+					contentTypeName,
 				},
 		  };
 }

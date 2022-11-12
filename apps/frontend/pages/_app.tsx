@@ -1,4 +1,4 @@
-import "../static/fonts"; // This cannot be imported in the theme sadly, as it crashes when installing Chakra types with their CLI
+import "../boot/fonts"; // This cannot be imported in the theme sadly, as it crashes when installing Chakra types with their CLI
 import App, { AppContext, AppProps } from "next/app";
 import Head from "next/head";
 import { ChakraProvider, Flex } from "@chakra-ui/react";

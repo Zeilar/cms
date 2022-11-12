@@ -5,5 +5,5 @@ export interface SpacePageParams extends ParsedUrlQuery {
 }
 
 export interface ContentTypePageParams extends SpacePageParams {
-	contentTypeId: string;
+	contentTypeName: string;
 }

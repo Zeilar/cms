@@ -1,7 +1,6 @@
 import { CreateFieldDto } from "../../common/validators/field/CreateFieldDto";
-import { Body, Controller, Get, NotFoundException, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, Query, Post, BadRequestException } from "@nestjs/common";
 import { FieldService } from "./field.service";
-import type { ID } from "../../types/repository";
 import { Field } from "./field.model";
 
 @Controller("/field")
@@ -13,12 +12,17 @@ export class FieldController {
 		return this.fieldService.create(dto);
 	}
 
-	@Get("/:id")
-	public async findById(@Param("id") id: ID): Promise<Field> {
-		const field = await this.fieldService.findById(id);
-		if (!field) {
-			throw new NotFoundException("Field not found");
+	@Get("/")
+	public async findByContentTypeName(
+		@Query("contentTypeName") contentTypeName?: string,
+		@Query("spaceName") spaceName?: string
+	): Promise<Field[]> {
+		if (contentTypeName === undefined) {
+			throw new BadRequestException("Missing Content Type name.");
 		}
-		return field;
+		if (spaceName === undefined) {
+			throw new BadRequestException("Missing Space name.");
+		}
+		return this.fieldService.findByContentTypeName(spaceName, contentTypeName);
 	}
 }
