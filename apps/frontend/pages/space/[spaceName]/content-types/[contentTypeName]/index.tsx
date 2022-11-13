@@ -3,7 +3,6 @@ import { FieldDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { ContentTypePageParams } from "apps/frontend/types/params";
 import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react";
-import { useMemo } from "react";
 import MainContent from "apps/frontend/components/layout/MainContent";
 import { useFetch, useRoutes } from "apps/frontend/hooks";
 import { useSWRConfig } from "swr";
@@ -24,16 +23,12 @@ function fetcher(
 }
 
 export default function Page({ result, contentTypeName, spaceName }: Props) {
-	const fetcherKey = useMemo(
-		() => `${spaceName}/content-types/${contentTypeName}/fields`,
-		[spaceName, contentTypeName]
-	);
 	const { mutate } = useSWRConfig();
-	const { data } = useFetch<FieldDto[]>(fetcherKey, fetcher(spaceName, contentTypeName), {
+	const routes = useRoutes(spaceName, contentTypeName);
+	const { data } = useFetch<FieldDto[]>(routes.fields(), fetcher(spaceName, contentTypeName), {
 		initialData: result,
 	});
 	const createFieldForm = useDisclosure();
-	const routes = useRoutes(spaceName, contentTypeName);
 
 	return (
 		<MainContent
@@ -50,7 +45,7 @@ export default function Page({ result, contentTypeName, spaceName }: Props) {
 		>
 			{typeof spaceName === "string" && (
 				<CreateFieldForm
-					onSubmit={() => mutate(fetcherKey)}
+					onSubmit={() => mutate(routes.fields())}
 					contentTypeName={contentTypeName}
 					isOpen={createFieldForm.isOpen}
 					onClose={createFieldForm.onClose}

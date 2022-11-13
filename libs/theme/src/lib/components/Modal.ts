@@ -8,7 +8,9 @@ export const Modal = defineStyleConfig({
 			borderColor: "border",
 			boxShadow: "md",
 			bgGradient: "linear(to-t, gray.600, gray.500)",
-			mt: "300px",
+			mt: "150px",
+			maxH: "60vh",
+			overflowY: "auto",
 		},
 		body: {
 			pb: 6,

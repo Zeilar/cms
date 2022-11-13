@@ -13,6 +13,10 @@ export default class Routes {
 		return `${this.contentTypes()}/${contentTypeName ?? this.contentTypeName}`;
 	}
 
+	public fields(): string {
+		return `${this.contentType()}/fields`;
+	}
+
 	public entries(): string {
 		return `${this.space()}/entries`;
 	}
