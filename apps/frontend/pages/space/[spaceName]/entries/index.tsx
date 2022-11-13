@@ -1,5 +1,5 @@
 import { API, ParsedResponse } from "apps/frontend/util/API";
-import { SpaceDto } from "@shared";
+import { EntryDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { SpacePageParams } from "apps/frontend/types/params";
 import { Heading } from "@chakra-ui/react";
@@ -7,24 +7,26 @@ import MainContent from "apps/frontend/components/layout/MainContent";
 import { useRoutes } from "apps/frontend/hooks";
 
 interface Props {
-	result: ParsedResponse<SpaceDto>;
+	result: ParsedResponse<EntryDto[]>;
 	spaceName: string;
 }
 
-function fetcher(spaceName: string): () => Promise<ParsedResponse<SpaceDto>> {
-	return () => API.fetch<SpaceDto>(`space/${spaceName}`);
+function fetcher(spaceName: string): () => Promise<ParsedResponse<EntryDto[]>> {
+	return () => API.fetch<EntryDto[]>("entry", { query: { spaceName } });
 }
 
 export default function Page({ result, spaceName }: Props) {
 	const routes = useRoutes(spaceName);
+	console.log(result);
 	return (
 		<MainContent
 			navbarItems={[
 				{ href: routes.space(), label: "Overview" },
 				{ href: routes.contentTypes(), label: "Content Types" },
+				{ href: routes.entries(), label: "Entries" },
 			]}
 		>
-			<Heading>{result.data.name}</Heading>
+			{/* <Heading>{}</Heading> */}
 		</MainContent>
 	);
 }

@@ -1,5 +1,14 @@
 import { CreateEntryDto } from "../../common/validators/entry/CreateEntryDto";
-import { Body, Controller, Get, NotFoundException, Param, Post } from "@nestjs/common";
+import {
+	BadRequestException,
+	Body,
+	Controller,
+	Get,
+	NotFoundException,
+	Param,
+	Post,
+	Query,
+} from "@nestjs/common";
 import { EntryService } from "./entry.service";
 import type { ID } from "../../types/repository";
 import { Entry } from "./entry.model";
@@ -13,11 +22,19 @@ export class EntryController {
 		return this.entryService.create(dto);
 	}
 
+	@Get("/")
+	public async findBySpaceName(@Query("spaceName") spaceName?: string): Promise<Entry[]> {
+		if (typeof spaceName !== "string") {
+			throw new BadRequestException("Missing spaceName query parameter.");
+		}
+		return this.entryService.findBySpaceName(spaceName);
+	}
+
 	@Get("/:id")
 	public async findById(@Param("id") id: ID): Promise<Entry> {
 		const entry = await this.entryService.findById(id);
 		if (!entry) {
-			throw new NotFoundException("Entry not found");
+			throw new NotFoundException("Entry not found.");
 		}
 		return entry;
 	}

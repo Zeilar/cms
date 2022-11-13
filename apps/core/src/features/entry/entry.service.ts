@@ -16,7 +16,7 @@ export class EntryService {
 		return this.entryRepository.findById(id);
 	}
 
-	public getAllInContentType(contentTypeId: ID): Promise<Entry[]> {
-		return Entry.query().where({ contentTypeId }).execute();
+	public findBySpaceName(spaceName: string): Promise<Entry[]> {
+		return this.entryRepository.findBySpaceName(spaceName);
 	}
 }
