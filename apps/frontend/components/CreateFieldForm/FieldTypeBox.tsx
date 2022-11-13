@@ -32,12 +32,13 @@ export default function FieldTypeBox({
 			onClick={() => onSelect(fieldType)}
 			p={4}
 			borderWidth={2}
-			borderColor={active ? "accent.main" : undefined}
+			borderColor={active ? "accent.main" : "border"}
 			rounded="lg"
 			pos="relative"
 			type="button"
 			disabled={disabled}
 			_disabled={{ opacity: 0.5, cursor: "not-allowed" }}
+			_hover={!active ? { borderColor: "gray.100" } : undefined}
 		>
 			{active && (
 				<Icon
