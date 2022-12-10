@@ -22,11 +22,10 @@ function fetcher(spaceName: string): () => Promise<ParsedResponse<ContentTypeDto
 export default function Page({ result, spaceName }: Props) {
 	const { mutate } = useSWRConfig();
 	const routes = useRoutes(spaceName);
-	const { data } = useFetch<ContentTypeDto[]>(routes.contentTypes, fetcher(spaceName), {
+	const { data } = useFetch<ContentTypeDto[]>(routes.contentTypes(), fetcher(spaceName), {
 		initialData: result,
 	});
 	const createContentTypeForm = useDisclosure();
-
 	return (
 		<MainContent
 			navbarItems={[
@@ -37,7 +36,7 @@ export default function Page({ result, spaceName }: Props) {
 		>
 			{typeof spaceName === "string" && (
 				<CreateContentTypeForm
-					onSubmit={() => mutate(routes.contentTypes)}
+					onSubmit={() => mutate(routes.contentTypes())}
 					spaceName={spaceName}
 					isOpen={createContentTypeForm.isOpen}
 					onClose={createContentTypeForm.onClose}

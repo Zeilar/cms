@@ -29,7 +29,6 @@ export default function Page({ result, contentTypeName, spaceName }: Props) {
 		initialData: result,
 	});
 	const createFieldForm = useDisclosure();
-
 	return (
 		<MainContent
 			navbarItems={[

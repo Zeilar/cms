@@ -31,7 +31,7 @@ export default function Sidebar() {
 				</UnstyledLink>
 			</Flex>
 			<Divider mb={4} />
-			<Heading size="xs" color="accent.main" px={4} py={2} textStyle="tinyHeading">
+			<Heading size="xs" px={4} py={2} textStyle="tinyHeading">
 				Spaces
 			</Heading>
 			<Box mx={2}>
