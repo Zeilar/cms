@@ -11,7 +11,7 @@ import Col from "../../layout/Col";
 import { Controller, useForm } from "react-hook-form";
 import { useAuthContext } from "apps/frontend/hooks";
 import ButtonWithArrow from "../../layout/ButtonWithArrow";
-import { RegisterDto, REGISTER_TOKEN_LENGTH, RegisterValidation } from "@shared";
+import { RegisterDto, RegisterTokenValidation, RegisterValidation } from "@shared";
 import EnhancedFormLabel from "../../layout/EnhancedFormLabel";
 import { test } from "base58-random";
 
@@ -175,8 +175,12 @@ export default function RegisterForm() {
 						name="token"
 						rules={{
 							minLength: {
-								message: `Token must contain exactly ${REGISTER_TOKEN_LENGTH} characters`,
-								value: REGISTER_TOKEN_LENGTH,
+								message: `Token must contain exactly ${RegisterTokenValidation.LENGTH} characters`,
+								value: RegisterTokenValidation.LENGTH,
+							},
+							maxLength: {
+								message: `Token must contain exactly ${RegisterTokenValidation.LENGTH} characters`,
+								value: RegisterTokenValidation.LENGTH,
 							},
 							validate: value => {
 								return test(value)

@@ -6,6 +6,11 @@ export enum RegisterValidation {
 	PASSWORD_MAX_LENGTH = 30,
 }
 
+export enum SpaceValidation {
+	NAME_MIN_LENGTH = 3,
+	NAME_MAX_LENGTH = 15,
+}
+
 export enum ContentTypeValidation {
 	NAME_MIN_LENGTH = 3,
 	NAME_MAX_LENGTH = 15,
@@ -14,4 +19,8 @@ export enum ContentTypeValidation {
 export enum FieldValidation {
 	NAME_MIN_LENGTH = 3,
 	NAME_MAX_LENGTH = 15,
+}
+
+export enum RegisterTokenValidation {
+	LENGTH = 6,
 }

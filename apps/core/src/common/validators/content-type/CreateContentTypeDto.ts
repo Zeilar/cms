@@ -1,10 +1,15 @@
-import { IsString } from "class-validator";
-import { CreateContentTypeDto as ICreateContentTypeDto } from "@shared";
+import { IsString, Length, Matches } from "class-validator";
+import {
+	ContentTypeValidation,
+	CreateContentTypeDto as ICreateContentTypeDto,
+	Regex,
+} from "@shared";
 
 export class CreateContentTypeDto implements ICreateContentTypeDto {
 	@IsString()
 	public spaceName: string;
 
-	@IsString()
+	@Matches(Regex.onlyLetters)
+	@Length(ContentTypeValidation.NAME_MIN_LENGTH, ContentTypeValidation.NAME_MAX_LENGTH)
 	public name: string;
 }

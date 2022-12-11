@@ -2,6 +2,7 @@ import { CreateSpaceDto } from "../../common/validators/space/CreateSpaceDto";
 import {
 	BadRequestException,
 	Body,
+	ConflictException,
 	Controller,
 	Delete,
 	Get,
@@ -43,7 +44,11 @@ export class SpaceController {
 	}
 
 	@Post("/")
-	public create(@Body() dto: CreateSpaceDto): Promise<Space> {
+	public async create(@Body() dto: CreateSpaceDto): Promise<Space> {
+		const existingSpace = await this.spaceService.findByName(dto.name);
+		if (existingSpace) {
+			throw new ConflictException("A space with that name already exists.");
+		}
 		return this.spaceService.create(dto);
 	}
 

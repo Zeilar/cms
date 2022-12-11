@@ -39,7 +39,7 @@ function validateType({ data, type }: ContentData): boolean {
 	}
 }
 
-export function IsContent() {
+export function IsContent(): (object: object, propertyName: string) => void {
 	return function (object: object, propertyName: string) {
 		registerDecorator({
 			name: "isContent",

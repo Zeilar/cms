@@ -4,7 +4,7 @@ import { Cron, CronExpression } from "@nestjs/schedule";
 import { RegisterTokenDto } from "../../common/validators/register-token/RegisterTokenDto";
 import { RegisterToken } from "./register-token.model";
 import base58 from "base58-random";
-import { REGISTER_TOKEN_LENGTH } from "@shared";
+import { RegisterTokenValidation } from "@shared";
 
 const DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
 
@@ -18,7 +18,7 @@ export class RegisterTokenService {
 		return this.registerTokenRepository.create({
 			email,
 			expires_at: date.toISOString(),
-			token: base58(REGISTER_TOKEN_LENGTH),
+			token: base58(RegisterTokenValidation.LENGTH),
 		});
 	}
 
