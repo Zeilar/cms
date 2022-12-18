@@ -1,10 +1,4 @@
-import {
-	FieldType,
-	FieldTypeValues,
-	CreateFieldDto as ICreateFieldDto,
-	Regex,
-	FieldValidation,
-} from "@shared";
+import { FieldType, CreateFieldDto as ICreateFieldDto, Regex, FieldValidation } from "@shared";
 import { IsString, Length, Matches } from "class-validator";
 
 export class CreateFieldDto implements ICreateFieldDto {
@@ -15,6 +9,6 @@ export class CreateFieldDto implements ICreateFieldDto {
 	@Length(FieldValidation.NAME_MIN_LENGTH, FieldValidation.NAME_MAX_LENGTH)
 	public name: string;
 
-	@Matches(`^(${FieldTypeValues.join("|")})$`)
+	@Matches(Regex.fieldType)
 	public type: FieldType;
 }

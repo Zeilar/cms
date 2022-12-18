@@ -1,4 +1,4 @@
-import { FieldType, FieldTypeValues } from "@shared";
+import { EntryContentData, FieldType } from "@shared";
 import {
 	registerDecorator,
 	isDateString,
@@ -11,14 +11,10 @@ import {
 
 interface ContentData {
 	type: FieldType;
-	data: unknown;
+	data: EntryContentData;
 }
 
-function isFieldType(string: FieldType): boolean {
-	return FieldTypeValues.includes(string);
-}
-
-function validateType({ data, type }: ContentData): boolean {
+function isContent({ data, type }: ContentData): boolean {
 	switch (type) {
 		case FieldType.BOOLEAN:
 			return isBoolean(data);
@@ -45,16 +41,10 @@ export function IsContent(): (object: object, propertyName: string) => void {
 			name: "isContent",
 			target: object.constructor,
 			propertyName,
-			options: { message: "Entry content JSON is invalid." },
+			options: { message: "Entry data is invalid." },
 			validator: {
-				validate(value: Record<string, ContentData>) {
-					for (const property in value) {
-						const content = value[property];
-						if (!isFieldType(content.type) || !validateType(content)) {
-							return false;
-						}
-					}
-					return true;
+				validate(content: object | ContentData) {
+					return "data" in content ? isContent(content) : false;
 				},
 			},
 		});

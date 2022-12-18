@@ -2,6 +2,7 @@ import { CreateContentTypeDto } from "../../common/validators/content-type/Creat
 import { Body, Controller, Get, Post, Query, BadRequestException } from "@nestjs/common";
 import { ContentTypeService } from "./content-type.service";
 import { ContentType } from "./content-type.model";
+import { BooleanString } from "@shared";
 
 @Controller("/content-type")
 export class ContentTypeController {
@@ -13,10 +14,13 @@ export class ContentTypeController {
 	}
 
 	@Get("/")
-	public async findBySpaceName(@Query("spaceName") spaceName?: string): Promise<ContentType[]> {
-		if (spaceName === undefined) {
+	public async findBySpaceName(
+		@Query("spaceName") spaceName?: string,
+		@Query("withFields") withFields?: BooleanString
+	): Promise<ContentType[]> {
+		if (typeof spaceName !== "string") {
 			throw new BadRequestException("Missing space name.");
 		}
-		return this.contentTypeService.findBySpaceName(spaceName);
+		return this.contentTypeService.findBySpaceName(spaceName, withFields === "true");
 	}
 }

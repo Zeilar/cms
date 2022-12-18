@@ -1,13 +1,14 @@
-import { IsUUID } from "class-validator";
-import { IsContent } from "./IsContent";
+import { Regex } from "@shared";
+import { Matches, ValidateNested } from "class-validator";
+import { ContentDto } from "./ContentDto";
 
 export class CreateEntryDto {
-	@IsUUID(4)
-	public spaceId: string;
+	@Matches(Regex.onlyLetters)
+	public spaceName: string;
 
-	@IsUUID(4)
-	public contentTypeId: string;
+	@Matches(Regex.onlyLetters)
+	public contentTypeName: string;
 
-	@IsContent()
-	public content: Record<string, unknown>;
+	@ValidateNested()
+	public content: ContentDto[];
 }

@@ -2,13 +2,14 @@ import { API, ParsedResponse } from "apps/frontend/util/API";
 import { ContentTypeDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { SpacePageParams } from "apps/frontend/types/params";
-import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react";
+import { Button, useDisclosure } from "@chakra-ui/react";
 import MainContent from "apps/frontend/components/layout/MainContent";
 import CreateContentTypeForm from "apps/frontend/components/CreateContentTypeForm";
 import { useFetch, useRoutes } from "apps/frontend/hooks/";
 import { useSWRConfig } from "swr";
 import Link from "apps/frontend/components/Link";
 import { AddIcon } from "@chakra-ui/icons";
+import ContentHeader from "apps/frontend/components/layout/ContentHeader";
 
 interface Props {
 	result: ParsedResponse<ContentTypeDto[]>;
@@ -31,6 +32,7 @@ export default function Page({ result, spaceName }: Props) {
 			navbarItems={[
 				{ href: routes.space(), label: "Overview" },
 				{ href: routes.contentTypes(), label: "Content Types", strict: false },
+				{ href: routes.entries(), label: "Entries", strict: false },
 			]}
 			breadcrumbs={[{ label: spaceName, href: routes.space() }, { label: "Content Types" }]}
 		>
@@ -42,8 +44,7 @@ export default function Page({ result, spaceName }: Props) {
 					onClose={createContentTypeForm.onClose}
 				/>
 			)}
-			<Flex justify="space-between" align="center">
-				<Heading size="lg">Content Types</Heading>
+			<ContentHeader heading="Content Types">
 				<Button
 					variant="outline"
 					onClick={createContentTypeForm.onOpen}
@@ -51,8 +52,7 @@ export default function Page({ result, spaceName }: Props) {
 				>
 					Add Content Type
 				</Button>
-			</Flex>
-			<Divider my={4} />
+			</ContentHeader>
 			{data?.map(({ name }) => (
 				<Link display="block" key={name} href={routes.contentType(name)}>
 					{name}

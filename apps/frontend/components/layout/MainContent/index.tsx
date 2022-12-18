@@ -15,12 +15,12 @@ export default function MainContent({ children, navbarItems = [], breadcrumbs = 
 		<Col grow={1}>
 			<Box borderBottomWidth={1} bgColor="gray.600" px={2}>
 				{navbarItems.length > 0 && (
-					<Container maxW="container.lg">
+					<Container maxW="container.xl">
 						<HoverList variant="line" direction="row" items={navbarItems} />
 					</Container>
 				)}
 			</Box>
-			<Container py={8} maxW="container.lg">
+			<Container py={8} maxW="container.xl">
 				{breadcrumbs.length > 0 && <Breadcrumbs items={breadcrumbs} />}
 				{children}
 			</Container>

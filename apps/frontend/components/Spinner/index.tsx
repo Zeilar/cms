@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 function rotate(current: number, n: number) {
@@ -6,7 +6,7 @@ function rotate(current: number, n: number) {
 	return rotation >= 360 ? 0 : rotation;
 }
 
-export default function Spinner() {
+export default function Spinner(props: BoxProps) {
 	const [rotations, setRotations] = useState({
 		1: 0,
 		2: 0,
@@ -40,6 +40,7 @@ export default function Spinner() {
 			height={150}
 			version="1.1"
 			xmlSpace="preserve"
+			{...props}
 		>
 			<g>
 				<ellipse

@@ -24,11 +24,15 @@ export class ContentTypeRepository {
 		return ContentType.query().findOne("name", name).execute();
 	}
 
-	public async findBySpaceName(spaceName: string): Promise<ContentType[]> {
+	public async findBySpaceName(spaceName: string, withFields?: boolean): Promise<ContentType[]> {
 		const space = await Space.query().findOne("name", spaceName);
 		if (!space) {
 			throw new NotFoundException("Space not found.");
 		}
-		return ContentType.query().where({ spaceId: space.id }).execute();
+		let query = ContentType.query().where({ spaceId: space.id });
+		if (withFields) {
+			query = query.withGraphFetched("fields");
+		}
+		return query.execute();
 	}
 }

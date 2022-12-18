@@ -24,7 +24,7 @@ export class ContentTypeService {
 		return this.contentTypeRepository.findByName(name);
 	}
 
-	public findBySpaceName(spaceName: string): Promise<ContentType[]> {
-		return this.contentTypeRepository.findBySpaceName(spaceName);
+	public findBySpaceName(spaceName: string, withFields?: boolean): Promise<ContentType[]> {
+		return this.contentTypeRepository.findBySpaceName(spaceName, withFields);
 	}
 }

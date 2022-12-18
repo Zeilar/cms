@@ -8,7 +8,7 @@ export function up(knex: Knex): Knex.SchemaBuilder {
 	return knex.schema.createTable(Tables.ENTRIES, table => {
 		primaryKey(table, knex);
 		table.enum("status", EntryStatusValues).defaultTo(EntryStatus.DRAFT).notNullable();
-		table.jsonb("content").notNullable(); // Schema: Record<fieldName, data >
+		table.jsonb("content").notNullable(); // Schema: EntryContent[]
 		table.uuid("spaceId").notNullable();
 		table.foreign("spaceId").references(`${Tables.SPACES}.id`).onDelete("CASCADE");
 		table.uuid("contentTypeId").notNullable();

@@ -2,12 +2,13 @@ import { API, ParsedResponse } from "apps/frontend/util/API";
 import { FieldDto } from "@shared";
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { ContentTypePageParams } from "apps/frontend/types/params";
-import { Button, Divider, Flex, Heading, useDisclosure } from "@chakra-ui/react";
+import { Button, useDisclosure } from "@chakra-ui/react";
 import MainContent from "apps/frontend/components/layout/MainContent";
 import { useFetch, useRoutes } from "apps/frontend/hooks";
 import { useSWRConfig } from "swr";
 import { AddIcon } from "@chakra-ui/icons";
 import CreateFieldForm from "apps/frontend/components/CreateFieldForm";
+import ContentHeader from "apps/frontend/components/layout/ContentHeader";
 
 interface Props {
 	result: ParsedResponse<FieldDto[]>;
@@ -50,8 +51,7 @@ export default function Page({ result, contentTypeName, spaceName }: Props) {
 					onClose={createFieldForm.onClose}
 				/>
 			)}
-			<Flex justify="space-between" align="center">
-				<Heading size="lg">Fields</Heading>
+			<ContentHeader heading="Fields">
 				<Button
 					variant="outline"
 					onClick={createFieldForm.onOpen}
@@ -59,8 +59,7 @@ export default function Page({ result, contentTypeName, spaceName }: Props) {
 				>
 					Add Field
 				</Button>
-			</Flex>
-			<Divider my={4} />
+			</ContentHeader>
 			{data?.map(field => (
 				<p key={Math.random()}>{field.name}</p>
 			))}

@@ -1,8 +1,14 @@
-import { CreateEntryDto } from "../../common/validators/entry/CreateEntryDto";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Entry } from "./entry.model";
 import type { ID } from "../../types/repository";
 import { Space } from "../space/space.model";
+import { ContentType } from "../content-type/content-type.model";
+import { ContentDto } from "../../common/validators/entry/ContentDto";
+
+interface CreateEntryArgs {
+	content: ContentDto[];
+	spaceId: string;
+}
 
 @Injectable()
 export class EntryRepository {
@@ -18,7 +24,14 @@ export class EntryRepository {
 		return Entry.query().where({ spaceId: space.id }).execute();
 	}
 
-	public create(entry: CreateEntryDto): Promise<Entry> {
-		return Entry.query().insertAndFetch(entry).execute();
+	public create(contentType: ContentType, { content, spaceId }: CreateEntryArgs): Promise<Entry> {
+		return contentType
+			.$relatedQuery("entries")
+			.insertAndFetch({
+				spaceId,
+				contentTypeId: contentType.id,
+				content,
+			})
+			.execute();
 	}
 }
